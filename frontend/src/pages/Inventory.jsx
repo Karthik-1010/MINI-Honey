@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 
-const BASE = 'http://127.0.0.1:8000/api/inventory/';
+const BASE = '/api/inventory/';
 
 const UNITS = ['pcs', 'kg', 'g', 'L', 'ml', 'packets', 'boxes', 'bottles'];
 

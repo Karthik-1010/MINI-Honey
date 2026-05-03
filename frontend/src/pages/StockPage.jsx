@@ -174,7 +174,7 @@ const StockPage = () => {
 
   const fetchStock = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/api/stock/');
+      const res = await axios.get('/api/stock/');
       setStock(res.data);
     } catch (error) {
       console.error("Failed to fetch stock:", error);
@@ -189,7 +189,7 @@ const StockPage = () => {
 
   const handleAddItem = async (itemData) => {
     try {
-      await axios.post('http://localhost:8000/api/stock/', itemData);
+      await axios.post('/api/stock/', itemData);
       fetchStock();
       setIsModalOpen(false);
     } catch (error) {
@@ -200,7 +200,7 @@ const StockPage = () => {
 
   const handleUpdateQuantity = async (id, newQuantity) => {
     try {
-      await axios.patch(`http://localhost:8000/api/stock/${id}/`, { quantity: newQuantity });
+      await axios.patch(`/api/stock/${id}/`, { quantity: newQuantity });
       fetchStock();
     } catch (error) {
       console.error("Failed to update stock:", error);
@@ -211,7 +211,7 @@ const StockPage = () => {
   const handleDeleteItem = async (id) => {
     if (window.confirm("Are you sure you want to delete this stock item?")) {
       try {
-        await axios.delete(`http://localhost:8000/api/stock/${id}/`);
+        await axios.delete(`/api/stock/${id}/`);
         fetchStock();
       } catch (error) {
         console.error("Failed to delete stock:", error);

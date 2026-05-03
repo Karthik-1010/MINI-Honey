@@ -14,7 +14,7 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/api/orders/');
+      const res = await axios.get('/api/orders/');
       setOrders(res.data);
     } catch (err) {
       console.error("Error fetching orders", err);
@@ -23,7 +23,7 @@ const Orders = () => {
 
   const updateOrderStatus = async (id, status) => {
     try {
-      await axios.patch(`http://localhost:8000/api/orders/${id}/`, { status });
+      await axios.patch(`/api/orders/${id}/`, { status });
       fetchOrders();
     } catch (err) {
       console.error("Error updating order status", err);

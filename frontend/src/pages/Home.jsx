@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const API = 'http://127.0.0.1:8000/api/menu-items/';
+const API = '/api/menu-items/';
 
 const EMPTY_FORM = { name: '', price: '', description: '', image_url: '', category: '', item_type: 'veg', is_available: true };
 
@@ -34,7 +34,7 @@ const Home = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:8000/api/categories/');
+      const res = await axios.get('/api/categories/');
       setCategories(res.data);
     } catch {}
   };
@@ -71,7 +71,7 @@ const Home = () => {
     const fd = new FormData();
     fd.append('image', file);
     try {
-      const res = await axios.post('http://127.0.0.1:8000/api/upload-image/', fd, {
+      const res = await axios.post('/api/upload-image/', fd, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setForm(prev => ({ ...prev, image_url: res.data.url }));

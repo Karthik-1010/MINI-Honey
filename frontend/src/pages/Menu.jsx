@@ -30,8 +30,8 @@ const Menu = () => {
   const fetchData = async () => {
     try {
       const [catRes, itemRes] = await Promise.all([
-        axios.get('http://localhost:8000/api/categories/'),
-        axios.get('http://localhost:8000/api/menu-items/')
+        axios.get('/api/categories/'),
+        axios.get('/api/menu-items/')
       ]);
       setCategories(catRes.data);
       setMenuItems(itemRes.data);
@@ -102,7 +102,7 @@ const Menu = () => {
   const handleDeleteItem = async (id) => {
     if (window.confirm("Are you sure you want to delete this item?")) {
       try {
-        await axios.delete(`http://localhost:8000/api/menu-items/${id}/`);
+        await axios.delete(`/api/menu-items/${id}/`);
         setMenuItems(prev => prev.filter(item => item.id !== id));
       } catch (err) {
         console.error("Error deleting item", err);
@@ -114,10 +114,10 @@ const Menu = () => {
   const handleSaveItem = async () => {
     try {
       if (editingItem) {
-        const res = await axios.put(`http://localhost:8000/api/menu-items/${editingItem.id}/`, formData);
+        const res = await axios.put(`/api/menu-items/${editingItem.id}/`, formData);
         setMenuItems(prev => prev.map(item => item.id === editingItem.id ? res.data : item));
       } else {
-        const res = await axios.post(`http://localhost:8000/api/menu-items/`, formData);
+        const res = await axios.post(`/api/menu-items/`, formData);
         setMenuItems(prev => [...prev, res.data]);
       }
       setIsModalOpen(false);
@@ -142,7 +142,7 @@ const Menu = () => {
           quantity: item.quantity
         }))
       };
-      await axios.post('http://localhost:8000/api/orders/', orderData);
+      await axios.post('/api/orders/', orderData);
       alert('Order placed successfully!');
       setCart([]);
     } catch (err) {

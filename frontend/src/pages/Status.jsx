@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 
-const BASE = 'http://127.0.0.1:8000/api';
+const BASE = '/api';
 
 // Confirmation modal
 const ConfirmModal = ({ onConfirm, onCancel }) => (

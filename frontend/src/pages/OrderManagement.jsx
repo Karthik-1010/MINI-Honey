@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 
-const API_MENU = 'http://127.0.0.1:8000/api/menu-items/';
-const API_CAT  = 'http://127.0.0.1:8000/api/categories/';
-const API_ORDERS = 'http://127.0.0.1:8000/api/orders/';
+const API_MENU = '/api/menu-items/';
+const API_CAT  = '/api/categories/';
+const API_ORDERS = '/api/orders/';
 
 /* ─── helpers ─────────────────────────────────────────────── */
 const avatar = (name) => name?.[0]?.toUpperCase() || '?';
