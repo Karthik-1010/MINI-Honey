@@ -24,7 +24,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = ['id', 'menu_item', 'menu_item_name', 'menu_item_price', 'quantity', 'assigned_to']
 
 class OrderSerializer(serializers.ModelSerializer):
-    items = OrderItemSerializer(many=True)
+    items = OrderItemSerializer(many=True, required=False)
 
     class Meta:
         model = Order
@@ -36,6 +36,19 @@ class OrderSerializer(serializers.ModelSerializer):
         for item_data in items_data:
             OrderItem.objects.create(order=order, **item_data)
         return order
+
+    def update(self, instance, validated_data):
+        items_data = validated_data.pop('items', None)
+        # Update scalar fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        # Replace items only if provided in the payload
+        if items_data is not None:
+            instance.items.all().delete()
+            for item_data in items_data:
+                OrderItem.objects.create(order=instance, **item_data)
+        return instance
 
 class InventoryItemSerializer(serializers.ModelSerializer):
     class Meta:
