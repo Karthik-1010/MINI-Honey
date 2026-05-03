@@ -17,6 +17,9 @@
   ],
   "routes": [
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/mini/wsgi.py"
     },
@@ -29,16 +32,8 @@
       "dest": "/mini/wsgi.py"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "/frontend/dist/assets/$1"
-    },
-    {
-      "src": "/vite.svg",
-      "dest": "/frontend/dist/vite.svg"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/frontend/dist/index.html"
+      "dest": "/index.html"
     }
   ]
 }
