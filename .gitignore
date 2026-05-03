@@ -18,7 +18,7 @@ venv/
 env/
 ENV/
 *.pyc
-staticfiles/
+# staticfiles/
 media/
 
 # Django migrations (keep initial, ignore auto-generated if preferred)
@@ -28,7 +28,7 @@ media/
 
 # Node / React / Vite
 frontend/node_modules/
-frontend/dist/
+# frontend/dist/
 frontend/.cache/
 frontend/coverage/
 frontend/.env
