@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'mini.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': '/tmp/db.sqlite3' if os.environ.get('VERCEL') == '1' else BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -124,7 +124,7 @@ STATIC_URL = 'static/'
 
 # Media files (user uploads)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = '/tmp/media' if os.environ.get('VERCEL') == '1' else BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
