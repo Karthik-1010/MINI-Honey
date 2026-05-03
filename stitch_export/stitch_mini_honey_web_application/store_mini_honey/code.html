@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "on-error": "#690005",
+                        "primary-fixed": "#ffdad2",
+                        "outline-variant": "#5b403a",
+                        "on-primary": "#611200",
+                        "secondary": "#c6c6c7",
+                        "background": "#131313",
+                        "primary-container": "#fe572d",
+                        "on-tertiary": "#303030",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#2f3131",
+                        "tertiary-fixed": "#e4e2e1",
+                        "secondary-fixed": "#e2e2e2",
+                        "inverse-on-surface": "#313030",
+                        "primary": "#ffb4a2",
+                        "on-primary-fixed": "#3c0700",
+                        "on-primary-container": "#550e00",
+                        "on-tertiary-container": "#2a2a2a",
+                        "on-surface-variant": "#e4beb5",
+                        "surface-variant": "#353534",
+                        "surface-dim": "#131313",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "outline": "#ab8981",
+                        "on-secondary-container": "#b4b5b5",
+                        "tertiary-container": "#929090",
+                        "primary-fixed-dim": "#ffb4a2",
+                        "on-background": "#e5e2e1",
+                        "surface": "#131313",
+                        "surface-container-highest": "#353534",
+                        "on-surface": "#e5e2e1",
+                        "surface-container": "#201f1f",
+                        "surface-container-low": "#1c1b1b",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-primary-fixed-variant": "#891d00",
+                        "inverse-surface": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "secondary-container": "#454747",
+                        "surface-bright": "#393939",
+                        "error-container": "#93000a",
+                        "inverse-primary": "#b42900",
+                        "surface-tint": "#ffb4a2",
+                        "tertiary": "#c8c6c5",
+                        "surface-container-high": "#2a2a2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "stack-md": "16px",
+                        "container-margin": "24px",
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Epilogue"],
+                        "body-lg": ["Epilogue"],
+                        "headline-xl": ["Epilogue"],
+                        "label-bold": ["Epilogue"],
+                        "headline-md": ["Epilogue"],
+                        "body-md": ["Epilogue"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-xl": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-modal {
+            background: rgba(255, 255, 255, 0.20);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 20px rgba(239, 77, 35, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #ef4d23; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen selection:bg-primary-container selection:text-white">
+<!-- TopNavBar -->
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-8 py-4 bg-[#121212]/60 backdrop-blur-[20px] border-b border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-['Epilogue'] antialiased">
+<div class="text-2xl font-black tracking-tighter text-[#ef4d23]">
+            MINI Honey
+        </div>
+<nav class="hidden md:flex items-center gap-stack-lg">
+<a class="text-white/70 font-medium hover:text-white hover:scale-105 transition-all duration-300" href="#">Menu</a>
+<a class="text-white/70 font-medium hover:text-white hover:scale-105 transition-all duration-300" href="#">Orders</a>
+<a class="text-[#ef4d23] font-bold border-b-2 border-[#ef4d23] pb-1 hover:scale-105 transition-all duration-300" href="#">Store</a>
+<a class="text-white/70 font-medium hover:text-white hover:scale-105 transition-all duration-300" href="#">Status</a>
+</nav>
+<div class="flex items-center gap-stack-md">
+<button class="material-symbols-outlined text-white/70 hover:text-[#ef4d23] transition-colors p-2 hover:bg-white/5 rounded-lg">shopping_cart</button>
+<button class="material-symbols-outlined text-white/70 hover:text-[#ef4d23] transition-colors p-2 hover:bg-white/5 rounded-lg">account_circle</button>
+</div>
+</header>
+<div class="flex">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-5rem)] w-64 p-4 flex flex-col gap-2 bg-[#121212]/40 backdrop-blur-[20px] border-r border-white/10 shadow-xl font-['Epilogue'] text-sm hidden lg:flex">
+<div class="px-4 py-2 mb-4">
+<h3 class="text-[#ef4d23] font-bold text-lg">Categories</h3>
+<p class="text-white/40 text-xs uppercase tracking-widest font-bold">Fresh daily</p>
+</div>
+<nav class="flex flex-col gap-1 flex-1">
+<a class="flex items-center gap-3 px-4 py-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="breakfast_dining">breakfast_dining</span>
+<span>Breakfast</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="lunch_dining">lunch_dining</span>
+<span>Lunch</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="dinner_dining">dinner_dining</span>
+<span>Dinner</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="icecream">icecream</span>
+<span>Desserts</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="local_bar">local_bar</span>
+<span>Beverages</span>
+</a>
+</nav>
+<div class="mt-auto p-4 glass-card rounded-xl">
+<div class="flex items-center gap-2 mb-2">
+<span class="flex-shrink-0 w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-bold text-white/80">Store Online</span>
+</div>
+<p class="text-[10px] text-white/40">Last stock update: 12m ago</p>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 lg:ml-64 p-container-margin md:p-stack-lg max-w-[1400px] mx-auto w-full">
+<!-- Hero Header Section -->
+<section class="mb-stack-lg relative overflow-hidden rounded-[2rem] h-[300px] flex items-center p-stack-lg">
+<img class="absolute inset-0 w-full h-full object-cover opacity-50" data-alt="A professional top-down photograph of a contemporary bakery counter with artisanal breads and honey-themed pastries arranged on dark slate surfaces. Warm, focused golden spotlighting illuminates the textures of the crusts while deep shadows create a premium, moody atmosphere. The scene is clean, modern, and exudes culinary sophistication with a dark background aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAejxrS3_ux4qoASp_bLe9nSojIKtnq9z5BGAHssdaWZ6k4Fvdc755ICjphUiMlaMixAOhGsOm8ZuBphqgsYVkxcQf3rCCdxYXqcb001mA5q00p0X68_VOd6HiL8mriMM7I1nbkmilByk4xO_g65EaB74xXJy7x1Hi4vQ0cIR-tDKPvdhKZU6iJ36Hm3zOfO8y89vXPIkECEgOAlyrWulkaDOQbdQJqautRhpYmcyA-K7GhlTj0x-hvR6-je1ogasji9yIDPl7Ml57I"/>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"></div>
+<div class="relative z-10 max-w-2xl">
+<span class="inline-block px-3 py-1 mb-4 rounded-full bg-[#ef4d23]/20 border border-[#ef4d23]/40 text-[#ef4d23] text-xs font-bold tracking-widest uppercase">Admin Portal</span>
+<h1 class="font-display-lg text-display-lg mb-2">Inventory Control</h1>
+<p class="font-body-lg text-body-lg text-white/60">Manage the hive's precious stock with precision and culinary flair.</p>
+</div>
+</section>
+<!-- Stats Overview Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md mb-stack-lg">
+<div class="glass-card p-stack-md rounded-2xl flex flex-col justify-between group hover:border-[#ef4d23]/30 transition-all duration-300">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-[#ef4d23] text-3xl" data-icon="inventory_2">inventory_2</span>
+<span class="text-xs font-bold text-green-400">+12% vs last week</span>
+</div>
+<div>
+<p class="text-white/60 text-sm">Total SKUs</p>
+<h4 class="text-3xl font-black">142</h4>
+</div>
+</div>
+<div class="glass-card p-stack-md rounded-2xl flex flex-col justify-between group hover:border-[#ef4d23]/30 transition-all duration-300">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-[#ef4d23] text-3xl" data-icon="warning">warning</span>
+<span class="text-xs font-bold text-red-400">8 items low</span>
+</div>
+<div>
+<p class="text-white/60 text-sm">Active Alerts</p>
+<h4 class="text-3xl font-black">2</h4>
+</div>
+</div>
+<div class="glass-card p-stack-md rounded-2xl flex flex-col justify-between group hover:border-[#ef4d23]/30 transition-all duration-300">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-[#ef4d23] text-3xl" data-icon="trending_up">trending_up</span>
+<span class="text-xs font-bold text-blue-400">Peak hour coming</span>
+</div>
+<div>
+<p class="text-white/60 text-sm">Daily Turnover</p>
+<h4 class="text-3xl font-black">84%</h4>
+</div>
+</div>
+</div>
+<!-- Inventory Management Section -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-stack-lg">
+<!-- Main Inventory Table -->
+<div class="xl:col-span-2 glass-card rounded-[2rem] overflow-hidden flex flex-col">
+<div class="p-stack-md border-b border-white/5 flex flex-wrap justify-between items-center gap-4 bg-white/5">
+<h3 class="font-headline-md text-headline-md">Inventory List</h3>
+<div class="flex items-center gap-2">
+<button class="bg-[#ef4d23] text-white px-4 py-2 rounded-xl flex items-center gap-2 font-bold hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_15px_rgba(239,77,35,0.4)]">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                                Add item
+                            </button>
+<button class="bg-white/10 text-white/80 px-4 py-2 rounded-xl flex items-center gap-2 font-bold hover:bg-white/20 transition-all duration-300">
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+                                Reset stock
+                            </button>
+</div>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-white/40 text-xs uppercase tracking-widest border-b border-white/5">
+<th class="px-6 py-4 font-bold">Item Name</th>
+<th class="px-6 py-4 font-bold">Category</th>
+<th class="px-6 py-4 font-bold">Quantity</th>
+<th class="px-6 py-4 font-bold">Stock Level</th>
+<th class="px-6 py-4 font-bold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#ef4d23]" data-icon="croissant">breakfast_dining</span>
+</div>
+<span class="font-bold">Honey Croissant</span>
+</div>
+</td>
+<td class="px-6 py-4"><span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs">Breakfast</span></td>
+<td class="px-6 py-4 font-mono">42</td>
+<td class="px-6 py-4">
+<div class="w-24 h-1.5 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-green-500" style="width: 85%;"></div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="material-symbols-outlined text-white/40 hover:text-white" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#ef4d23]" data-icon="coffee">local_bar</span>
+</div>
+<span class="font-bold">Artisan Latte</span>
+</div>
+</td>
+<td class="px-6 py-4"><span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs">Beverages</span></td>
+<td class="px-6 py-4 font-mono">15</td>
+<td class="px-6 py-4">
+<div class="w-24 h-1.5 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-red-500" style="width: 25%;"></div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="material-symbols-outlined text-white/40 hover:text-white" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#ef4d23]" data-icon="cake">icecream</span>
+</div>
+<span class="font-bold">Honey Glaze Tart</span>
+</div>
+</td>
+<td class="px-6 py-4"><span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs">Desserts</span></td>
+<td class="px-6 py-4 font-mono">28</td>
+<td class="px-6 py-4">
+<div class="w-24 h-1.5 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-orange-500" style="width: 55%;"></div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="material-symbols-outlined text-white/40 hover:text-white" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#ef4d23]" data-icon="soup">dinner_dining</span>
+</div>
+<span class="font-bold">Golden Soup</span>
+</div>
+</td>
+<td class="px-6 py-4"><span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs">Dinner</span></td>
+<td class="px-6 py-4 font-mono">12</td>
+<td class="px-6 py-4">
+<div class="w-24 h-1.5 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-red-500" style="width: 15%;"></div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="material-symbols-outlined text-white/40 hover:text-white" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Action Sidebar & Visualization -->
+<div class="space-y-stack-lg">
+<!-- Add Item Form -->
+<div class="glass-card p-stack-md rounded-[2rem] border-[#ef4d23]/20">
+<h4 class="font-headline-md text-xl mb-stack-md">Quick Add</h4>
+<form class="space-y-4">
+<div>
+<label class="text-xs font-bold text-white/40 block mb-2 uppercase tracking-wide">Product Name</label>
+<input class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-[#ef4d23] focus:ring-1 focus:ring-[#ef4d23] transition-all" placeholder="Enter name..." type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="text-xs font-bold text-white/40 block mb-2 uppercase tracking-wide">Category</label>
+<select class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-[#ef4d23] transition-all">
+<option>Breakfast</option>
+<option>Lunch</option>
+<option>Dessert</option>
+</select>
+</div>
+<div>
+<label class="text-xs font-bold text-white/40 block mb-2 uppercase tracking-wide">Qty</label>
+<input class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-[#ef4d23] transition-all" type="number" value="0"/>
+</div>
+</div>
+<button class="w-full bg-[#ef4d23] text-white py-4 rounded-xl font-black text-sm uppercase tracking-widest glow-hover transition-all duration-300">Register SKU</button>
+</form>
+</div>
+<!-- Stock Visualization -->
+<div class="glass-card p-stack-md rounded-[2rem]">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-headline-md text-xl">Stock Volume</h4>
+<span class="material-symbols-outlined text-white/40" data-icon="insights">insights</span>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-xs mb-2">
+<span class="text-white/60">Flour &amp; Grains</span>
+<span class="font-bold">92%</span>
+</div>
+<div class="h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-[#ef4d23] to-orange-400" style="width: 92%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs mb-2">
+<span class="text-white/60">Raw Honey Supply</span>
+<span class="font-bold">48%</span>
+</div>
+<div class="h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-[#ef4d23] to-orange-400" style="width: 48%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs mb-2">
+<span class="text-white/60">Dairy &amp; Perishables</span>
+<span class="font-bold">18%</span>
+</div>
+<div class="h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-red-600 to-[#ef4d23]" style="width: 18%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs mb-2">
+<span class="text-white/60">Beverage Stock</span>
+<span class="font-bold">75%</span>
+</div>
+<div class="h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-[#ef4d23] to-orange-400" style="width: 75%;"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-white/5">
+<button class="w-full text-xs font-bold text-[#ef4d23] hover:underline flex items-center justify-center gap-2 uppercase tracking-widest">
+                                Export full report
+                                <span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Details Section -->
+<footer class="mt-stack-lg glass-card rounded-[2rem] p-stack-lg grid grid-cols-1 md:grid-cols-4 gap-stack-md">
+<div class="md:col-span-1">
+<h5 class="text-[#ef4d23] font-black text-xl mb-2">MINI Honey</h5>
+<p class="text-white/40 text-xs">HQ Operations Terminal<br/>v4.2.0 Stable Build</p>
+</div>
+<div class="md:col-span-1">
+<h6 class="text-xs font-bold text-white/80 uppercase mb-4 tracking-widest">Facility Status</h6>
+<ul class="text-xs text-white/40 space-y-2">
+<li>Kitchen: Optimal</li>
+<li>Logistics: 2 Orders Pending</li>
+<li>Security: Active</li>
+</ul>
+</div>
+<div class="md:col-span-1">
+<h6 class="text-xs font-bold text-white/80 uppercase mb-4 tracking-widest">Location</h6>
+<p class="text-xs text-white/40">789 Nectar Avenue<br/>Amber District<br/>Honey Metropolis</p>
+</div>
+<div class="md:col-span-1 flex flex-col items-end justify-center">
+<div class="text-right">
+<p class="text-xs text-white/40 mb-1">System Load</p>
+<div class="flex gap-1">
+<span class="w-1 h-3 bg-[#ef4d23] rounded-full"></span>
+<span class="w-1 h-3 bg-[#ef4d23] rounded-full"></span>
+<span class="w-1 h-3 bg-white/10 rounded-full"></span>
+<span class="w-1 h-3 bg-white/10 rounded-full"></span>
+</div>
+</div>
+</div>
+</footer>
+</main>
+</div>
+<!-- Mobile Bottom Navigation Shell (Suppressed on Web via CSS but present for responsiveness) -->
+<div class="fixed bottom-0 left-0 right-0 md:hidden bg-[#121212]/80 backdrop-blur-xl border-t border-white/10 p-4 flex justify-around items-center z-50">
+<button class="material-symbols-outlined text-white/40" data-icon="home">home</button>
+<button class="material-symbols-outlined text-white/40" data-icon="search">search</button>
+<button class="material-symbols-outlined text-[#ef4d23]" data-icon="inventory">inventory</button>
+<button class="material-symbols-outlined text-white/40" data-icon="person">person</button>
+</div>
+</body></html>

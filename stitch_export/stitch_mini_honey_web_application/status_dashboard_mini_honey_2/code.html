@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MINI Honey - Status Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#1b1c1c",
+                    "on-error": "#690005",
+                    "primary-fixed": "#ffdad2",
+                    "outline-variant": "#5b403a",
+                    "on-primary": "#611200",
+                    "secondary": "#c6c6c7",
+                    "background": "#131313",
+                    "primary-container": "#fe572d",
+                    "on-tertiary": "#303030",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary": "#2f3131",
+                    "tertiary-fixed": "#e4e2e1",
+                    "secondary-fixed": "#e2e2e2",
+                    "inverse-on-surface": "#313030",
+                    "primary": "#ffb4a2",
+                    "on-primary-fixed": "#3c0700",
+                    "on-primary-container": "#550e00",
+                    "on-tertiary-container": "#2a2a2a",
+                    "on-surface-variant": "#e4beb5",
+                    "surface-variant": "#353534",
+                    "surface-dim": "#131313",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "outline": "#ab8981",
+                    "on-secondary-container": "#b4b5b5",
+                    "tertiary-container": "#929090",
+                    "primary-fixed-dim": "#ffb4a2",
+                    "on-background": "#e5e2e1",
+                    "surface": "#131313",
+                    "surface-container-highest": "#353534",
+                    "on-surface": "#e5e2e1",
+                    "surface-container": "#201f1f",
+                    "surface-container-low": "#1c1b1b",
+                    "on-secondary-fixed-variant": "#454747",
+                    "on-primary-fixed-variant": "#891d00",
+                    "inverse-surface": "#e5e2e1",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed-dim": "#c8c6c5",
+                    "on-tertiary-fixed-variant": "#474746",
+                    "surface-container-lowest": "#0e0e0e",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "secondary-container": "#454747",
+                    "surface-bright": "#393939",
+                    "error-container": "#93000a",
+                    "inverse-primary": "#b42900",
+                    "surface-tint": "#ffb4a2",
+                    "tertiary": "#c8c6c5",
+                    "surface-container-high": "#2a2a2a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "stack-md": "16px",
+                    "container-margin": "24px",
+                    "gutter": "16px",
+                    "stack-sm": "8px",
+                    "stack-lg": "32px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Epilogue"],
+                    "body-lg": ["Epilogue"],
+                    "headline-xl": ["Epilogue"],
+                    "label-bold": ["Epilogue"],
+                    "headline-md": ["Epilogue"],
+                    "body-md": ["Epilogue"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-xl": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121212;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(239, 77, 35, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(239, 77, 35, 0.1) 0px, transparent 50%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(239, 77, 35, 0.3);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background min-h-screen">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-8 py-4 bg-[#121212]/60 backdrop-blur-[20px] border-b border-white/10 font-['Epilogue'] antialiased shadow-[0_8px_32px_0_rgba(0,0,0,0.4)]">
+<div class="text-2xl font-black tracking-tighter text-[#ef4d23]">MINI Honey</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-white/70 font-medium hover:text-white hover:scale-105 hover:bg-white/5 transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) px-3 py-1 rounded-lg" href="#">Menu</a>
+<a class="text-white/70 font-medium hover:text-white hover:scale-105 hover:bg-white/5 transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) px-3 py-1 rounded-lg" href="#">Orders</a>
+<a class="text-white/70 font-medium hover:text-white hover:scale-105 hover:bg-white/5 transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) px-3 py-1 rounded-lg" href="#">Store</a>
+<a class="text-[#ef4d23] font-bold border-b-2 border-[#ef4d23] pb-1 hover:scale-105 transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1)" href="#">Status</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-white/70 hover:text-[#ef4d23] transition-colors p-2 hover:bg-white/5 rounded-full">shopping_cart</button>
+<button class="material-symbols-outlined text-white/70 hover:text-[#ef4d23] transition-colors p-2 hover:bg-white/5 rounded-full">account_circle</button>
+</div>
+</header>
+<main class="flex min-h-[calc(100vh-5rem)]">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-5rem)] w-64 p-4 flex flex-col gap-2 bg-[#121212]/40 backdrop-blur-[20px] border-r border-white/10 shadow-xl hidden lg:flex font-['Epilogue'] text-sm">
+<div class="px-4 py-6">
+<h3 class="text-[#ef4d23] font-bold">Categories</h3>
+<p class="text-white/40 text-xs">Fresh daily</p>
+</div>
+<div class="flex flex-col gap-2 divide-y divide-white/5">
+<a class="flex items-center gap-3 p-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">breakfast_dining</span>
+<span>Breakfast</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">lunch_dining</span>
+<span>Lunch</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">dinner_dining</span>
+<span>Dinner</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">icecream</span>
+<span>Desserts</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">local_bar</span>
+<span>Beverages</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 lg:ml-64 p-8">
+<div class="max-w-7xl mx-auto space-y-stack-lg">
+<!-- Header & Hero -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-background">Operational <span class="text-[#ef4d23]">Pulse</span></h1>
+<p class="text-on-surface-variant font-body-lg">Real-time performance analytics for your MINI Honey outlet.</p>
+</div>
+<div class="flex gap-4">
+<div class="bg-surface-container-high px-4 py-2 rounded-full border border-white/10 flex items-center gap-2">
+<span class="w-2 h-2 bg-green-500 rounded-full"></span>
+<span class="text-xs font-label-bold text-on-surface uppercase">Live System Active</span>
+</div>
+</div>
+</div>
+<!-- Metrics Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Total Revenue Card -->
+<div class="glass-card p-8 rounded-xl transition-all duration-300 flex flex-col justify-between group h-48">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-[#ef4d23]/10 rounded-lg">
+<span class="material-symbols-outlined text-[#ef4d23]">payments</span>
+</div>
+<span class="text-green-400 font-label-bold flex items-center gap-1">+12.5% <span class="material-symbols-outlined text-sm">trending_up</span></span>
+</div>
+<div>
+<p class="text-white/50 text-sm font-label-bold uppercase tracking-wider">Total Revenue</p>
+<h2 class="font-headline-xl text-display-lg text-white">$14,284.50</h2>
+</div>
+</div>
+<!-- Total Orders Card -->
+<div class="glass-card p-8 rounded-xl transition-all duration-300 flex flex-col justify-between group h-48">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-[#ef4d23]/10 rounded-lg">
+<span class="material-symbols-outlined text-[#ef4d23]">receipt_long</span>
+</div>
+<span class="text-green-400 font-label-bold flex items-center gap-1">+8.2% <span class="material-symbols-outlined text-sm">trending_up</span></span>
+</div>
+<div>
+<p class="text-white/50 text-sm font-label-bold uppercase tracking-wider">Total Orders Today</p>
+<h2 class="font-headline-xl text-display-lg text-white">432</h2>
+</div>
+</div>
+<!-- Total Items Sold Card -->
+<div class="glass-card p-8 rounded-xl transition-all duration-300 flex flex-col justify-between group h-48">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-[#ef4d23]/10 rounded-lg">
+<span class="material-symbols-outlined text-[#ef4d23]">restaurant</span>
+</div>
+<span class="text-white/40 font-label-bold">Target: 1k</span>
+</div>
+<div>
+<p class="text-white/50 text-sm font-label-bold uppercase tracking-wider">Items Served</p>
+<h2 class="font-headline-xl text-display-lg text-white">891</h2>
+</div>
+</div>
+</div>
+<!-- Charts and Asymmetric Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Revenue Trend Chart (Large Card) -->
+<div class="lg:col-span-2 glass-card p-8 rounded-xl space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-white">Weekly Revenue Trend</h3>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-xs rounded-full bg-[#ef4d23] text-white">Daily</button>
+<button class="px-3 py-1 text-xs rounded-full bg-white/5 text-white/50 hover:bg-white/10 transition-colors">Weekly</button>
+</div>
+</div>
+<div class="h-64 flex items-end justify-between gap-4 px-2">
+<div class="w-full bg-white/5 rounded-t-lg relative group flex flex-col justify-end" style="height: 40%">
+<div class="absolute bottom-0 w-full bg-[#ef4d23]/40 group-hover:bg-[#ef4d23] transition-all rounded-t-lg" style="height: 60%"></div>
+<span class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-white/40">Mon</span>
+</div>
+<div class="w-full bg-white/5 rounded-t-lg relative group flex flex-col justify-end" style="height: 55%">
+<div class="absolute bottom-0 w-full bg-[#ef4d23]/40 group-hover:bg-[#ef4d23] transition-all rounded-t-lg" style="height: 70%"></div>
+<span class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-white/40">Tue</span>
+</div>
+<div class="w-full bg-white/5 rounded-t-lg relative group flex flex-col justify-end" style="height: 45%">
+<div class="absolute bottom-0 w-full bg-[#ef4d23]/40 group-hover:bg-[#ef4d23] transition-all rounded-t-lg" style="height: 50%"></div>
+<span class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-white/40">Wed</span>
+</div>
+<div class="w-full bg-white/5 rounded-t-lg relative group flex flex-col justify-end" style="height: 85%">
+<div class="absolute bottom-0 w-full bg-[#ef4d23]/40 group-hover:bg-[#ef4d23] transition-all rounded-t-lg" style="height: 90%"></div>
+<span class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-white/40">Thu</span>
+</div>
+<div class="w-full bg-white/5 rounded-t-lg relative group flex flex-col justify-end" style="height: 70%">
+<div class="absolute bottom-0 w-full bg-[#ef4d23]/40 group-hover:bg-[#ef4d23] transition-all rounded-t-lg" style="height: 80%"></div>
+<span class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-white/40">Fri</span>
+</div>
+<div class="w-full bg-white/5 rounded-t-lg relative group flex flex-col justify-end" style="height: 95%">
+<div class="absolute bottom-0 w-full bg-[#ef4d23]/40 group-hover:bg-[#ef4d23] transition-all rounded-t-lg" style="height: 95%"></div>
+<span class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-white/40">Sat</span>
+</div>
+<div class="w-full bg-white/5 rounded-t-lg relative group flex flex-col justify-end" style="height: 60%">
+<div class="absolute bottom-0 w-full bg-[#ef4d23]/40 group-hover:bg-[#ef4d23] transition-all rounded-t-lg" style="height: 40%"></div>
+<span class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-white/40">Sun</span>
+</div>
+</div>
+</div>
+<!-- Popular Items (Vertical Card) -->
+<div class="glass-card p-8 rounded-xl space-y-6">
+<h3 class="font-headline-md text-white">Hot Items</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-4 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-[#ef4d23]/30 transition-all">
+<div class="w-12 h-12 rounded-lg bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A vibrant honey-glazed salmon bowl topped with fresh microgreens and sesame seeds. The dish is presented on a minimalist ceramic plate with soft side lighting, reflecting the premium culinary brand identity of MINI Honey with warm orange undertones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGDQ5KR7mq3walDZsLcJWgWm78VMzbbK4VEqqwtivAtgksn0vZo3Mu4perCFTSiqx8xaPvZLPcY_yxZAiwmiCgYzZmdC88gPVnJjWxnzf_JDVDXPv4BewHGdx-wjCoctXU_Ruq9zn6ew7waGbsOMutW7mpZZSuFm7xwzeDNzbnl3wjLWc38kvtR85bNA-JiS2AWNFU7Gcf77TIOqGWReTUD8Q1Y-vJkykrRJBg-wuaaIDnCurtZoM1-YlC8cjNizscd2N4oV9dR2VS"/>
+</div>
+<div class="flex-1">
+<h4 class="font-label-bold text-white">Honey Glazed Bowl</h4>
+<p class="text-xs text-white/40">142 units sold</p>
+</div>
+<span class="text-[#ef4d23] material-symbols-outlined">trending_up</span>
+</div>
+<div class="flex items-center gap-4 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-[#ef4d23]/30 transition-all">
+<div class="w-12 h-12 rounded-lg bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A gourmet artisan burger drizzled with spicy honey sauce, featuring caramelized onions and melting cheese. The food is captured in a high-contrast dark environment with cinematic warm lighting, highlighting the juicy textures and the energetic brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfjqXOcMrBnY_L0ZPfUgdHeKNuO6y9EPWOqIPYIgtC84TGCEn19DTDryaWsPZpvKrGbP-SGulcX_6E1Q0Px-lFw6bQyLXJM35RTYMknqErlIneuwHEVRRVeUd-HYgWUU_ubJyKN7D02j2R2XvFNQE16qnDSHfFEe2xb4g5oFFU0o0pjV_JQDrJHD7Ftl3AK5tHL_kQ513yPmf_8Voy3jlizZgimMR5lneM8b-V3yEtWE_3_C8rm2W7m95qAH08k-y8tpS8xHy87u4Y"/>
+</div>
+<div class="flex-1">
+<h4 class="font-label-bold text-white">Spicy Bee Burger</h4>
+<p class="text-xs text-white/40">118 units sold</p>
+</div>
+<span class="text-[#ef4d23] material-symbols-outlined">trending_up</span>
+</div>
+<div class="flex items-center gap-4 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-[#ef4d23]/30 transition-all">
+<div class="w-12 h-12 rounded-lg bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A golden honeycomb-shaped dessert with vanilla bean ice cream and a drizzle of premium amber honey. The scene is shot with a shallow depth of field, emphasizing the tactile, sticky textures against a dark, translucent glass background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAL_WTzVy6psuO9QbllEXVXyp98V67hA16dI7rDPJ00cHd3IY8KZQ3VDM0Rq_orxnPUZ28A_4o7vP0dj3WjDe3YJ2AOp27gflBEDO_8te440M29mv_UC1huNjtXQd96MMPKiW4CSCgG0CVtU3iJuyas7YirwFPov5vbAgf2UVrEQpdjsF2fFFuoDKFsIOGt38XzkS0ZU1uqe_kOHWx7XuV4jmFX06yoxwqT9cyQDjFrPv6r32x6CkQAKdQtYlAvSmcKG3hpAlWccuj8"/>
+</div>
+<div class="flex-1">
+<h4 class="font-label-bold text-white">Nectar Sundae</h4>
+<p class="text-xs text-white/40">95 units sold</p>
+</div>
+<span class="text-white/20 material-symbols-outlined">horizontal_rule</span>
+</div>
+</div>
+<button class="w-full py-3 border border-[#ef4d23] text-[#ef4d23] rounded-lg font-label-bold hover:bg-[#ef4d23] hover:text-white transition-all duration-300">View Full Menu Performance</button>
+</div>
+</div>
+<!-- Live Orders Section -->
+<div class="space-y-stack-md">
+<h3 class="font-headline-md text-white">Live Orders</h3>
+<div class="glass-card rounded-xl overflow-hidden">
+<table class="w-full text-left">
+<thead class="bg-white/5 border-b border-white/10">
+<tr>
+<th class="p-4 font-label-bold text-white/60">Order ID</th>
+<th class="p-4 font-label-bold text-white/60">Items</th>
+<th class="p-4 font-label-bold text-white/60">Customer</th>
+<th class="p-4 font-label-bold text-white/60">Time</th>
+<th class="p-4 font-label-bold text-white/60">Status</th>
+<th class="p-4 font-label-bold text-white/60 text-right">Total</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr class="hover:bg-white/5 transition-colors">
+<td class="p-4 font-label-bold text-white">#MH-9842</td>
+<td class="p-4 text-white/60">2x Spicy Bee Burger, 1x Nectar Sundae</td>
+<td class="p-4 text-white/60">Julian V.</td>
+<td class="p-4 text-white/60">2 mins ago</td>
+<td class="p-4">
+<span class="px-2 py-1 rounded bg-[#ef4d23]/20 text-[#ef4d23] text-xs font-bold border border-[#ef4d23]/30">Preparing</span>
+</td>
+<td class="p-4 text-right font-bold text-white">$42.00</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="p-4 font-label-bold text-white">#MH-9841</td>
+<td class="p-4 text-white/60">1x Honey Glazed Bowl, 2x Fresh Soda</td>
+<td class="p-4 text-white/60">Sarah L.</td>
+<td class="p-4 text-white/60">5 mins ago</td>
+<td class="p-4">
+<span class="px-2 py-1 rounded bg-blue-500/20 text-blue-400 text-xs font-bold border border-blue-500/30">Delivering</span>
+</td>
+<td class="p-4 text-right font-bold text-white">$28.50</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="p-4 font-label-bold text-white">#MH-9840</td>
+<td class="p-4 text-white/60">3x Breakfast Platter</td>
+<td class="p-4 text-white/60">Marcus R.</td>
+<td class="p-4 text-white/60">12 mins ago</td>
+<td class="p-4">
+<span class="px-2 py-1 rounded bg-green-500/20 text-green-400 text-xs font-bold border border-green-500/30">Completed</span>
+</td>
+<td class="p-4 text-right font-bold text-white">$54.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 glass-card border-t border-white/10 px-6 py-3 flex justify-between items-center z-50">
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-label-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-[#ef4d23]">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-label-bold">Status</span>
+</button>
+<button class="bg-[#ef4d23] text-white p-3 rounded-full -mt-10 shadow-[0_0_20px_rgba(239,77,35,0.5)] border-4 border-[#121212]">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="text-[10px] font-label-bold">Menu</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/40">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-label-bold">Admin</span>
+</button>
+</nav>
+</body></html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#e2e2e2",
+                    "inverse-on-surface": "#313030",
+                    "on-tertiary-container": "#2a2a2a",
+                    "tertiary": "#c8c6c5",
+                    "surface-container": "#201f1f",
+                    "on-surface": "#e5e2e1",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "surface-dim": "#131313",
+                    "primary-fixed-dim": "#ffb4a2",
+                    "on-tertiary-fixed": "#1b1c1c",
+                    "surface-container-high": "#2a2a2a",
+                    "on-tertiary": "#303030",
+                    "on-secondary-fixed-variant": "#454747",
+                    "primary-fixed": "#ffdad2",
+                    "surface-variant": "#353534",
+                    "error": "#ffb4ab",
+                    "on-primary": "#611200",
+                    "on-error-container": "#ffdad6",
+                    "on-error": "#690005",
+                    "secondary-container": "#454747",
+                    "tertiary-fixed": "#e4e2e1",
+                    "surface-bright": "#393939",
+                    "on-primary-container": "#550e00",
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "inverse-primary": "#b42900",
+                    "on-tertiary-fixed-variant": "#474746",
+                    "on-surface-variant": "#e4beb5",
+                    "surface": "#131313",
+                    "outline": "#ab8981",
+                    "surface-container-low": "#1c1b1b",
+                    "tertiary-fixed-dim": "#c8c6c5",
+                    "on-primary-fixed-variant": "#891d00",
+                    "on-primary-fixed": "#3c0700",
+                    "background": "#121212",
+                    "tertiary-container": "#929090",
+                    "secondary": "#c6c6c7",
+                    "primary": "#ef4d23",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-container": "#fe572d",
+                    "on-secondary-container": "#b4b5b5",
+                    "on-background": "#e5e2e1",
+                    "surface-container-highest": "#353534",
+                    "on-secondary": "#2f3131",
+                    "surface-tint": "#ffb4a2",
+                    "inverse-surface": "#e5e2e1",
+                    "outline-variant": "#5b403a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "stack-sm": "8px",
+                    "stack-lg": "32px",
+                    "gutter": "16px",
+                    "container-margin": "24px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "label-bold": ["Epilogue"],
+                    "headline-xl": ["Epilogue"],
+                    "display-lg": ["Epilogue"],
+                    "headline-md": ["Epilogue"],
+                    "body-md": ["Epilogue"],
+                    "body-lg": ["Epilogue"]
+            },
+            "fontSize": {
+                    "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "700"}],
+                    "headline-xl": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 40s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar (Shared Component) -->
+<header class="flex justify-between items-center px-8 py-4 w-full sticky top-0 z-50 bg-gray-950/80 backdrop-blur-[20px] border-b border-white/10 shadow-xl">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-black text-orange-600 dark:text-orange-500 italic tracking-tighter font-['Epilogue']">MINI Honey</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-gray-400 hover:text-white font-medium hover:bg-white/5 hover:scale-[1.05] transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) px-3 py-1 rounded-lg" href="#">Menu</a>
+<a class="text-gray-400 hover:text-white font-medium hover:bg-white/5 hover:scale-[1.05] transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) px-3 py-1 rounded-lg" href="#">Orders</a>
+<a class="text-orange-500 border-b-2 border-orange-500 pb-1 font-bold hover:bg-white/5 transition-all duration-300 px-3 py-1" href="#">Group Order</a>
+<a class="text-gray-400 hover:text-white font-medium hover:bg-white/5 hover:scale-[1.05] transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) px-3 py-1 rounded-lg" href="#">Store</a>
+<a class="text-gray-400 hover:text-white font-medium hover:bg-white/5 hover:scale-[1.05] transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) px-3 py-1 rounded-lg" href="#">Status</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-white/10 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-on-surface">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-white/10 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-on-surface">settings</span>
+</button>
+<button class="p-2 rounded-full hover:bg-white/10 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-on-surface">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Food Marquee Section -->
+<div class="w-full bg-surface-container-lowest py-6 border-b border-white/5 marquee-container overflow-hidden">
+<div class="marquee-content flex gap-0 items-center"><!-- Maggi -->
+<div class="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative group mx-3">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A steaming bowl of vibrant yellow hot cooked Maggi noodles garnished with fresh green spring onions and tiny red chili flakes. The lighting is cinematic and warm." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOsj68n8iZRXYXX9Uz81wKrMdchklnCyQnF81gLHiqzMsWVKYXt6S6kS__8Zqe8wpECLeoQoEyvR708OBSxUdSnkeavgDQf7F8BWjWS03lmCtYnoRjayB4OmpUh1dAjf04Ard_LHo9m-fGG1C1VloeFlBeAW88iRDCo_bVPIRB3h-delWnEZtcl2PMJc1hbGk85arZl7wdWeaoM6zvGXzogtmrHKRzIIkVkaXc3fXtYMGHiLiISN_POKcnzYfxjdC2HNgUFIQLY4SC"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white font-label-bold text-sm">Spicy Maggi</span>
+</div>
+</div>
+<!-- Omelette -->
+<div class="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative group mx-3">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A fluffy, golden-brown egg omelette filled with melted cheese and fresh herbs, served on a dark matte ceramic plate." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4WwaarccUBNXmJjnETx5luq2jkBP4S80AHaVCcHj2wM1J_cjsbn49o8lkkSpS8XdjD1HD7co5L_xAeDToTWwLoqD7gyFRh670tflayhxvah8Q6U7_8yaldh0uJzLvNJDknSHiYGEsk0vdV7LyP8Z1xHAQK9BLVkT5m5LZ0ItKSBsyA1WnHHvqns1Q5WibG5DmbRheCEsY_MnnfLLMVdzaWBKWc7_4xzAKkrnz70L7bgR4eG1ZzbwfM6034DhSYb36zNiCruUJoxKJ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white font-label-bold text-sm">Classic Omelette</span>
+</div>
+</div>
+<!-- Rolls -->
+<div class="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative group mx-3">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Two hot, crispy rolls filled with succulent chicken and fresh vegetables, wrapped in a golden paratha." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKTXqYpf7mVvLGcxAZsteoKRRPxzzJpatqrgeEzHq2qjFaS3sN6CVXudAuhMCAJ4UcgaP_PzoBYcq291yYBFfbJQZ8Fr3vwWz03vVnERNbx1wJuM72yUVfa95FngAbrB0J3PL9s5aKVwrz4__VMTmchDZ-hsWl3B2aNbEs8L-YLz3xLG4YOTP4tIAKbYP7NWfacDnMjBq-LSaF-HLxv5W1RgeE_U3ALT7D9TCIall45KdmsEN66mJV2r56wInw10jwfRIttBgKpEZa"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white font-label-bold text-sm">Chicken Rolls</span>
+</div>
+</div>
+<!-- Momos -->
+<div class="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative group mx-3">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A bamboo steamer filled with delicate, translucent chicken momos, arranged perfectly." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn55kvGVigsno5FsR7wbxqjut3AGo6wfUCKlwkZ3iJX25iEGt-a5rcvqBrHCoFRh5Uug4XF6jfRGe8oUC70SvynXjpOJh51qoGeUYEIUSeIX2Ql5hfDK5HOWVym_vNS4vtigjntIdEzn2mfWtXNSOcA-n2MUV6YmMXxKwuURqnVZ6l7U15qDgdZ3Z72Y26X6IrzNhzAkQms70VeS_Q4g1zexa4S12i4nyjSVxYwVukoPY1J1cBeqlknQ5QcA0Kiu79lx07zO724YJc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white font-label-bold text-sm">Steamed Momos</span>
+</div>
+</div>
+<!-- Dessert -->
+<div class="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative group mx-3">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A refreshing, vibrant orange apricot delight dessert layered with creamy mousse." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCysSZOTJUbg4HkB8Gi7Ebeo6hv2lM9Mn8quSKg8l8Znbk2UOMAEsXmmsAmXxSadqDciC4IAQ-RVfgAwjcetn8etbXEkGR7HyJFM2OpbkntWa3p9rPJ4v_cheYob7VUax0rXGsTOQhgPfyPpqZMy4B-61IePiPsXLLXvduAUijM6y40pi-8ydT1E_pjqjTd62fSRn9KhjL3nhRzJNZsOjQ5LlSD0_L-jVVsHsE4GW7AIA0NUWdXL3EIMpF706i-yhtxvSLACSxWm2ux"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white font-label-bold text-sm">Apricot Delight</span>
+</div>
+</div>
+<!-- Juice/Shake -->
+<div class="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative group mx-3">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A thick, creamy chocolate milkshake topped with a mountain of whipped cream and chocolate shavings." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAt8Rf813nnHjHN6IgUVQe8Ve7qcrh3QkovOlkF1bTXYP1bnprnp9x6G0kqJ8x_EqZL3jR7oOp9AxIjoUSQ-wS74HLuTYY-toTOGb6vOL1gIcCElK8ARwgs1cUBML5Dh5Z5d_NKxnWM48xrq1rvaxuCmeRu-1LpOtipQpaiPRahO_1JpcyaanRi8iCJ7PGB1mltXtlxXs4i-BdxpARz0EaEoel1TOVlCfD_laddJUGP0MmCzUgSkHRw7-3YE7vEbI295BwjAPAhjD9M"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white font-label-bold text-sm">Creamy Shakes</span>
+</div>
+</div>
+<!-- Duplicates for infinite loop -->
+<div class="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative group mx-3">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOsj68n8iZRXYXX9Uz81wKrMdchklnCyQnF81gLHiqzMsWVKYXt6S6kS__8Zqe8wpECLeoQoEyvR708OBSxUdSnkeavgDQf7F8BWjWS03lmCtYnoRjayB4OmpUh1dAjf04Ard_LHo9m-fGG1C1VloeFlBeAW88iRDCo_bVPIRB3h-delWnEZtcl2PMJc1hbGk85arZl7wdWeaoM6zvGXzogtmrHKRzIIkVkaXc3fXtYMGHiLiISN_POKcnzYfxjdC2HNgUFIQLY4SC"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white font-label-bold text-sm">Spicy Maggi</span>
+</div>
+</div></div>
+</div>
+<!-- Main Dashboard Content -->
+<main class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-12 gap-8">
+<!-- Left Column: Member Session & Menu -->
+<section class="col-span-12 lg:col-span-7 space-y-8">
+<!-- Start Member Session -->
+<div class="glass-panel rounded-2xl p-8 shadow-2xl">
+<div class="flex items-center gap-4 mb-6">
+<div class="p-3 bg-primary/10 rounded-xl">
+<span class="material-symbols-outlined text-primary text-3xl">group_add</span>
+</div>
+<div>
+<h2 class="text-headline-md font-headline-md text-on-surface">Start Member Session</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Add a new participant to the current group order.</p>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<div class="flex-1 relative">
+<input class="w-full bg-surface-container border-2 border-white/5 focus:border-primary rounded-xl py-4 px-6 text-on-surface placeholder:text-gray-500 transition-all outline-none" placeholder="Enter member name..." type="text"/>
+</div>
+<button class="bg-primary text-white font-label-bold text-label-bold px-8 py-4 rounded-xl hover:scale-[1.05] active:scale-95 transition-all duration-300 shadow-[0_0_20px_rgba(239,77,35,0.3)]">
+                        Add Member
+                    </button>
+</div>
+</div>
+<!-- Desserts Selection (Symbolic List) -->
+<div class="glass-panel rounded-2xl p-8">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="text-headline-md font-headline-md text-on-surface">Desserts Selection</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Signature sweet treats for the group.</p>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container rounded-full text-label-bold font-label-bold text-on-surface-variant border border-white/5">Filter</span>
+<span class="px-3 py-1 bg-surface-container rounded-full text-label-bold font-label-bold text-on-surface-variant border border-white/5">Sort</span>
+</div>
+</div>
+<div class="space-y-3">
+<!-- Dessert Item -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all group cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">icecream</span>
+<div>
+<h3 class="font-label-bold text-on-surface">Honey Glazed Waffle</h3>
+<p class="text-sm text-on-surface-variant">Fresh berries &amp; whipped cream</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-label-bold text-on-surface">₹249</span>
+<button class="p-2 rounded-lg bg-primary/10 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<!-- Dessert Item -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all group cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">cake</span>
+<div>
+<h3 class="font-label-bold text-on-surface">Chocolate Lava Melt</h3>
+<p class="text-sm text-on-surface-variant">Warm core with vanilla bean scoop</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-label-bold text-on-surface">₹310</span>
+<button class="p-2 rounded-lg bg-primary/10 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<!-- Dessert Item -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all group cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">cookie</span>
+<div>
+<h3 class="font-label-bold text-on-surface">Biscoff Cheesecake</h3>
+<p class="text-sm text-on-surface-variant">Signature crunch base &amp; caramel drizzle</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-label-bold text-on-surface">₹280</span>
+<button class="p-2 rounded-lg bg-primary/10 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<!-- Dessert Item -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all group cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">glass_cup</span>
+<div>
+<h3 class="font-label-bold text-on-surface">Gulab Jamun Parfait</h3>
+<p class="text-sm text-on-surface-variant">Fusion layers of rabri &amp; nuts</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-label-bold text-on-surface">₹195</span>
+<button class="p-2 rounded-lg bg-primary/10 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Column: Active Session & Summary -->
+<aside class="col-span-12 lg:col-span-5 space-y-8">
+<!-- Active Session Details -->
+<div class="glass-panel rounded-2xl p-8 border-primary/20">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-headline-md font-headline-md text-on-surface">Active Session</h2>
+<span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-bold animate-pulse">LIVE ORDER</span>
+</div>
+<div class="space-y-6">
+<!-- Member Row 1 -->
+<div class="border-b border-white/5 pb-4">
+<div class="flex justify-between items-center mb-3">
+<span class="font-label-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">person</span>
+                                Rahul Sharma
+                            </span>
+<span class="text-xs text-on-surface-variant">3 items</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface">1x Cheese Maggi</span>
+<div class="flex items-center gap-3">
+<span class="text-on-surface-variant">₹180</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface">1x KitKat Shake</span>
+<div class="flex items-center gap-3">
+<span class="text-on-surface-variant">₹210</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Member Row 2 -->
+<div class="border-b border-white/5 pb-4">
+<div class="flex justify-between items-center mb-3">
+<span class="font-label-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">person</span>
+                                Ananya K.
+                            </span>
+<span class="text-xs text-on-surface-variant">2 items</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface">1x Paneer Momo (Steamed)</span>
+<div class="flex items-center gap-3">
+<span class="text-on-surface-variant">₹220</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Group Order Summary -->
+<div class="glass-panel rounded-2xl p-8 bg-primary/5">
+<h2 class="text-headline-md font-headline-md text-on-surface mb-6">Order Summary</h2>
+<div class="space-y-4 mb-8">
+<div class="flex justify-between text-on-surface-variant">
+<span>Subtotal (6 items)</span>
+<span>₹1,245.00</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Taxes &amp; GST (18%)</span>
+<span>₹224.10</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Restaurant Packaging</span>
+<span>₹40.00</span>
+</div>
+<div class="pt-4 border-t border-white/10 flex justify-between items-center">
+<span class="text-headline-md font-headline-md text-on-surface">Grand Total</span>
+<span class="text-headline-md font-headline-md text-primary">₹1,509.10</span>
+</div>
+</div>
+<div class="space-y-3">
+<button class="w-full bg-primary text-white font-label-bold text-label-bold py-5 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-xl flex items-center justify-center gap-2">
+                        Checkout Group
+                        <span class="material-symbols-outlined">payments</span>
+</button>
+<button class="w-full bg-white/5 text-on-surface font-label-bold text-label-bold py-4 rounded-xl hover:bg-white/10 transition-all border border-white/5">
+                        Send Link to Members
+                    </button>
+</div>
+<div class="mt-6 flex items-center justify-center gap-2 text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-xs">verified_user</span>
+                    Secure POS Transaction • Order ID: #MH-9921
+                </div>
+</div>
+</aside>
+</main>
+<!-- Bottom Contextual Info (Mini Status Bar) -->
+<div class="fixed bottom-0 left-0 right-0 bg-surface-container-high/90 backdrop-blur-md px-6 py-3 flex justify-between items-center text-xs border-t border-white/5 z-40">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5 text-orange-500">
+<div class="w-2 h-2 rounded-full bg-orange-500"></div>
+                Kitchen Busy: 15-20 min
+            </div>
+<div class="text-on-surface-variant hidden sm:block">Table No: 12 (Premium Booth)</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-on-surface-variant">Operator: 001_Aman</span>
+<span class="text-on-surface-variant font-mono">14:22:10 IST</span>
+</div>
+</div>
+</body></html>

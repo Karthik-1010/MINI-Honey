@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Epilogue', sans-serif;
+            background-color: #131313;
+            color: #e5e2e1;
+            margin: 0;
+            padding: 0;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .orange-glow:focus {
+            box-shadow: 0 0 15px rgba(239, 77, 35, 0.4);
+            border-color: #ef4d23;
+        }
+        .bouncy-btn {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .bouncy-btn:hover {
+            transform: scale(1.05);
+        }
+        .marquee-content {
+            display: flex;
+            width: fit-content;
+            animation: marquee 30s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface": "#e5e2e1",
+                      "outline": "#ab8981",
+                      "on-primary-container": "#550e00",
+                      "inverse-primary": "#b42900",
+                      "on-secondary-fixed-variant": "#454747",
+                      "on-tertiary-container": "#2a2a2a",
+                      "tertiary-container": "#929090",
+                      "surface-container-low": "#1c1b1b",
+                      "on-tertiary-fixed-variant": "#474746",
+                      "surface-container-lowest": "#0e0e0e",
+                      "inverse-on-surface": "#313030",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "primary-fixed-dim": "#ffb4a2",
+                      "on-secondary": "#2f3131",
+                      "primary": "#ffb4a2",
+                      "on-primary-fixed-variant": "#891d00",
+                      "on-primary-fixed": "#3c0700",
+                      "on-error": "#690005",
+                      "surface-tint": "#ffb4a2",
+                      "primary-fixed": "#ffdad2",
+                      "surface": "#131313",
+                      "secondary-container": "#454747",
+                      "on-primary": "#611200",
+                      "inverse-surface": "#e5e2e1",
+                      "on-tertiary": "#303030",
+                      "secondary": "#c6c6c7",
+                      "on-surface-variant": "#e4beb5",
+                      "error": "#ffb4ab",
+                      "primary-container": "#fe572d",
+                      "background": "#131313",
+                      "error-container": "#93000a",
+                      "tertiary-fixed": "#e4e2e1",
+                      "surface-container": "#201f1f",
+                      "outline-variant": "#5b403a",
+                      "surface-dim": "#131313",
+                      "tertiary": "#c8c6c5",
+                      "on-error-container": "#ffdad6",
+                      "surface-variant": "#353534",
+                      "surface-container-high": "#2a2a2a",
+                      "on-background": "#e5e2e1",
+                      "surface-container-highest": "#353534",
+                      "tertiary-fixed-dim": "#c8c6c5",
+                      "surface-bright": "#393939",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "secondary-fixed": "#e2e2e2",
+                      "on-tertiary-fixed": "#1b1c1c",
+                      "on-secondary-container": "#b4b5b5"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "16px",
+                      "stack-lg": "32px",
+                      "stack-sm": "8px",
+                      "container-margin": "24px",
+                      "unit": "8px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Epilogue"],
+                      "label-bold": ["Epilogue"],
+                      "headline-xl": ["Epilogue"],
+                      "body-lg": ["Epilogue"],
+                      "display-lg": ["Epilogue"],
+                      "body-md": ["Epilogue"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "700"}],
+                      "headline-xl": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 flex items-center justify-between px-8 py-4 w-full bg-zinc-950/70 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+<div class="flex items-center gap-4">
+<img alt="MINI Honey Logo" class="h-10 w-10 object-cover rounded-full" data-alt="A professional circular logo for MINI Honey, featuring a stylized amber honey drip intertwined with modern minimalist typography. The logo is set against a dark, premium background with subtle orange highlights reflecting a sophisticated culinary brand identity. High-quality render with glass-like textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWAvjC66XpI2gwYyEcwQCO59yjkQgIAPI2nm7CEdHc6Y4jzLSeTLcBvmm0rqaFPs9PQsAr_KP4SwgLmaMGzkPZaXg-JY7yzpHFlxvD4miC0PB7KYO6b9b9i34bBUlwt3xyrDQgNBqdviXtdA9qHEEQyjQBRsf66I2SC72QMAYzTu5IFxvfLmAZ2fx1SN7fRXG5ymYIyeC4pmLGyAoAJRoRFVv17LQFiauYJJ2eGwhdz0g2NDca_4jwTqUL_AlQClqz4OmYK2OrKsfp"/>
+<span class="text-xl font-black tracking-tighter text-[#ef4d23] uppercase font-['Epilogue']">MINI Honey</span>
+</div>
+<nav class="hidden md:flex items-center gap-8 font-['Epilogue'] text-sm tracking-wide">
+<a class="text-zinc-400 hover:text-zinc-100 transition-colors hover:bg-white/5 rounded-md px-3 py-1" href="#">Dashboard</a>
+<a class="text-zinc-400 hover:text-zinc-100 transition-colors hover:bg-white/5 rounded-md px-3 py-1" href="#">Menu</a>
+<a class="text-[#ef4d23] border-b-2 border-[#ef4d23] pb-1 font-bold" href="#">Orders</a>
+<a class="text-zinc-400 hover:text-zinc-100 transition-colors hover:bg-white/5 rounded-md px-3 py-1" href="#">Store</a>
+<a class="text-zinc-400 hover:text-zinc-100 transition-colors hover:bg-white/5 rounded-md px-3 py-1" href="#">Status</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary-container transition-colors">notifications</span>
+<div class="h-10 w-10 rounded-full border border-outline-variant overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a professional male user in his late 20s with a friendly expression. He is photographed in a modern, softly lit studio environment that aligns with a high-end tech platform. The lighting is warm and cinematic, emphasizing a premium and trustworthy user persona." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB1CQG69cmc61bYRwCbqOK0K_xDP4NH5C1nW1J3wfgr7Paxl0JasNgJSCnhtenj1lUHbUM37WXNQaAtqqjYF4Onx3A3slmnWSndQuiHzc30Z7th4zSRcC3eltzKijw-LEZAWnMCPpy2NAAY6zuKNOKcxF_2QzYyAY7vP7r6czyMmcXUbFb6OPrbjWTyf69tqW2lZ6sV0aX4WOZbVm7wuxiCSsLgROaswP0RQphw44GMLX8nQt6EbUfmsmcs-eOdGfNqZGXRUxDAj0K"/>
+</div>
+</div>
+</header>
+<!-- Food Marquee -->
+<div class="w-full bg-surface-container-lowest overflow-hidden py-3 border-b border-white/5">
+<div class="marquee-content flex gap-8 items-center px-4">
+<!-- Repeated items for continuous loop -->
+<div class="flex items-center gap-2 whitespace-nowrap"><span class="text-primary-container font-label-bold text-label-bold">●</span> <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface-variant">Signature Saffron Milk Cake</span></div>
+<div class="flex items-center gap-2 whitespace-nowrap"><span class="text-primary-container font-label-bold text-label-bold">●</span> <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface-variant">Artisan Truffle Fries</span></div>
+<div class="flex items-center gap-2 whitespace-nowrap"><span class="text-primary-container font-label-bold text-label-bold">●</span> <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface-variant">Honey Glazed Pork Belly</span></div>
+<div class="flex items-center gap-2 whitespace-nowrap"><span class="text-primary-container font-label-bold text-label-bold">●</span> <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface-variant">Classic Pistachio Baklava</span></div>
+<div class="flex items-center gap-2 whitespace-nowrap"><span class="text-primary-container font-label-bold text-label-bold">●</span> <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface-variant">Wild Berry Parfait</span></div>
+<!-- Second half for seamlessness -->
+<div class="flex items-center gap-2 whitespace-nowrap"><span class="text-primary-container font-label-bold text-label-bold">●</span> <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface-variant">Signature Saffron Milk Cake</span></div>
+<div class="flex items-center gap-2 whitespace-nowrap"><span class="text-primary-container font-label-bold text-label-bold">●</span> <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface-variant">Artisan Truffle Fries</span></div>
+<div class="flex items-center gap-2 whitespace-nowrap"><span class="text-primary-container font-label-bold text-label-bold">●</span> <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface-variant">Honey Glazed Pork Belly</span></div>
+<div class="flex items-center gap-2 whitespace-nowrap"><span class="text-primary-container font-label-bold text-label-bold">●</span> <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface-variant">Classic Pistachio Baklava</span></div>
+<div class="flex items-center gap-2 whitespace-nowrap"><span class="text-primary-container font-label-bold text-label-bold">●</span> <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface-variant">Wild Berry Parfait</span></div>
+</div>
+</div>
+<main class="max-w-7xl mx-auto px-8 py-stack-lg">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column -->
+<div class="lg:col-span-8 flex flex-col gap-stack-lg">
+<!-- Start Member Session Card -->
+<section class="glass-panel p-stack-md rounded-xl flex items-center justify-between gap-6">
+<div class="flex-1">
+<h2 class="font-headline-md text-headline-md text-primary-fixed mb-1">Start Member Session</h2>
+<p class="text-on-surface-variant text-body-md">Register a new guest for the table</p>
+</div>
+<div class="flex items-center gap-4 flex-1">
+<input class="w-full bg-surface-container-highest border border-outline-variant rounded-lg px-4 py-3 text-on-surface orange-glow outline-none transition-all" placeholder="Enter guest name..." type="text"/>
+<button class="bouncy-btn bg-primary-container text-on-primary-container px-6 py-3 rounded-lg font-label-bold text-label-bold whitespace-nowrap">START SESSION</button>
+</div>
+</section>
+<!-- Desserts Selection Grid -->
+<section>
+<div class="flex items-center justify-between mb-stack-md">
+<h3 class="font-headline-md text-headline-md">Desserts Selection</h3>
+<div class="flex gap-2">
+<span class="material-symbols-outlined p-2 bg-surface-container-high rounded-full cursor-pointer hover:bg-surface-variant transition-colors">grid_view</span>
+<span class="material-symbols-outlined p-2 bg-surface-container-high rounded-full cursor-pointer hover:bg-surface-variant transition-colors">view_list</span>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Item 1 -->
+<div class="glass-panel rounded-xl overflow-hidden group hover:-translate-y-2 transition-all duration-300">
+<div class="h-40 w-full relative">
+<img alt="Apricot Delight" class="w-full h-full object-cover" data-alt="A macro shot of a gourmet Apricot Delight dessert. The dish features glazed apricots, a dusting of crushed pistachios, and a drizzle of amber honey on a dark ceramic plate. The lighting is moody and dramatic, showcasing the glistening textures of the fruit against a dark, minimalist background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlpC7wcuaQsLb5MjNZjf7nDn1cOz1iDhb2h7dOCSc3L_ghAP0Q-G3f-Ezc5LYFMZmP-Lk6uVKt0k6XGG6Km3f9UVhufvkwtvIQX8FsO_lieJWRtryzYog2SL-qFWYlU3kHDhNMmBImFyDYbwoRg54WubXpoZu5UdBC_sqOmXtQhiau3ijKgVyej_TCOtK7gHN-gFyOgNzVc1Q-Kj1xzSXvlFDYYJ_GmL9beVgRwlm4ZJRHqJsCNiyfNrIg-dZHOdYNYIB4PevIQ9_h"/>
+<span class="absolute top-3 right-3 bg-zinc-950/60 backdrop-blur-md px-2 py-1 rounded text-primary text-xs font-bold">$12.50</span>
+</div>
+<div class="p-stack-md">
+<h4 class="font-label-bold text-on-surface">Apricot Delight</h4>
+<p class="text-sm text-on-surface-variant mt-1 line-clamp-2">Caramelized honey apricots with mascarpone cream.</p>
+<button class="mt-4 w-full flex items-center justify-center gap-2 py-2 border border-primary-container/30 text-primary-container rounded-lg hover:bg-primary-container hover:text-white transition-all">
+<span class="material-symbols-outlined">add</span>
+<span class="font-label-bold">Add to Order</span>
+</button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="glass-panel rounded-xl overflow-hidden group hover:-translate-y-2 transition-all duration-300">
+<div class="h-40 w-full relative">
+<img alt="Arabian Pudding" class="w-full h-full object-cover" data-alt="A traditional Arabian Pudding served in an ornate gold-rimmed glass bowl. The pudding is topped with silver leaf, rose petals, and chopped nuts. The atmosphere is luxurious and warm, with soft candle-lit highlights creating a premium, inviting dessert experience in a dark-mode UI style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfqYlhqXV97NS2Yisbz2nFAUeg-0yXbYB6aKV4wSdx4AXen2yuho1fbo3zoOAJe_r_bvH0CT_p58BZyVUFIty5cLRlolXzFdmF6hVtUcSTMjqkI3fjZIH_73lTgimWOHa4xBoZWue39k3mJaX7dB0_61l833Jw1F9D-HJj9Q1y74yDIKsM2YDDaS_voxsiIHN6-ZbHcMhuVmkebUv0vShHpYbOTeYMsEpqZP-sbW0t4iM2QXvTBXSKxfWcg6dTjn7DKzyo0-ojYAQz"/>
+<span class="absolute top-3 right-3 bg-zinc-950/60 backdrop-blur-md px-2 py-1 rounded text-primary text-xs font-bold">$14.00</span>
+</div>
+<div class="p-stack-md">
+<h4 class="font-label-bold text-on-surface">Arabian Pudding</h4>
+<p class="text-sm text-on-surface-variant mt-1 line-clamp-2">Rose water infused creamy base with crushed pistachios.</p>
+<button class="mt-4 w-full flex items-center justify-center gap-2 py-2 border border-primary-container/30 text-primary-container rounded-lg hover:bg-primary-container hover:text-white transition-all">
+<span class="material-symbols-outlined">add</span>
+<span class="font-label-bold">Add to Order</span>
+</button>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="glass-panel rounded-xl overflow-hidden group hover:-translate-y-2 transition-all duration-300">
+<div class="h-40 w-full relative">
+<img alt="Coconut Jelly" class="w-full h-full object-cover" data-alt="Vibrant coconut jelly cubes presented in a hollowed coconut shell. The cubes are crystal clear with white coconut milk layers. Tropical garnish and a soft, airy lighting aesthetic that highlights the freshness and translucency of the dessert. Professional culinary photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGhplgGiJ_kEPdjHkJn20Q6vL_cfj5uW64IscqMp8_vMCvNFk8qafQZbabpnBRw9Egx9ZRajUt05AmCMxuGZxY83S_GNTg_OxMJ3iRLYD6sLUiHl6Op0ksRy5uUm3GweiYgm7kB57BSt_NSrY8yGUrVjzdrr2kvfhq_zyiM92nYmbnxQYn-rwAiY9uSE-NtTl4Rtr2TISvPIQpTWFOp5D0ttXR3RfDf8uGa6-oI7U8BVgGPLLgK1Zr5_tl-wmW-p08BiJTJbsN3aj0"/>
+<span class="absolute top-3 right-3 bg-zinc-950/60 backdrop-blur-md px-2 py-1 rounded text-primary text-xs font-bold">$9.75</span>
+</div>
+<div class="p-stack-md">
+<h4 class="font-label-bold text-on-surface">Coconut Jelly</h4>
+<p class="text-sm text-on-surface-variant mt-1 line-clamp-2">Refreshing cold coconut milk jelly with tender pulp.</p>
+<button class="mt-4 w-full flex items-center justify-center gap-2 py-2 border border-primary-container/30 text-primary-container rounded-lg hover:bg-primary-container hover:text-white transition-all">
+<span class="material-symbols-outlined">add</span>
+<span class="font-label-bold">Add to Order</span>
+</button>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="glass-panel rounded-xl overflow-hidden group hover:-translate-y-2 transition-all duration-300">
+<div class="h-40 w-full relative">
+<img alt="Choco Delight" class="w-full h-full object-cover" data-alt="A rich, dark chocolate mousse cake with a glossy ganache finish. A single gold leaf flake rests on top. The background is a deep charcoal texture, and the lighting focuses purely on the silky texture of the chocolate. Elegant and indulgent presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUKWWoFWdyRDljojtFog09cVCB7S_EKCxesD2fqBEsMAoVOjCsOW75yu2jcZr3N27xPSrXeLiz-ttE4lu8NWdYabfU0qcGUFOB5r_BkbxUNCG9SLiQwAh2KQx91fZs6HtfXfoBVLMxxfBWKWGe__qWQ2BGeoekOxyuC3OfgIXV1UmtNRxPD8PGMBvxFSbk2w-G90tXeOhPsXlPVitZSL-lFG14gO0hNw4XpG6ZM2A231jSqCbkWXLxuTI48Vq2d6TCf7Ofs3mzU75F"/>
+<span class="absolute top-3 right-3 bg-zinc-950/60 backdrop-blur-md px-2 py-1 rounded text-primary text-xs font-bold">$15.50</span>
+</div>
+<div class="p-stack-md">
+<h4 class="font-label-bold text-on-surface">Choco Delight</h4>
+<p class="text-sm text-on-surface-variant mt-1 line-clamp-2">70% dark Belgian cocoa with a lava heart center.</p>
+<button class="mt-4 w-full flex items-center justify-center gap-2 py-2 border border-primary-container/30 text-primary-container rounded-lg hover:bg-primary-container hover:text-white transition-all">
+<span class="material-symbols-outlined">add</span>
+<span class="font-label-bold">Add to Order</span>
+</button>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="glass-panel rounded-xl overflow-hidden group hover:-translate-y-2 transition-all duration-300">
+<div class="h-40 w-full relative">
+<img alt="Brownie with Ice Cream" class="w-full h-full object-crop" data-alt="A warm, fudgy walnut brownie topped with a perfect sphere of melting vanilla bean ice cream. Chocolate syrup is drizzled artistically across the white plate. Steam rises subtly, suggesting the contrast between hot brownie and cold cream. High-contrast studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBo05aFV_bSrPi5SQxtld3jf8BQNYhDcxJQami8oKl3vqaPE_NIFh_pEzbu8pTi7vXOucAgH0t1y-4YRZcS2GFtsO8_i_-jr0oXXjEIicipKwxVyaSbZfekS4-hjnlLdKker5owF66jlQKrfZm7iibzI298W2oaafz7kNTxw_80hzTyfkiRKkmOkDJNu2EgXVntrB6IukKrzgGA6vFhxvJ1g3hooLNUASLigbGw1npj9YndnI_AZNwvko9BKrAlYos2c_z2n3J0eqYy"/>
+<span class="absolute top-3 right-3 bg-zinc-950/60 backdrop-blur-md px-2 py-1 rounded text-primary text-xs font-bold">$11.20</span>
+</div>
+<div class="p-stack-md">
+<h4 class="font-label-bold text-on-surface">Brownie &amp; Cream</h4>
+<p class="text-sm text-on-surface-variant mt-1 line-clamp-2">Sizzling walnut brownie with Madagascan vanilla.</p>
+<button class="mt-4 w-full flex items-center justify-center gap-2 py-2 border border-primary-container/30 text-primary-container rounded-lg hover:bg-primary-container hover:text-white transition-all">
+<span class="material-symbols-outlined">add</span>
+<span class="font-label-bold">Add to Order</span>
+</button>
+</div>
+</div>
+<!-- Item 6 -->
+<div class="glass-panel rounded-xl overflow-hidden group hover:-translate-y-2 transition-all duration-300">
+<div class="h-40 w-full relative">
+<img alt="Mango Malai" class="w-full h-full object-cover" data-alt="A serving of Mango Malai, a creamy Indian milk dessert flavored with fresh Alphonso mangoes and saffron. Garnished with almond slivers and served in a shallow clay dish. The color is a vibrant orange-yellow, popping against a dark stone surface. The lighting is soft and natural." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtDvtm4XERUFhY4culSIFamA-Z-WYZ7tUNO0JdnQ836olAZ8Gg3xgTtb1FkyDfYINd22fFkWfDnYLBfqWWaJwlOFUOVxdBAspfzPN8WHxWv9Pxrx0UvFvjg05Vq7EBJYEb-lPSP166ipQDdNhFTVMvEC2Jg0g2VqPaKiYlGxTUb3SxZZmLeLN7ldwEkwsXFzEpApS-5Ql_HcerJv3swkJunwXkiNXIS1Hw6mX12jOv4k9SSB4MsLFV4H4ZmYVvYA3KeaupFZaR48SL"/>
+<span class="absolute top-3 right-3 bg-zinc-950/60 backdrop-blur-md px-2 py-1 rounded text-primary text-xs font-bold">$13.50</span>
+</div>
+<div class="p-stack-md">
+<h4 class="font-label-bold text-on-surface">Mango Malai</h4>
+<p class="text-sm text-on-surface-variant mt-1 line-clamp-2">Seasonal mango puree with whipped clotted cream.</p>
+<button class="mt-4 w-full flex items-center justify-center gap-2 py-2 border border-primary-container/30 text-primary-container rounded-lg hover:bg-primary-container hover:text-white transition-all">
+<span class="material-symbols-outlined">add</span>
+<span class="font-label-bold">Add to Order</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Active Session Card -->
+<section class="glass-panel rounded-xl overflow-hidden">
+<div class="bg-primary-container/20 px-stack-md py-3 flex items-center justify-between border-b border-primary-container/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">person</span>
+<h3 class="font-label-bold text-label-bold text-primary-container">Active: John</h3>
+</div>
+<span class="text-xs bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full font-bold">TABLE 12</span>
+</div>
+<div class="p-stack-md flex flex-col gap-4">
+<!-- Order Item 1 -->
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">restaurant</span>
+</div>
+<div>
+<p class="font-label-bold text-on-surface text-sm">Spicy Masala Maggi</p>
+<p class="text-xs text-on-surface-variant">Qty: 1 • $8.50</p>
+</div>
+</div>
+<div class="flex gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-white">edit</span>
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-error">delete</span>
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary">add_circle</span>
+</div>
+</div>
+<!-- Order Item 2 -->
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">bakery_dining</span>
+</div>
+<div>
+<p class="font-label-bold text-on-surface text-sm">Classic Chicken Momos</p>
+<p class="text-xs text-on-surface-variant">Qty: 2 • $14.00</p>
+</div>
+</div>
+<div class="flex gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-white">edit</span>
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-error">delete</span>
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary">add_circle</span>
+</div>
+</div>
+</div>
+<div class="px-stack-md py-4 bg-white/5 border-t border-white/10 text-right">
+<p class="text-xs text-on-surface-variant">Session Total</p>
+<p class="font-headline-md text-primary">$22.50</p>
+</div>
+</section>
+<!-- Group Orders Summary Card -->
+<section class="glass-panel p-stack-md rounded-xl">
+<h3 class="font-label-bold text-label-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">group</span>
+                        Group Orders Summary
+                    </h3>
+<div class="space-y-3">
+<div class="flex items-center justify-between text-sm">
+<span class="text-on-surface-variant">John (Active)</span>
+<span class="font-bold">$22.50</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-on-surface-variant">Ravi</span>
+<span class="font-bold">$18.90</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-on-surface-variant">Amira</span>
+<span class="font-bold">$34.10</span>
+</div>
+</div>
+</section>
+<!-- Final Order Summary Card -->
+<section class="glass-panel p-stack-md rounded-xl border border-primary-container/20 bg-primary-container/5">
+<h3 class="font-label-bold text-label-bold mb-4">Final Order Summary</h3>
+<div class="space-y-2 mb-6">
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Subtotal</span>
+<span class="text-on-surface">$75.50</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Delivery Fee</span>
+<span class="text-on-surface">$5.00</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Service Charge (10%)</span>
+<span class="text-on-surface">$7.55</span>
+</div>
+<div class="h-px bg-white/10 my-4"></div>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-on-surface">Total</span>
+<span class="font-headline-xl text-[#ef4d23]">$88.05</span>
+</div>
+</div>
+<button class="bouncy-btn w-full bg-[#ef4d23] text-white py-4 rounded-xl font-headline-md shadow-[0_10px_20px_rgba(239,77,35,0.3)] flex items-center justify-center gap-3">
+<span class="material-symbols-outlined">shopping_bag</span>
+                        Checkout Group
+                    </button>
+</section>
+</div>
+</div>
+</main>
+<!-- Bottom Mobile Nav (Fallback) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 glass-panel h-16 flex items-center justify-around z-50 border-t border-white/10">
+<div class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</div>
+<div class="flex flex-col items-center text-[#ef4d23]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">list_alt</span>
+<span class="text-[10px] font-bold">Orders</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">storefront</span>
+<span class="text-[10px] font-bold">Store</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold">Profile</span>
+</div>
+</nav>
+</body></html>

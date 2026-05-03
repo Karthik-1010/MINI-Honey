@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@100;300;400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed": "#1b1c1c",
+                      "on-error": "#690005",
+                      "primary-fixed": "#ffdad2",
+                      "outline-variant": "#5b403a",
+                      "on-primary": "#611200",
+                      "secondary": "#c6c6c7",
+                      "background": "#131313",
+                      "primary-container": "#fe572d",
+                      "on-tertiary": "#303030",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary": "#2f3131",
+                      "tertiary-fixed": "#e4e2e1",
+                      "secondary-fixed": "#e2e2e2",
+                      "inverse-on-surface": "#313030",
+                      "primary": "#ffb4a2",
+                      "on-primary-fixed": "#3c0700",
+                      "on-primary-container": "#550e00",
+                      "on-tertiary-container": "#2a2a2a",
+                      "on-surface-variant": "#e4beb5",
+                      "surface-variant": "#353534",
+                      "surface-dim": "#131313",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "outline": "#ab8981",
+                      "on-secondary-container": "#b4b5b5",
+                      "tertiary-container": "#929090",
+                      "primary-fixed-dim": "#ffb4a2",
+                      "on-background": "#e5e2e1",
+                      "surface": "#131313",
+                      "surface-container-highest": "#353534",
+                      "on-surface": "#e5e2e1",
+                      "surface-container": "#201f1f",
+                      "surface-container-low": "#1c1b1b",
+                      "on-secondary-fixed-variant": "#454747",
+                      "on-primary-fixed-variant": "#891d00",
+                      "inverse-surface": "#e5e2e1",
+                      "error": "#ffb4ab",
+                      "tertiary-fixed-dim": "#c8c6c5",
+                      "on-tertiary-fixed-variant": "#474746",
+                      "surface-container-lowest": "#0e0e0e",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "secondary-container": "#454747",
+                      "surface-bright": "#393939",
+                      "error-container": "#93000a",
+                      "inverse-primary": "#b42900",
+                      "surface-tint": "#ffb4a2",
+                      "tertiary": "#c8c6c5",
+                      "surface-container-high": "#2a2a2a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "8px",
+                      "stack-md": "16px",
+                      "container-margin": "24px",
+                      "gutter": "16px",
+                      "stack-sm": "8px",
+                      "stack-lg": "32px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Epilogue"],
+                      "body-lg": ["Epilogue"],
+                      "headline-xl": ["Epilogue"],
+                      "label-bold": ["Epilogue"],
+                      "headline-md": ["Epilogue"],
+                      "body-md": ["Epilogue"]
+              },
+              "fontSize": {
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-xl": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
+<!-- TopNavBar Shell -->
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-8 py-4 bg-[#121212]/60 backdrop-blur-[20px] border-b border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-['Epilogue'] antialiased">
+<div class="text-2xl font-black tracking-tighter text-[#ef4d23]">MINI Honey</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-[#ef4d23] font-bold border-b-2 border-[#ef4d23] pb-1 hover:scale-105 hover:bg-white/5 transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) active:scale-95" href="#">Menu</a>
+<a class="text-white/70 font-medium hover:text-white hover:scale-105 hover:bg-white/5 transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) active:scale-95" href="#">Orders</a>
+<a class="text-white/70 font-medium hover:text-white hover:scale-105 hover:bg-white/5 transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) active:scale-95" href="#">Store</a>
+<a class="text-white/70 font-medium hover:text-white hover:scale-105 hover:bg-white/5 transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) active:scale-95" href="#">Status</a>
+</nav>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-white/70 hover:text-[#ef4d23] transition-colors" data-icon="shopping_cart">shopping_cart</button>
+<button class="material-symbols-outlined text-white/70 hover:text-[#ef4d23] transition-colors" data-icon="account_circle">account_circle</button>
+</div>
+</header>
+<!-- SideNavBar (Hidden on Mobile, only top destinations) -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-5rem)] w-64 p-4 hidden lg:flex flex-col gap-2 bg-[#121212]/40 backdrop-blur-[20px] rounded-r-lg border-r border-white/10 divide-y divide-white/5 shadow-xl font-['Epilogue'] text-sm z-40">
+<div class="pb-4">
+<h2 class="text-[#ef4d23] font-bold text-lg">Categories</h2>
+<p class="text-white/40 text-xs uppercase tracking-widest">Fresh daily</p>
+</div>
+<div class="pt-4 flex flex-col gap-2">
+<button class="flex items-center gap-3 px-4 py-3 bg-[#ef4d23] text-white rounded-lg shadow-[0_0_15px_rgba(239,77,35,0.4)] transition-all scale-105 active:scale-100">
+<span class="material-symbols-outlined" data-icon="breakfast_dining">breakfast_dining</span>
+<span>Breakfast</span>
+</button>
+<button class="flex items-center gap-3 px-4 py-3 text-white/60 hover:bg-white/10 rounded-lg transition-transform duration-300 hover:translate-x-2">
+<span class="material-symbols-outlined" data-icon="lunch_dining">lunch_dining</span>
+<span>Lunch</span>
+</button>
+<button class="flex items-center gap-3 px-4 py-3 text-white/60 hover:bg-white/10 rounded-lg transition-transform duration-300 hover:translate-x-2">
+<span class="material-symbols-outlined" data-icon="dinner_dining">dinner_dining</span>
+<span>Dinner</span>
+</button>
+<button class="flex items-center gap-3 px-4 py-3 text-white/60 hover:bg-white/10 rounded-lg transition-transform duration-300 hover:translate-x-2">
+<span class="material-symbols-outlined" data-icon="icecream">icecream</span>
+<span>Desserts</span>
+</button>
+<button class="flex items-center gap-3 px-4 py-3 text-white/60 hover:bg-white/10 rounded-lg transition-transform duration-300 hover:translate-x-2">
+<span class="material-symbols-outlined" data-icon="local_bar">local_bar</span>
+<span>Beverages</span>
+</button>
+</div>
+</aside>
+<main class="relative min-h-screen">
+<!-- Hero Section with Video Background -->
+<section class="relative h-[921px] w-full flex items-center justify-center overflow-hidden">
+<video autoplay="" class="absolute inset-0 w-full h-full object-cover" loop="" muted="" playsinline="" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260302_085640_276ea93b-d7da-4418-a09b-2aa5b490e838.mp4">
+</video>
+<!-- Dark Overlay -->
+<div class="absolute inset-0 bg-black/50 backdrop-blur-[2px]"></div>
+<!-- Hero Content -->
+<div class="relative z-10 text-center px-container-margin max-w-4xl mx-auto flex flex-col items-center">
+<div class="mb-stack-md px-6 py-2 glass-panel rounded-full text-[#ef4d23] font-label-bold text-label-bold tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
+                    MINI Honey
+                </div>
+<h1 class="font-display-lg text-display-lg text-white mb-stack-md">
+                    Feel Fresh and <br/>
+<span class="text-[#ef4d23]">Eat Fresh</span>
+</h1>
+<p class="font-body-lg text-body-lg text-white/80 mb-stack-lg max-w-2xl">
+                    Experience the finest ingredients with a touch of honey. Our urban kitchen brings gourmet delicacies straight to your doorstep.
+                </p>
+<button class="bg-[#ef4d23] text-white px-10 py-5 rounded-full font-label-bold text-lg hover:scale-105 active:scale-95 transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) shadow-[0_10px_30px_rgba(239,77,35,0.4)] flex items-center gap-3">
+                    Order Now
+                    <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Food Showcase Carousel -->
+<section class="relative -mt-32 pb-stack-lg lg:pl-80 pr-8 overflow-hidden z-20">
+<div class="flex items-end justify-between mb-stack-md pr-8">
+<div>
+<p class="text-[#ef4d23] font-bold uppercase tracking-widest text-xs mb-2">Today's Specials</p>
+<h2 class="font-headline-xl text-headline-xl text-white">Signature Dishes</h2>
+</div>
+<div class="flex gap-2">
+<button class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white hover:bg-[#ef4d23] transition-colors group">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white hover:bg-[#ef4d23] transition-colors group">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Horizontal Scroll Container -->
+<div class="flex gap-gutter overflow-x-auto hide-scrollbar pb-10 px-2 -mx-2">
+<!-- Card 1 -->
+<div class="flex-none w-[320px] glass-panel rounded-xl p-4 group transition-all duration-300 hover:-translate-y-2 hover:bg-white/15">
+<div class="relative h-64 w-full rounded-lg overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A gourmet avocado toast platter styled with vibrant edible flowers, drizzled with golden honey, and sprinkled with crushed nuts. The lighting is soft and cinematic, highlighting the creamy texture of the avocado and the glistening glaze of honey on a dark, rustic wooden table in a high-end restaurant setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf3BvFJQ2crxWFt16o3247zeHSHEroiGAWud7xHzJSv19uGv5tDvNdS1Hqq0XSYChaY3Wiu0ga-44hdJwWZwyLJ5EuSc0v7mpZ3ZqQNMTLXlzlMGpy3kK4CjRj6xzR66_LF_2_ZmBI1Xxp0z7nzL4bOBesKayF-sQk05kyuU2tRS92Fj9j9UdT2UDTCtip1O_Sy7sUeFDOs9kC3VM5gxMh9HswbePAnOpl0FdDk4gwPVaieGSixNA5IIva6tk2EAi4PI1rECd-O1ND"/>
+<div class="absolute top-2 right-2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white border border-white/10">
+                            $18.50
+                        </div>
+</div>
+<h3 class="font-headline-md text-white mb-1">Honey Glazed Avocado</h3>
+<p class="text-white/60 text-sm mb-4">Smashed organic avocado, chili flakes, and local wildflower honey.</p>
+<button class="w-full py-3 rounded-lg border border-[#ef4d23]/30 text-[#ef4d23] font-bold hover:bg-[#ef4d23] hover:text-white transition-all">
+                        Add to Cart
+                    </button>
+</div>
+<!-- Card 2 -->
+<div class="flex-none w-[320px] glass-panel rounded-xl p-4 group transition-all duration-300 hover:-translate-y-2 hover:bg-white/15">
+<div class="relative h-64 w-full rounded-lg overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A professionally plated salmon fillet, pan-seared to perfection with a crispy honey-soy glaze. The dish is accompanied by vibrant green asparagus spears and microgreens. The scene is shot from a top-down angle on a dark slate plate, creating a high-contrast and moody culinary aesthetic with warm amber highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXg-cTyhWCkgH-nqSSrOdCnl9lFZTNZfOp7LokaMxqb1e7ken6H0YAZ1fx2MMlRqoHYEXx8D6Kh5jvFp4X4g5aMTc882Zqg36-yCrMJ4h9Kq0xDevcD1bkIMPS_ey8hWzDPjbNS-DJtKc9vezNh1zheY2tRwt4Oc2lupDVxLWeHoRdi9qUSO1Kh0PhvarnXyvu8-z3xaYpMoJZcAi2p325VO_Kx4q2usYjWsOS6qadXffIP2pxkRHTqbElAnwRMxpAlU6F8gCEmYc5"/>
+<div class="absolute top-2 right-2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white border border-white/10">
+                            $24.90
+                        </div>
+</div>
+<h3 class="font-headline-md text-white mb-1">Seared Honey Salmon</h3>
+<p class="text-white/60 text-sm mb-4">Wild-caught salmon with a caramelized honey glaze and greens.</p>
+<button class="w-full py-3 rounded-lg border border-[#ef4d23]/30 text-[#ef4d23] font-bold hover:bg-[#ef4d23] hover:text-white transition-all">
+                        Add to Cart
+                    </button>
+</div>
+<!-- Card 3 -->
+<div class="flex-none w-[320px] glass-panel rounded-xl p-4 group transition-all duration-300 hover:-translate-y-2 hover:bg-white/15">
+<div class="relative h-64 w-full rounded-lg overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A macro shot of a fresh garden salad bowl, featuring dark leafy kale, pomegranate seeds, roasted walnuts, and goat cheese crumbles. A stream of viscous, golden honey mustard dressing is frozen in mid-pour, capturing the light. The overall mood is vibrant, healthy, and premium, with a dark background to make the colors pop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3jlefVJ54c4G2A2Jm9vz3ExmmUiqxfOObaIk5WmGukw2SM2rwv7kXFg3nf9dcBGcPUQd1bsmUKQHXuDPtxQd9Mc4fmSAnKfziZAsY8Q8_gpMttEEzHVUvRyaLiT_0FlJXaKHMqgrpSV4W8DJ3J9rXUHnfNHswu3SS5Ji1eZtD70XfFwJE8HIpjU-XOLQuoTYrc8KOyL8WayaURXkodLwZ8DczXkDl8HEZxKxYksu49vYjwtVm8hsROzNFodppfxRY29DS5W69NGrm"/>
+<div class="absolute top-2 right-2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white border border-white/10">
+                            $15.20
+                        </div>
+</div>
+<h3 class="font-headline-md text-white mb-1">Pomegranate Bowl</h3>
+<p class="text-white/60 text-sm mb-4">Fresh seasonal pomegranate seeds with goat cheese and nuts.</p>
+<button class="w-full py-3 rounded-lg border border-[#ef4d23]/30 text-[#ef4d23] font-bold hover:bg-[#ef4d23] hover:text-white transition-all">
+                        Add to Cart
+                    </button>
+</div>
+<!-- Card 4 -->
+<div class="flex-none w-[320px] glass-panel rounded-xl p-4 group transition-all duration-300 hover:-translate-y-2 hover:bg-white/15">
+<div class="relative h-64 w-full rounded-lg overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Gourmet donuts stacked on a designer porcelain plate, coated with a glossy honey-vanilla bean glaze and topped with edible silver leaf. The background is a blurred high-end bakery interior with warm glowing pendant lights. The visual style is decadent, luxurious, and highly detailed, emphasizing the rich textures of the glaze." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5fRjwST10e_AAE9J4Z0ajTM-9TDAbZ_NWProZ09QsK0TuoiGyMQr9aYmdI49NzbqaBNSXyiDx1xgG65HSA5T5h4PaQmN4Vqa-H0byGuvwZwYcfJQMr_LFxOR2H9NKPFOiQEfGDpiCduyU3TjHYQ0MDJVebu8ha7fD-1_Tj4XtpHezNAXrFa9SKxBDduUhq131WFS65jVAHZ-t6FRkMRqsmuFM4E8PQy_5-mJpVbVgtUj45AscdQ_XqkB2AQM4xXYIKNPsYVbyvOER"/>
+<div class="absolute top-2 right-2 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white border border-white/10">
+                            $12.00
+                        </div>
+</div>
+<h3 class="font-headline-md text-white mb-1">Honey Dust Donut</h3>
+<p class="text-white/60 text-sm mb-4">Hand-made brioche donut with pure honey glaze and silver leaf.</p>
+<button class="w-full py-3 rounded-lg border border-[#ef4d23]/30 text-[#ef4d23] font-bold hover:bg-[#ef4d23] hover:text-white transition-all">
+                        Add to Cart
+                    </button>
+</div>
+</div>
+</section>
+<!-- Floating Action Button -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-[#ef4d23] text-white rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(239,77,35,0.6)] hover:scale-110 transition-transform active:scale-95 z-50">
+<span class="material-symbols-outlined text-3xl" data-icon="restaurant_menu">restaurant_menu</span>
+</button>
+</main>
+<!-- Bottom Navigation for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#121212]/80 backdrop-blur-[20px] flex justify-around items-center px-4 z-50">
+<button class="flex flex-col items-center gap-1 text-[#ef4d23]">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/50">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="text-[10px] font-medium">Explore</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/50">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="text-[10px] font-medium">Cart</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-white/50">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</button>
+</nav>
+</body></html>

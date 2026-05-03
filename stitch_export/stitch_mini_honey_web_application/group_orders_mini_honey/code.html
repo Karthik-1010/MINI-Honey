@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Epicure - Group Orders</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#1b1c1c",
+                    "on-tertiary": "#303030",
+                    "surface-container": "#201f1f",
+                    "on-background": "#e5e2e1",
+                    "on-primary-fixed": "#3c0700",
+                    "on-primary-container": "#550e00",
+                    "primary-fixed": "#ffdad2",
+                    "on-surface": "#e5e2e1",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "error-container": "#93000a",
+                    "tertiary": "#c8c6c5",
+                    "surface-container-low": "#1c1b1b",
+                    "tertiary-container": "#929090",
+                    "surface-tint": "#ffb4a2",
+                    "outline-variant": "#5b403a",
+                    "surface-container-highest": "#353534",
+                    "on-tertiary-container": "#2a2a2a",
+                    "surface-container-high": "#2a2a2a",
+                    "surface-dim": "#131313",
+                    "surface-bright": "#393939",
+                    "secondary-container": "#454747",
+                    "error": "#ffb4ab",
+                    "on-secondary-fixed-variant": "#454747",
+                    "inverse-on-surface": "#313030",
+                    "surface-variant": "#353534",
+                    "primary-fixed-dim": "#ffb4a2",
+                    "on-primary": "#611200",
+                    "secondary": "#c6c6c7",
+                    "background": "#131313",
+                    "surface": "#131313",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-container": "#b4b5b5",
+                    "inverse-primary": "#b42900",
+                    "outline": "#ab8981",
+                    "surface-container-lowest": "#0e0e0e",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "tertiary-fixed-dim": "#c8c6c5",
+                    "primary-container": "#fe572d",
+                    "inverse-surface": "#e5e2e1",
+                    "primary": "#ffb4a2",
+                    "on-tertiary-fixed-variant": "#474746",
+                    "on-surface-variant": "#e4beb5",
+                    "tertiary-fixed": "#e4e2e1",
+                    "secondary-fixed": "#e2e2e2",
+                    "on-secondary": "#2f3131",
+                    "on-error": "#690005",
+                    "on-primary-fixed-variant": "#891d00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-lg": "32px",
+                    "unit": "8px",
+                    "stack-sm": "8px",
+                    "container-margin": "24px",
+                    "gutter": "16px",
+                    "stack-md": "16px"
+            },
+            "fontFamily": {
+                    "body-md": ["Epilogue"],
+                    "body-lg": ["Epilogue"],
+                    "headline-xl": ["Epilogue"],
+                    "headline-md": ["Epilogue"],
+                    "label-bold": ["Epilogue"],
+                    "display-lg": ["Epilogue"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-xl": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-modal {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(40px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .orange-glow:focus {
+            box-shadow: 0 0 15px rgba(239, 77, 35, 0.4);
+        }
+        .marquee-track {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .marquee-track::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-zinc-950/40 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)]">
+<div class="text-2xl font-black text-orange-600 italic font-epilogue tracking-tight">Epicure</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-zinc-400 hover:text-orange-500 transition-colors duration-300 cursor-pointer">shopping_bag</span>
+<span class="material-symbols-outlined text-zinc-400 hover:text-orange-500 transition-colors duration-300 cursor-pointer">notifications</span>
+</div>
+</header>
+<main class="pt-24 px-container-margin">
+<!-- Food Marquee -->
+<section class="mb-stack-lg">
+<h2 class="font-headline-md text-headline-md mb-stack-md text-orange-500">Trending Now</h2>
+<div class="marquee-track">
+<div class="flex-shrink-0 w-48 h-32 rounded-xl overflow-hidden glass-card relative group">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Close up of a steaming bowl of spicy Maggi noodles with vibrant vegetables and red chili flakes. The lighting is warm and atmospheric, highlighting the steam and textures. The shot is high-end food photography with a dark, moody background following the Honey Amber aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBc331oq_MO26FwE7g35BedLGs0NCMeacyUxtO-IKsdIUsCl-puta0of0Q3fGSRzQYvIKA2VOtrxqUSFsvi75Q_37kuLq5wTsOLSAJKiMzmWKrytFrPLSQqyjV0G2FE_RmUnLoFpYvAyyp5ENQPK6Q4K4GoIjtJVLzfGmg4SxgNjr86vG2JHdszzopNRiF_5U1ehVi9XxWbOaoIcL3qX9a4FJXKf13fXT7ehw6ecQSivKKSjg9ueVMQbDZWFUu_xXmJT6TumU8pphou"/>
+<div class="absolute bottom-0 left-0 right-0 p-2 bg-black/60 backdrop-blur-sm">
+<p class="text-label-bold font-label-bold text-white">Classic Maggi</p>
+</div>
+</div>
+<div class="flex-shrink-0 w-48 h-32 rounded-xl overflow-hidden glass-card relative group">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A platter of beautifully pleated vegetable momos served in a traditional bamboo steamer. Steam rises from the hot dumplings, which are drizzled with a bright red spicy sauce. The composition is artistic and premium, emphasizing a warm honey glow against deep dark shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbBZnTM225b9i9LPNm354ZSnziOrz9bHZ2T0uA20t4_5m29I_suyjWdER0jXn5oIXuS8hHdqQYyWE5oyRC5KKYihXdJQgVEx4tMRbvenFAdYk26vNWvhmhSQNMIkkneci8NQDz0YIPLnLLLy3j9FZgAau1Ui36P1mZetPeyE_5NlmLM9JdmKc0WZvhXW998TBvgR03hDPyOF-JKuuQElMyJ2dM3oFvvbBC6j4LvAWld1CQ1MexWMbKEKkQHYJ8JNPzAb0CAsotlx4N"/>
+<div class="absolute bottom-0 left-0 right-0 p-2 bg-black/60 backdrop-blur-sm">
+<p class="text-label-bold font-label-bold text-white">Steamed Momos</p>
+</div>
+</div>
+<div class="flex-shrink-0 w-48 h-32 rounded-xl overflow-hidden glass-card relative group">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A gourmet kathi roll wrapped in parchment paper, showing layers of grilled paneer, onions, and fresh mint chutney. The image is captured with shallow depth of field, focused on the crispy edges of the paratha. Warm, golden lighting enhances the appetizing colors of the street food." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWjJCJZxdmlzzvhDqN6lm22BoHsPrMcQ3g5EUJs4cSnl31G5kCCsvbQJzyHRnv3N702F5Xto_D7Dur3ok4sth4l0KM6dAMd8WhDCUONnH10MdL2DB9-v1hfMGbOKv1NJKeFKg-tdu9C3WQk8gzH4DCQm7mEpanoszz96keufp_2_fLOp4aJOCxAZfXkxSsElc3FQRqVIQw_A4KsXOYNG4cBDf41dC6oqRTzI70qBC_vG0DJV4VCbkn6DIU0_G69DwhQB502Gzym6ey"/>
+<div class="absolute bottom-0 left-0 right-0 p-2 bg-black/60 backdrop-blur-sm">
+<p class="text-label-bold font-label-bold text-white">Paneer Roll</p>
+</div>
+</div>
+<div class="flex-shrink-0 w-48 h-32 rounded-xl overflow-hidden glass-card relative group">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A decadent chocolate lava cake with a molten center being broken by a spoon. The dark chocolate contrasts beautifully with a warm amber-toned table. Soft bokeh background and steam suggest a freshly baked premium dessert in a high-end urban setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8A_B5edVObYjGJmBWHoQq5cxp51qtZaecIAgxIQBv2VxL0PHS-_JUCSVIiXf5QZyJrEPQpeEs-SuWOYDCXWLeK32K4GK8USUFk_ckRmvpusS9TcHaXTGYHLO7V66AuS3ko1AlAu0FWzoLBUAVDe1iS-mXRiOKIXp_CqZnMYInS-sx8SpaLo945A_Pgtsco8rk8W7m1QijhqRw6Sy_BNtC0SVUoFOeJRct2zwVYvoASLtKGN-6jNxEBDKFnu_0e_mQi73XV2oKdaZ_"/>
+<div class="absolute bottom-0 left-0 right-0 p-2 bg-black/60 backdrop-blur-sm">
+<p class="text-label-bold font-label-bold text-white">Molten Lava</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Order Type Toggle -->
+<section class="mb-stack-lg">
+<div class="flex p-1 bg-surface-container-high rounded-full w-full max-w-md mx-auto">
+<button class="flex-1 py-3 px-6 rounded-full text-label-bold font-label-bold transition-all duration-300 text-zinc-400">
+                    Single Order
+                </button>
+<button class="flex-1 py-3 px-6 rounded-full text-label-bold font-label-bold transition-all duration-300 bg-primary-container text-white shadow-[0_0_12px_rgba(239,77,35,0.4)]">
+                    Group Order
+                </button>
+</div>
+</section>
+<!-- Group Order Flow -->
+<section class="space-y-stack-md">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Group Members</h3>
+<button class="flex items-center gap-2 bg-white/5 hover:bg-white/10 text-orange-500 font-label-bold px-4 py-2 rounded-xl border border-orange-500/30 transition-all duration-300">
+<span class="material-symbols-outlined">person_add</span>
+                    Add Customer
+                </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Customer Card: John -->
+<div class="glass-card p-stack-md rounded-2xl flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<span class="text-orange-500 font-display-lg text-lg opacity-50 block mb-[-4px]">01</span>
+<h4 class="font-headline-md text-headline-md text-white">John</h4>
+</div>
+<span class="material-symbols-outlined text-zinc-500 cursor-pointer hover:text-error">close</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center py-2 border-b border-white/5">
+<span class="text-body-md font-body-md text-zinc-300">Spicy Maggi</span>
+<div class="flex items-center gap-3">
+<button class="material-symbols-outlined text-sm text-zinc-500 hover:text-white">remove_circle</button>
+<span class="text-orange-500 font-label-bold">1</span>
+<button class="material-symbols-outlined text-sm text-zinc-500 hover:text-white">add_circle</button>
+</div>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-white/5">
+<span class="text-body-md font-body-md text-zinc-300">Chocolate Shake</span>
+<div class="flex items-center gap-3">
+<button class="material-symbols-outlined text-sm text-zinc-500 hover:text-white">remove_circle</button>
+<span class="text-orange-500 font-label-bold">1</span>
+<button class="material-symbols-outlined text-sm text-zinc-500 hover:text-white">add_circle</button>
+</div>
+</div>
+</div>
+<button class="mt-2 w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-orange-600/10 text-orange-500 text-label-bold border border-orange-600/20 hover:bg-orange-600/20 transition-all">
+<span class="material-symbols-outlined text-sm">add</span> Add Item
+                    </button>
+</div>
+<!-- Customer Card: Sarah -->
+<div class="glass-card p-stack-md rounded-2xl flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<span class="text-orange-500 font-display-lg text-lg opacity-50 block mb-[-4px]">02</span>
+<h4 class="font-headline-md text-headline-md text-white">Sarah</h4>
+</div>
+<span class="material-symbols-outlined text-zinc-500 cursor-pointer hover:text-error">close</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center py-2 border-b border-white/5">
+<span class="text-body-md font-body-md text-zinc-300">Veg Momos (6pc)</span>
+<div class="flex items-center gap-3">
+<button class="material-symbols-outlined text-sm text-zinc-500 hover:text-white">remove_circle</button>
+<span class="text-orange-500 font-label-bold">2</span>
+<button class="material-symbols-outlined text-sm text-zinc-500 hover:text-white">add_circle</button>
+</div>
+</div>
+</div>
+<button class="mt-2 w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-orange-600/10 text-orange-500 text-label-bold border border-orange-600/20 hover:bg-orange-600/20 transition-all">
+<span class="material-symbols-outlined text-sm">add</span> Add Item
+                    </button>
+</div>
+<!-- Empty State/Add Customer Placeholder -->
+<div class="border-2 border-dashed border-white/10 rounded-2xl flex flex-col items-center justify-center p-stack-lg min-h-[220px] group cursor-pointer hover:border-orange-500/50 hover:bg-orange-500/5 transition-all">
+<span class="material-symbols-outlined text-4xl text-zinc-600 group-hover:text-orange-500 mb-2">person_add</span>
+<p class="text-zinc-500 group-hover:text-orange-400 font-label-bold">Add another friend</p>
+</div>
+</div>
+</section>
+<!-- Summary Section -->
+<section class="mt-stack-lg mb-10">
+<div class="glass-card rounded-2xl p-6 border-orange-500/20 shadow-[0_12px_40px_rgba(0,0,0,0.3)]">
+<h3 class="font-headline-md text-headline-md text-white mb-4">Consolidated Summary</h3>
+<div class="space-y-3">
+<div class="flex justify-between text-zinc-400 font-body-md">
+<span>Group Items (4)</span>
+<span>₹580.00</span>
+</div>
+<div class="flex justify-between text-zinc-400 font-body-md">
+<span>Restaurant Charges</span>
+<span>₹45.00</span>
+</div>
+<div class="flex justify-between text-zinc-400 font-body-md">
+<span>Delivery Fee</span>
+<span>₹20.00</span>
+</div>
+<div class="pt-4 border-t border-white/10 flex justify-between items-end">
+<div>
+<p class="text-zinc-500 text-sm uppercase tracking-widest font-label-bold">Total Amount</p>
+<p class="text-display-lg text-3xl font-display-lg text-orange-500">₹645.00</p>
+</div>
+<button class="bg-primary-container text-white font-headline-md px-10 py-4 rounded-xl shadow-[0_10px_30px_rgba(239,77,35,0.4)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2">
+                            Place Group Order
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pt-3 pb-8 bg-zinc-950/60 backdrop-blur-2xl border-t border-white/10 shadow-[0_-4px_24px_0_rgba(239,77,35,0.1)] rounded-t-2xl">
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:bg-white/5 transition-all duration-300 py-1 px-3 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined">restaurant</span>
+<span class="font-epilogue text-[10px] font-semibold uppercase tracking-widest">Explore</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:bg-white/5 transition-all duration-300 py-1 px-3 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined">search</span>
+<span class="font-epilogue text-[10px] font-semibold uppercase tracking-widest">Search</span>
+</div>
+<div class="flex flex-col items-center justify-center text-orange-500 drop-shadow-[0_0_8px_rgba(239,77,35,0.6)] scale-110 py-1 px-3 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="font-epilogue text-[10px] font-semibold uppercase tracking-widest">Orders</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-500 hover:bg-white/5 transition-all duration-300 py-1 px-3 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined">person</span>
+<span class="font-epilogue text-[10px] font-semibold uppercase tracking-widest">Profile</span>
+</div>
+</nav>
+</body></html>

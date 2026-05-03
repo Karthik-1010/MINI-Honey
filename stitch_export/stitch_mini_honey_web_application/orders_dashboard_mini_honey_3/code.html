@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MINI Honey POS - Orders</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#e5e2e1",
+                    "on-tertiary": "#303030",
+                    "primary-fixed": "#ffdad2",
+                    "on-primary-fixed-variant": "#891d00",
+                    "error-container": "#93000a",
+                    "on-tertiary-container": "#2a2a2a",
+                    "tertiary-container": "#929090",
+                    "surface-bright": "#393939",
+                    "surface-variant": "#353534",
+                    "primary": "#ffb4a2",
+                    "surface-container-low": "#1c1b1b",
+                    "primary-container": "#fe572d",
+                    "primary-fixed-dim": "#ffb4a2",
+                    "on-primary-fixed": "#3c0700",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e5e2e1",
+                    "on-surface": "#e5e2e1",
+                    "surface-dim": "#131313",
+                    "surface-container-high": "#2a2a2a",
+                    "on-tertiary-fixed": "#1b1c1c",
+                    "tertiary": "#c8c6c5",
+                    "on-error": "#690005",
+                    "surface-container": "#201f1f",
+                    "secondary": "#c6c6c7",
+                    "tertiary-fixed-dim": "#c8c6c5",
+                    "surface-container-highest": "#353534",
+                    "on-tertiary-fixed-variant": "#474746",
+                    "on-secondary": "#2f3131",
+                    "outline": "#ab8981",
+                    "surface": "#131313",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "on-secondary-fixed-variant": "#454747",
+                    "outline-variant": "#5b403a",
+                    "inverse-on-surface": "#313030",
+                    "background": "#131313",
+                    "secondary-fixed": "#e2e2e2",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "secondary-container": "#454747",
+                    "surface-tint": "#ffb4a2",
+                    "error": "#ffb4ab",
+                    "on-surface-variant": "#e4beb5",
+                    "on-primary-container": "#550e00",
+                    "inverse-primary": "#b42900",
+                    "on-primary": "#611200",
+                    "on-secondary-container": "#b4b5b5",
+                    "tertiary-fixed": "#e4e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "8px",
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "container-margin": "24px",
+                    "gutter": "16px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Epilogue"],
+                    "label-bold": ["Epilogue"],
+                    "headline-xl": ["Epilogue"],
+                    "body-md": ["Epilogue"],
+                    "headline-md": ["Epilogue"],
+                    "display-lg": ["Epilogue"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "700"}],
+                    "headline-xl": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .active-glass-panel {
+            background: rgba(239, 77, 35, 0.15);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(239, 77, 35, 0.3);
+        }
+        .honey-glow {
+            box-shadow: 0 0 20px rgba(239, 77, 35, 0.2);
+        }
+        .marquee-container {
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-scroll {
+            animation: scroll 40s linear infinite;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-zinc-900/80 backdrop-blur-xl border-b border-white/10 shadow-xl">
+<div class="flex items-center gap-4">
+<img alt="MINI Honey Logo" class="w-8 h-8 rounded-full bg-primary-container p-1.5" data-alt="A professional minimalist logo for a premium dessert brand named MINI Honey, featuring a stylized golden honeycomb pattern on a deep orange background. The lighting is warm and cinematic, suggesting a high-end culinary experience. The aesthetic is clean, modern, and tech-forward with vibrant orange accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3yAZK1o6rUUJAZw63A00Iezlu9yrioYefQt4AxKb97mTnLoz3EkvIuBCuAKavpCLuRUVvz2mqOuJevyG6RT4cRGfSWiCPd_J5mEpTlH1jiA8A0hBdW_z7vjqCx04FeFQy4_RyX4SGkK2LzmX-OYF7ZdGTHtYCPrVIGiTONb92ewguF6SgsQUYBEcmaPCHA0suNxJOqbHKwrNxGclIeX8-ndtVLmg7z2XxazLkDCoVt0rO5WpP64iMQQWmOxniBuINykSzSxKhl4We"/>
+<span class="text-xl font-black text-orange-600 font-epilogue tracking-tight">Epicurean Hub</span>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-zinc-400 hover:text-white transition-colors font-epilogue text-sm font-medium hover:scale-105 duration-300" href="#">Dashboard</a>
+<a class="text-orange-600 font-bold border-b-2 border-orange-600 transition-colors font-epilogue text-sm font-medium hover:scale-105 duration-300" href="#">Orders</a>
+<a class="text-zinc-400 hover:text-white transition-colors font-epilogue text-sm font-medium hover:scale-105 duration-300" href="#">Menu</a>
+<a class="text-zinc-400 hover:text-white transition-colors font-epilogue text-sm font-medium hover:scale-105 duration-300" href="#">Analytics</a>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center glass-panel px-4 py-1.5 rounded-full border border-white/5">
+<span class="material-symbols-outlined text-zinc-400 text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm text-on-surface placeholder-zinc-500 w-48" placeholder="Search orders..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-zinc-400 cursor-pointer hover:text-orange-600 transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-zinc-400 cursor-pointer hover:text-orange-600 transition-colors" data-icon="history">history</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-orange-600/50">
+<img alt="Account" data-alt="A professional headshot of a boutique cafe manager in a modern, brightly lit interior. The lighting is soft and natural, with a warm color temperature highlighting rich wood textures and stainless steel surfaces in the background. The manager wears a stylish, minimalist charcoal apron over a crisp white shirt." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXXrWEuxUmH1NZod4tTkuiBwIiX3hJyruB-kay1s3xxTgo2y8M_4KnKnUMB2ueBPCBqvj7IFj-uAhN5PTpvI8h81XbMAlis7oTZSd34WUaMPhTFtt2-nH6RAAfCNDQKDKOBmzJrAMseMIV_F3ntd1ASoFyVdkV_CbiEIttFoaq1nZ-KTJzcSICPwDGB_lz5InFLUEOyiE5dZR1F7QPlfaV_0jtuHotdv_7dqQbiBMJ9UhDcfGOq_HprYqevg2wTxG2R6Eper8EMSPQ"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Hidden on smaller screens, contextually available) -->
+<nav class="fixed left-0 top-16 bottom-0 w-64 hidden xl:flex flex-col p-4 space-y-4 bg-white/5 backdrop-blur-2xl border-r border-white/10 divide-y divide-white/5">
+<div class="pb-4 pt-2">
+<div class="flex items-center gap-3 px-2">
+<div class="w-10 h-10 rounded-xl bg-orange-600/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-orange-600" data-weight="fill">store</span>
+</div>
+<div>
+<h3 class="font-epilogue font-bold text-sm text-white">Epicurean Hub</h3>
+<p class="text-[10px] text-zinc-400 uppercase tracking-widest">Terminal #04</p>
+</div>
+</div>
+</div>
+<div class="flex-1 py-4 space-y-1">
+<div class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:bg-white/5 hover:text-white rounded-lg transition-all duration-200 cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">grid_view</span>
+<span class="font-epilogue text-sm font-medium">Dashboard</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 bg-orange-600 text-white shadow-[0_0_15px_rgba(239,77,35,0.4)] rounded-lg cursor-pointer transition-all">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-epilogue text-sm font-medium">Orders</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:bg-white/5 hover:text-white rounded-lg transition-all duration-200 cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">restaurant_menu</span>
+<span class="font-epilogue text-sm font-medium">Menu</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:bg-white/5 hover:text-white rounded-lg transition-all duration-200 cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">leaderboard</span>
+<span class="font-epilogue text-sm font-medium">Analytics</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:bg-white/5 hover:text-white rounded-lg transition-all duration-200 cursor-pointer group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">settings</span>
+<span class="font-epilogue text-sm font-medium">Settings</span>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full py-3 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 honey-glow">
+<span class="material-symbols-outlined text-sm">add_circle</span>
+                New Order
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="pt-16 xl:pl-64 min-h-screen">
+<!-- Subtle Scrolling Food Marquee -->
+<div class="w-full bg-zinc-900/40 border-b border-white/5 overflow-hidden h-12 marquee-container flex items-center">
+<div class="animate-scroll flex items-center whitespace-nowrap gap-12 text-zinc-500 font-epilogue text-xs uppercase tracking-[0.2em]">
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-600 text-sm">bakery_dining</span> Freshly Baked Arabian Pudding</div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-600 text-sm">icecream</span> Artisanal Mango Malai</div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-600 text-sm">cake</span> Double Choco Delight</div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-600 text-sm">potted_plant</span> Coconut Jelly Refresh</div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-600 text-sm">cookie</span> Apricot Bliss Selection</div>
+<!-- Repeated for seamless loop -->
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-600 text-sm">bakery_dining</span> Freshly Baked Arabian Pudding</div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-600 text-sm">icecream</span> Artisanal Mango Malai</div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-600 text-sm">cake</span> Double Choco Delight</div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-600 text-sm">potted_plant</span> Coconut Jelly Refresh</div>
+</div>
+</div>
+<div class="p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Column: Menu & Session -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Start Member Session Card -->
+<section class="glass-panel p-6 rounded-2xl">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-orange-600/10 flex items-center justify-center border border-orange-600/20">
+<span class="material-symbols-outlined text-orange-600">person_add</span>
+</div>
+<div>
+<h2 class="font-headline-md text-white">Start Member Session</h2>
+<p class="text-zinc-400 text-sm">Add a new guest to the current table</p>
+</div>
+</div>
+<div class="flex-1 max-w-sm flex gap-2">
+<input class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 focus:border-orange-600 focus:ring-1 focus:ring-orange-600 transition-all text-sm outline-none" placeholder="Guest name..." type="text"/>
+<button class="bg-orange-600 hover:bg-orange-700 text-white font-bold px-6 py-2.5 rounded-xl transition-all active:scale-95 text-sm">Start</button>
+</div>
+</div>
+</section>
+<!-- Desserts Menu Section -->
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<h2 class="font-headline-md text-white">Desserts Menu</h2>
+<span class="bg-orange-600/20 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Sweet Cravings</span>
+</div>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg bg-white/5 border border-white/10 text-zinc-400 hover:text-white transition-all"><span class="material-symbols-outlined">filter_list</span></button>
+<button class="p-2 rounded-lg bg-white/5 border border-white/10 text-zinc-400 hover:text-white transition-all"><span class="material-symbols-outlined">grid_view</span></button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+<!-- Dessert Item Cards -->
+<div class="glass-panel p-4 rounded-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border border-white/5">
+<div class="aspect-square rounded-xl overflow-hidden mb-4 relative bg-zinc-800">
+<img alt="Apricot Delight" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" data-alt="A gourmet close-up of a vibrant Apricot Delight dessert. The dish features glazed apricots, a dollop of honey-infused cream, and a sprinkle of toasted pistachios, all served on a charcoal matte ceramic plate. The lighting is warm and moody, accentuating the golden honey amber tones and the glossy texture of the fruit against a dark background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQHDLKZ4sKIcr4vMS00pNcndUOJdm4J6-MOQ81AX0Eu3_iH3hoRUoDJw5W-b-_nHEOMvhvR0PM8nrjp165NFLaak451dbxsPEb3LtS-ZgzpPYwB4InScNrqSCq1EDrVYCoEUjO13Mi4BoA9NMeZP2XFdPWyeGghDi0OA0w_RytLZ1Qs3haIJEd4fOqONOAjwEPtnZYq4ZG2h2UnurOR0WRCHP_IQtJSMYEwn6bORSPPv3UwIB0qfI9F1klfKZfaZT-eooMnR9TweBy"/>
+<div class="absolute top-2 right-2 px-2 py-1 bg-black/60 backdrop-blur-md rounded-lg text-xs font-bold text-orange-400">$12.50</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-label-bold text-white mb-0.5">Apricot Delight</h4>
+<p class="text-[10px] text-zinc-500 uppercase tracking-tighter">Stone Fruit &amp; Honey</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-white/10 group-hover:bg-orange-600 text-white flex items-center justify-center transition-all">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border border-white/5">
+<div class="aspect-square rounded-xl overflow-hidden mb-4 relative bg-zinc-800">
+<img alt="Arabian Pudding" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" data-alt="A luxurious bowl of traditional Arabian Pudding, delicately topped with gold leaf, rose petals, and crushed walnuts. The setting is an elegant dark-mode lounge with amber glowing lights reflecting off the creamy surface of the pudding. The aesthetic is premium and exotic, highlighting the rich textures of the dessert." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8Ly42kAVBozftdAFED9w0G9cWzwsm6d-dLa1Swse_9I48zZSfzxQIrSqEp7rECXyHfojCc5fvKQLZOBsmucpJlsYWyiDpXB0zbq7jSDxQtF_RbT6evWzk53u516VSeGEk_B0quQML28p22anTnqpC0W2VIhu5oSHMLt5sX8lYEKvExvOZmhktUultPT3tXCo3CYdB_zVYgzJ7cr09m6u6yPv1pbmWlgmNDEHypj6k14prxkQKfICz3EI6YAjwuDvDW2OFaQ7G4dYP"/>
+<div class="absolute top-2 right-2 px-2 py-1 bg-black/60 backdrop-blur-md rounded-lg text-xs font-bold text-orange-400">$14.00</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-label-bold text-white mb-0.5">Arabian Pudding</h4>
+<p class="text-[10px] text-zinc-500 uppercase tracking-tighter">Saffron &amp; Nuts</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-white/10 group-hover:bg-orange-600 text-white flex items-center justify-center transition-all">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border border-white/5">
+<div class="aspect-square rounded-xl overflow-hidden mb-4 relative bg-zinc-800">
+<img alt="Coconut Jelly" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" data-alt="Translucent squares of Coconut Jelly arranged on a designer glass platter. The lighting creates shimmering reflections through the jelly, evoking a cool, refreshing summer mood. The background is a sophisticated dark grey with subtle orange lighting accents that tie into the honey-themed UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdysMQL1M5W9oRXMZIg9A4MYLF-2l3i-_ogRjMbvjaUcbDmXjlToo8WxyAbysAfL_G2pfdRjZtMQHXYJWRSd1CoHeUpl4sVLxWMGiGpzVuot6t8Sly5_nqi5r6opGaFLFkKjWoEKyg49YUUcJyX61zLFpjCZj_z3hQ0JfhdU6xS3qWIzQRgtTuD3DUa-Ng02TkTSVvDfs8IdmT85Ru65_WlbonEP6xaev51tIttgrUHq4CMHRjNJ8DPfDApDqpexJDV-Ri_mSGZd1h"/>
+<div class="absolute top-2 right-2 px-2 py-1 bg-black/60 backdrop-blur-md rounded-lg text-xs font-bold text-orange-400">$9.50</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-label-bold text-white mb-0.5">Coconut Jelly</h4>
+<p class="text-[10px] text-zinc-500 uppercase tracking-tighter">Refreshing &amp; Light</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-white/10 group-hover:bg-orange-600 text-white flex items-center justify-center transition-all">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border border-white/5">
+<div class="aspect-square rounded-xl overflow-hidden mb-4 relative bg-zinc-800">
+<img alt="Choco Delight" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" data-alt="A decadent dark chocolate lava cake known as Choco Delight, with molten chocolate oozing from its center. It is dusted with cocoa powder and garnished with a single bright red raspberry. The atmosphere is high-end dining at night, with dramatic shadows and a spotlight focusing on the rich velvet texture of the cake." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoZ4ullwzH4p8mBxpyoYIjXW_ehVbKN_iDt05AdbQjdAgzOn0juamcnyFo1NfDfTh5MbJekIOi4KCIPxiqj3LghH2mwB_qzZdaSaukKE-rtiYh-NQc2GiHwYh4mDi8EnSvpVOuf6ywX3EWFZAA0UfayKzmc9_JCp1IJlOzauLjG-sEbPJ-DN0TivaaR7-_kdi8Holga_-7H8NHewGXZK-mLXWCikA2NOVtDSYghid9v_9SmzMUFN9BEVaXs0RZuSqB3KQwVD44ufJk"/>
+<div class="absolute top-2 right-2 px-2 py-1 bg-black/60 backdrop-blur-md rounded-lg text-xs font-bold text-orange-400">$11.00</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-label-bold text-white mb-0.5">Choco Delight</h4>
+<p class="text-[10px] text-zinc-500 uppercase tracking-tighter">Dark Cocoa Fusion</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-white/10 group-hover:bg-orange-600 text-white flex items-center justify-center transition-all">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border border-white/5">
+<div class="aspect-square rounded-xl overflow-hidden mb-4 relative bg-zinc-800">
+<img alt="Brownie with Ice Cream" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" data-alt="A warm, fudgy walnut brownie topped with a perfectly spherical scoop of vanilla bean ice cream. Drizzled with hot salted caramel and chocolate ganache. The visual style is high-contrast, professional food photography, emphasizing the temperature contrast between the warm cake and cold cream in a sophisticated dark-mode setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgRiLRzW5ztxHYAiUrwxTtcBmhrdUFEy3Wrl4XH2SlyWyUs90Vvmig12AQGD2jmFyd6SJ_7V1kVNC-v7apEkyjmMa6M6Yy4d_Pm21k6IB6rCY3XjN9fzNwrJCFZQJg71pvC160a-4aGigpIV_Ch8WPPNuYYag_px_XjkKa3n92biZPEoaVfqNNCzZIUN-mFGGxDd7mh066liopE5hc8PZWIB0QFXRG6VjwtCT9pKtP1b8pQqeuvfTqUIYxdZuhhPsW3M2b_rvB0qyW"/>
+<div class="absolute top-2 right-2 px-2 py-1 bg-black/60 backdrop-blur-md rounded-lg text-xs font-bold text-orange-400">$13.50</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-label-bold text-white mb-0.5">Brownie Ice Cream</h4>
+<p class="text-[10px] text-zinc-500 uppercase tracking-tighter">Warm &amp; Cold Duo</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-white/10 group-hover:bg-orange-600 text-white flex items-center justify-center transition-all">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer border border-white/5">
+<div class="aspect-square rounded-xl overflow-hidden mb-4 relative bg-zinc-800">
+<img alt="Mango Malai" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" data-alt="A vibrant Mango Malai dessert featuring layers of thick, sweetened cream and fresh Alphonso mango chunks. Served in a contemporary glass bowl with a mint leaf garnish. The lighting is bright yet atmospheric, highlighting the natural orange and yellow colors of the mango against the dark, sleek UI background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8yYaZFFdNWxdNxkrrhnaxqOw4Ud1EGE406cFYa-4g9Ce2S5vkF_DbojJNaMfl3tGij81F30hfaVBkHAycwTFZb9XPoiTEnb35NCQGDRVUghyaKN5IAX6qcnVJD0P_kbNCL3bMqsBcHbMRcrX8qvUqYfalQcqNJvAthjO9f-3oi9JeVNE68nB2QHOdLAbu2RM6avKTtR8gOQmlOUqhfe846TtNA-usBRq08mQBsJu1mpEDb32sc0e1NVCzk2rIko-MpSIypB1OFPeH"/>
+<div class="absolute top-2 right-2 px-2 py-1 bg-black/60 backdrop-blur-md rounded-lg text-xs font-bold text-orange-400">$10.00</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-label-bold text-white mb-0.5">Mango Malai</h4>
+<p class="text-[10px] text-zinc-500 uppercase tracking-tighter">Tropical Bliss</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-white/10 group-hover:bg-orange-600 text-white flex items-center justify-center transition-all">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Active Session & Checkout -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Active Session Card -->
+<section class="active-glass-panel p-6 rounded-3xl border border-orange-600/30">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-orange-600 flex items-center justify-center text-white font-bold">J</div>
+<div>
+<h3 class="font-label-bold text-white">Active: John</h3>
+<p class="text-[10px] text-orange-400/80 tracking-widest uppercase">Member Session</p>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-zinc-400 hover:text-white cursor-pointer text-sm">edit</span>
+<span class="material-symbols-outlined text-zinc-400 hover:text-error cursor-pointer text-sm">delete</span>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3 bg-black/20 rounded-xl border border-white/5 group hover:border-orange-600/30 transition-all">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-orange-600">bakery_dining</span>
+<span class="text-sm font-medium text-white">Arabian Pudding</span>
+</div>
+<span class="text-xs text-orange-400 font-bold">$14.00</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-black/20 rounded-xl border border-white/5 group hover:border-orange-600/30 transition-all">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-orange-600">icecream</span>
+<span class="text-sm font-medium text-white">Mango Malai</span>
+</div>
+<span class="text-xs text-orange-400 font-bold">$10.00</span>
+</div>
+</div>
+</section>
+<!-- Group Orders Summary Card -->
+<section class="glass-panel p-6 rounded-3xl">
+<h3 class="font-headline-md text-white mb-4 text-lg">Group Orders</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between py-2 border-b border-white/5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-zinc-700 flex items-center justify-center text-[10px] font-bold">J</div>
+<span class="text-sm text-zinc-300">John</span>
+</div>
+<span class="text-sm font-bold text-white">$24.00</span>
+</div>
+<div class="flex items-center justify-between py-2 border-b border-white/5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-zinc-700 flex items-center justify-center text-[10px] font-bold">R</div>
+<span class="text-sm text-zinc-300">Ravi</span>
+</div>
+<span class="text-sm font-bold text-white">$12.50</span>
+</div>
+<div class="flex items-center justify-between py-2 border-b border-white/5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-zinc-700 flex items-center justify-center text-[10px] font-bold">S</div>
+<span class="text-sm text-zinc-300">Sarah</span>
+</div>
+<span class="text-sm font-bold text-white">$31.00</span>
+</div>
+</div>
+</section>
+<!-- Order Checkout Section -->
+<section class="glass-panel p-6 rounded-3xl border-t-2 border-orange-600/20 shadow-2xl">
+<div class="space-y-3 mb-6">
+<div class="flex justify-between text-sm">
+<span class="text-zinc-400">Subtotal</span>
+<span class="text-white">$67.50</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-zinc-400">Service Fee (10%)</span>
+<span class="text-white">$6.75</span>
+</div>
+<div class="pt-4 border-t border-white/10 flex justify-between items-end">
+<div>
+<span class="text-[10px] text-orange-600 font-black uppercase tracking-widest">Grand Total</span>
+<h2 class="text-3xl font-display-lg text-white">$74.25</h2>
+</div>
+<div class="pb-1">
+<span class="bg-orange-600/20 text-orange-400 text-[10px] px-2 py-1 rounded-md font-bold">3 Members</span>
+</div>
+</div>
+</div>
+<button class="w-full bg-orange-600 hover:bg-orange-700 text-white font-black py-4 rounded-2xl transition-all shadow-[0_10px_30px_rgba(239,77,35,0.3)] flex items-center justify-center gap-3 active:scale-95">
+<span class="material-symbols-outlined">payments</span>
+                        Checkout Group
+                    </button>
+<p class="text-center text-[10px] text-zinc-500 mt-4 uppercase tracking-widest">Terminal #04 • Secured Transaction</p>
+</section>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (FAB) - Suppression Logic applied: Shown on Home/Dashboard, Hidden on Details/Transaction -->
+<!-- Context: This is a task-focused Orders page, FAB suppressed to prioritize Checkout Action -->
+</body></html>

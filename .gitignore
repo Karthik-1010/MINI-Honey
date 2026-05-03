@@ -1,0 +1,51 @@
+# Python / Django
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.sqlite3
+*.db
+*.log
+.env
+.venv
+venv/
+env/
+ENV/
+*.pyc
+staticfiles/
+media/
+
+# Django migrations (keep initial, ignore auto-generated if preferred)
+# Uncomment below to ignore all migrations except __init__.py
+# */migrations/*.py
+# !*/migrations/__init__.py
+
+# Node / React / Vite
+frontend/node_modules/
+frontend/dist/
+frontend/.cache/
+frontend/coverage/
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Misc
+*.bak
+*.tmp

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Epicurean POS - Group Orders</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-scroll {
+            display: flex;
+            width: max-content;
+            animation: scroll 40s linear infinite;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .honey-glow:focus-within {
+            box-shadow: 0 0 15px rgba(239, 77, 35, 0.4);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#550e00",
+                        "surface-tint": "#ffb4a2",
+                        "tertiary-container": "#929090",
+                        "primary-container": "#fe572d",
+                        "on-error-container": "#ffdad6",
+                        "secondary": "#c6c6c7",
+                        "on-primary-fixed": "#3c0700",
+                        "outline": "#ab8981",
+                        "surface-dim": "#131313",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "outline-variant": "#5b403a",
+                        "error-container": "#93000a",
+                        "surface-container-highest": "#353534",
+                        "secondary-fixed": "#e2e2e2",
+                        "inverse-on-surface": "#313030",
+                        "surface-variant": "#353534",
+                        "tertiary-fixed": "#e4e2e1",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-error": "#690005",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-primary": "#611200",
+                        "on-tertiary-container": "#2a2a2a",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-secondary": "#2f3131",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#e4beb5",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container-low": "#1c1b1b",
+                        "on-tertiary": "#303030",
+                        "surface-bright": "#393939",
+                        "inverse-primary": "#b42900",
+                        "on-primary-fixed-variant": "#891d00",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary-container": "#b4b5b5",
+                        "surface": "#131313",
+                        "secondary-container": "#454747",
+                        "tertiary": "#c8c6c5",
+                        "surface-container": "#201f1f",
+                        "primary": "#ffb4a2",
+                        "inverse-surface": "#e5e2e1",
+                        "primary-fixed-dim": "#ffb4a2",
+                        "background": "#131313",
+                        "primary-fixed": "#ffdad2",
+                        "on-surface": "#e5e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "unit": "8px",
+                        "stack-sm": "8px",
+                        "container-margin": "24px",
+                        "stack-lg": "32px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Epilogue"],
+                        "headline-md": ["Epilogue"],
+                        "headline-xl": ["Epilogue"],
+                        "label-bold": ["Epilogue"],
+                        "body-lg": ["Epilogue"],
+                        "body-md": ["Epilogue"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-xl": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- TopAppBar Shell -->
+<header class="flex justify-between items-center px-8 h-20 w-full fixed top-0 z-50 bg-[#121212]/80 backdrop-blur-md border-b border-white/5 shadow-xl shadow-black/40">
+<div class="text-2xl font-black text-[#ef4d23] uppercase tracking-tighter">Epicurean POS</div>
+<nav class="hidden md:flex items-center gap-8 font-epilogue text-sm font-medium tracking-wide">
+<a class="text-[#ef4d23] border-b-2 border-[#ef4d23] pb-2" href="#">Current Order</a>
+<a class="text-gray-400 hover:text-[#ef4d23] hover:bg-white/5 transition-all duration-300" href="#">Tables</a>
+<a class="text-gray-400 hover:text-[#ef4d23] hover:bg-white/5 transition-all duration-300" href="#">History</a>
+<a class="text-gray-400 hover:text-[#ef4d23] hover:bg-white/5 transition-all duration-300" href="#">Kitchen</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="bg-[#ef4d23] text-white px-5 py-2 rounded-xl flex items-center gap-2 font-label-bold text-label-bold active:scale-95 transition-all cubic-bezier(0.34, 1.56, 0.64, 1)">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+                Group Order Cart
+            </button>
+<span class="material-symbols-outlined text-gray-400" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-gray-400" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<!-- Food Marquee -->
+<div class="fixed top-20 left-0 w-full bg-[#121212] overflow-hidden py-2 border-b border-white/5 z-40">
+<div class="animate-scroll">
+<div class="flex gap-4 px-4 items-center">
+<img class="w-24 h-14 object-cover rounded-lg border border-white/10" data-alt="A macro close-up of a perfectly seared artisanal steak with golden-brown crust, resting on a bed of vibrant green herbs. The lighting is warm and cinematic, emphasizing the succulent texture and premium quality of the meat within a high-end dark-themed culinary environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWIm7xrjQM7b6LkX2c9GPjlrM0piV1djYsAmCIScUh-Fb9jJQ3L_-qrldq3Hhn6B5RwiXRt__d9MmW53TCpqWi4GhDYOJ-aEfJ2_byxaIaoLOeE-NXQY-Y8maFkc6w3r0j_cx0Yuf47-j-bycU-Gl3-hwP2HvaEb2HOn8t7NpLuXX4M94vHz8su8cWXz5AUa0AlFWjNVtX7De7pq5xaF7vSYDgMGj72U5T5i_x_4yLcbvLxKJ2aC_NnwYiT1oN6LsOpEIj2_0yzqrH"/>
+<img class="w-24 h-14 object-cover rounded-lg border border-white/10" data-alt="A beautifully plated healthy bowl featuring vibrant salmon, fresh avocado slices, and crisp radishes, presented on a dark ceramic plate. The lighting creates a soft amber glow over the fresh ingredients, emphasizing a modern, clean, and nutritious aesthetic consistent with a luxury urban dining experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCypF8gwaktEXfOLPgwL9fozxW-nn8eyxH4CLWIDRqqA1pFw1qcZcMYBrKuJA-sy0ILfqW5Rf7ACLFcPLQ7MHnneNNdUXnbhFf7F-sYPH98NCwkWDIhU_-iAxkdXuuKmmToDZmU66WaZAYNn8ALep7PC2Pw2xuAlnmf8unpnq40GN8BorzGNlxqAOMZaRP9bIdGDKAs_af6QZ-0c8UsZp4A9Oge3gPLoGIjW6UKdey1ld29StbBCs5XTMX8nEsPnrKf4y1vnREgQmU3"/>
+<img class="w-24 h-14 object-cover rounded-lg border border-white/10" data-alt="An authentic Italian pizza with bubbling mozzarella and fresh basil leaves, emerging from a wood-fired oven with glowing embers in the background. The scene is shot with high contrast and deep shadows, highlighting the vibrant reds of the sauce and the charred texture of the crust in a sophisticated dark mode UI palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMEdjU22OL-Mgcy0qhqB7IE7ocFSLQREASIxsSRfCnSIV5ArtH16AvChi0B2qbhgP12kXQKwWQL95ztKiPYehqd53R3X5tUDuQg_Y-W8AOmG7rGb3ZzdfPy01pJYHvki0zN4cLtDZqOH_40Cv8I70PGF4ulWjsQ93iF6KLLWmuW55790-EOtyaNlp6hMPEV49XGKdErpEqKbdAnozyvlwput_GaztM2VEOyzwPJHN9NNi3FPLtYj4q5I4tc1oWG3DxJIVE2FYxAqA_"/>
+<img class="w-24 h-14 object-cover rounded-lg border border-white/10" data-alt="A delicate plate of artisanal pasta with rich cream sauce and shaved black truffles, captured in a moody, low-light setting. The warm amber lighting focuses on the intricate textures of the dish, creating a sense of premium culinary luxury and tactile appetite appeal within a dark, sophisticated atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2QrGxBWxao943hEY-ZCd1xRwRFHAKQQ9_0C1XN0KA33cP8tJWMTTqwSLcWTrUeQQA2DSnjtKWbovfFexq6d2BRvCKhCeL9HDsCYDtPmsBLcVwvq4M_JVJLGSX_QopuBk-ao3_6mmLQJnwoDXwkEglx_uVUPHMUioSNj5khmzno-l3I8wf77ZJsyCX9i9ZZe01XPB6NZ1QxMpi0qGk4c_Goc54BlpuUpdcKGz6kbBFmw7p0c0n2sW2Yg5QuoN55LTNH0x-ftdqPWK5"/>
+<img class="w-24 h-14 object-cover rounded-lg border border-white/10" data-alt="A gourmet avocado toast topped with a perfectly poached egg and chili flakes, styled on a rustic dark slate board. The visual composition uses soft-focus backgrounds and sharp details on the yolk to evoke a premium breakfast experience, blending organic warmth with modern urban design elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6jddqbvEtrkf3tshu0qZn7AokzVauruVTZT5OK6MujFmRFsKRQ2eU8EAa1z5Mrrx0SD5WFpuxNrjf0P8Xy7y7EXO6N_pM6-APWjqLxqZrajUkOcECsx6q-iJg90tNPg4-Eh75Zr_jiPkozEbCyr2TnaCOBbjAtCKCHOlot77SVI5T7keHMqj6vIRgzg0wH4x6X2nnu6LubX4nwqn9tfH3VtvGQ9FQ1vfAsMfMhHPVoeqbJze3W52-bXqj2jf6gft49vg5Odhnxr5P"/>
+<!-- Duplicate for seamless loop -->
+<img class="w-24 h-14 object-cover rounded-lg border border-white/10" data-alt="A macro close-up of a perfectly seared artisanal steak with golden-brown crust, resting on a bed of vibrant green herbs. The lighting is warm and cinematic, emphasizing the succulent texture and premium quality of the meat within a high-end dark-themed culinary environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVK4Te5zxe18mFclelds8eRo3uV4IFnC9Mi-9xxkrL-sL3txbV65gLzyUh0poZdgkyV6xS7pO87v7TzKM1klI2xVByWwhh7QYciu5GCzPt-492zj3Gvj3AlVWeVfldYDwZ_qylgARrxJsRBJtaPx_oQ6LLfSiBRAyUYoDB5WHtdlllT5ht5wANG-kVjbHkS5keKRCJ7I6lR4iKVlVDNPvj4qYJzouPSrs5ri1-VeLvoMabL1wys3BI18J80_1-NmceER1TpxWYCoL0"/>
+<img class="w-24 h-14 object-cover rounded-lg border border-white/10" data-alt="A beautifully plated healthy bowl featuring vibrant salmon, fresh avocado slices, and crisp radishes, presented on a dark ceramic plate. The lighting creates a soft amber glow over the fresh ingredients, emphasizing a modern, clean, and nutritious aesthetic consistent with a luxury urban dining experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD63LFu0b3F4SIeIxZviPPBCqCkhXoKKCq7_fiJqx0WG45D_tSAZdDtOWrUaAs_c8qez1gvKBuqA24hhJ18_7c-b8wJBGTRPfM2nyqnq82iuMz0gVyAfzacq_zZBZqUiTfVl2CHfKkwgIHt8Ck75WXfklkIAuG5euK4Ef37WHkylpQp0DgiIp_3xJsPi_8AOfeq_TguF2ykhuRVxweaIoQzVMzmSAil0fTM6aUBZUh2ffx_aHRqf3HH0H36sZEqn9loEWrGFLfRqP_7"/>
+<img class="w-24 h-14 object-cover rounded-lg border border-white/10" data-alt="An authentic Italian pizza with bubbling mozzarella and fresh basil leaves, emerging from a wood-fired oven with glowing embers in the background. The scene is shot with high contrast and deep shadows, highlighting the vibrant reds of the sauce and the charred texture of the crust in a sophisticated dark mode UI palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSiU7nNBb593XsBSJnd9BflmKcaw4AsVAEp3dTfyCcvApqQ2vFYmEix63PgcWU3l1hlMg6UAelXhISGlViGXZ2bzRmAYyMWG2GZ-LATabZFaMBH8Zbg_UnOu8BOiwjlTG2bnBDsBv0bLr_yu7fwGWNWTBp0IZzRp2AknKUOYVB9OlCNHQDhnT_oz1c53ce0hciNf43loKfTJPutKh6qrrndOYqN1vmwJ91a_vONFBWxseSCmB4QO7KLJPDBVHk4lIlTv5PJ0y9zSyu"/>
+<img class="w-24 h-14 object-cover rounded-lg border border-white/10" data-alt="A delicate plate of artisanal pasta with rich cream sauce and shaved black truffles, captured in a moody, low-light setting. The warm amber lighting focuses on the intricate textures of the dish, creating a sense of premium culinary luxury and tactile appetite appeal within a dark, sophisticated atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvaPibvMoDnX_oTxYDfw6oXVBJofTPCz2IRn2CwLPfoZj6t6q057Vwfx3Qz1MNiccitwFyuSC93aFiJVO8cwFMseJIxEeG0sb7SSEG52bT7gtJmee2viWQ-RZewxNO1gizGDf0CAa4bno9WNpaywqHK5mCtM3RHPBswUv2s0GPog6X_TI37YTRX3tFyMAsOqCnDqGgQI2QQuRsZ8rwSXPhzS64w2wS_WaM317PRKzJx6xYE34ZnweXiLXujTLYekDl9EuwrxqG1qFS"/>
+<img class="w-24 h-14 object-cover rounded-lg border border-white/10" data-alt="A gourmet avocado toast topped with a perfectly poached egg and chili flakes, styled on a rustic dark slate board. The visual composition uses soft-focus backgrounds and sharp details on the yolk to evoke a premium breakfast experience, blending organic warmth with modern urban design elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd7V2JJZ9Cop5NzMM6inemmWsrvfDTtCA8nbGz7WhYK8ddZoL0ce94tRV4AQxwDpbqPZzZO66l0N-oS-4YptSxiPKg38bRyZVLaHh0rUEg67kR26S_kqYsSyXB8zBXRvMPxnFBobV8FNA2r7biB4jm53lMIwuNO9rXLFMjI-h7dsRJpxmUvCmE1xZpVWcRzSLhqXU0TAcMlIL6gcibwnk4nmrDJ5p0O4rkDXpoT4Hae6gVGuFwGcCSePT3pUj3-NFjQPCCVQw3Nr-w"/>
+</div>
+</div>
+</div>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col pt-36 pb-8 z-30 w-20 md:w-64 border-r border-white/10 bg-[#121212] backdrop-blur-2xl bg-opacity-95 shadow-[4px_0_24px_rgba(0,0,0,0.5)]">
+<div class="px-6 mb-8 hidden md:block">
+<h2 class="text-white font-bold text-lg">Terminal 01</h2>
+<p class="text-gray-500 text-xs uppercase font-bold tracking-widest">Main Dining Hall</p>
+</div>
+<nav class="flex flex-col gap-2">
+<div class="bg-[#ef4d23] text-white rounded-lg mx-2 flex items-center gap-3 px-4 py-3 font-epilogue text-xs uppercase font-bold">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="hidden md:inline">Dashboard</span>
+</div>
+<div class="text-gray-500 flex items-center gap-3 px-4 py-3 mx-2 hover:bg-white/10 hover:text-white transition-all duration-200 hover:translate-x-1 font-epilogue text-xs uppercase font-bold">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="hidden md:inline">Menu Editor</span>
+</div>
+<div class="text-gray-500 flex items-center gap-3 px-4 py-3 mx-2 hover:bg-white/10 hover:text-white transition-all duration-200 hover:translate-x-1 font-epilogue text-xs uppercase font-bold">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="hidden md:inline">Staff</span>
+</div>
+<div class="text-gray-500 flex items-center gap-3 px-4 py-3 mx-2 hover:bg-white/10 hover:text-white transition-all duration-200 hover:translate-x-1 font-epilogue text-xs uppercase font-bold">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="hidden md:inline">Reports</span>
+</div>
+<div class="text-gray-500 flex items-center gap-3 px-4 py-3 mx-2 hover:bg-white/10 hover:text-white transition-all duration-200 hover:translate-x-1 font-epilogue text-xs uppercase font-bold">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="hidden md:inline">Settings</span>
+</div>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-20 md:ml-64 pt-40 p-8">
+<div class="max-w-7xl mx-auto grid grid-cols-12 gap-8">
+<!-- Group Order Flow: Phase 1 (Initial State) -->
+<section class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<div class="glass-panel p-8 rounded-xl honey-glow shadow-2xl">
+<h3 class="text-headline-md font-headline-md text-white mb-4">Start Member Session</h3>
+<p class="text-gray-400 mb-6 font-body-md">Enter the customer's name to begin adding items to the collective group order.</p>
+<div class="flex flex-col gap-4">
+<input class="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#ef4d23] transition-colors" placeholder="Customer Name (e.g., Ravi)" type="text"/>
+<button class="w-full bg-[#ef4d23] text-white font-label-bold py-3 rounded-xl transform hover:scale-[1.02] active:scale-95 transition-all cubic-bezier(0.34, 1.56, 0.64, 1)">
+                            Start Order
+                        </button>
+</div>
+</div>
+<!-- Bento Grid Highlight: Daily Special -->
+<div class="glass-panel p-6 rounded-xl relative overflow-hidden h-64 group cursor-pointer shadow-lg">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A stack of premium barbecue ribs glazed in a glistening honey-amber sauce, garnished with toasted sesame seeds and fresh scallions. The ribs are presented in a dramatic, high-contrast dark environment with warm atmospheric lighting that creates a glowing effect on the sauce, reflecting the luxury Honey Amber aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5nsX8nkUX9R9nNbnQtzQkk_zojfWBhNtjOJtR_SqlcOoYvA3NZvlnPKPuHvDkg6-aaxN-iaOqSdT7tRzr8VxxuMcvZOAJmZNNFpm1y7vK8qUE9AGf9r75BFF3SpQv384-MYfGNcPTNxXUXd2yV0sb5alK6ZsiV4A5mAG1hyc_v_1P6FQFy11lR-fiy7xFoxdneKaHfaGOhD4SXsQdA_rO5jx0GiitzBrCr6PTJQVRLgryeedOT0sXZ7BRdd90M5K5ZeOsb-3fWwxt"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#121212] to-transparent opacity-80"></div>
+<div class="relative z-10 h-full flex flex-col justify-end">
+<span class="bg-[#ef4d23] text-[10px] font-bold uppercase tracking-widest w-fit px-2 py-1 rounded mb-2">Today's Special</span>
+<h4 class="text-white text-xl font-bold">Honey Glazed Ribs</h4>
+<p class="text-[#ef4d23] font-bold">$28.00</p>
+</div>
+</div>
+</section>
+<!-- Group Order Flow: Phase 2 (Active Menu State) -->
+<section class="col-span-12 lg:col-span-8 flex flex-col gap-6">
+<div class="glass-panel p-6 rounded-xl shadow-xl">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="text-headline-md font-headline-md text-white">Active Session: John</h3>
+<p class="text-[#ef4d23] text-sm">Table 04 • 3 Items Pending</p>
+</div>
+<div class="flex gap-2">
+<span class="p-2 glass-panel rounded-lg text-white hover:bg-[#ef4d23] transition-colors cursor-pointer material-symbols-outlined" data-icon="search">search</span>
+<span class="p-2 glass-panel rounded-lg text-white hover:bg-[#ef4d23] transition-colors cursor-pointer material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</div>
+</div>
+<!-- Item List (Symbol Based) -->
+<div class="space-y-4">
+<!-- Item 1 -->
+<div class="flex items-center justify-between p-4 glass-panel rounded-xl hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[#ef4d23]" data-icon="lunch_dining">lunch_dining</span>
+</div>
+<div>
+<h5 class="text-white font-bold">Signature Honey Burger</h5>
+<p class="text-xs text-gray-500">Extra Cheese, No Onions</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-white font-bold">$16.50</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-full glass-panel text-white hover:bg-blue-500 transition-colors">✏️</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full glass-panel text-white hover:bg-red-500 transition-colors">🗑️</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-[#ef4d23] text-white hover:scale-110 transition-transform">➕</button>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center justify-between p-4 glass-panel rounded-xl hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[#ef4d23]" data-icon="local_bar">local_bar</span>
+</div>
+<div>
+<h5 class="text-white font-bold">Amber Craft Ale</h5>
+<p class="text-xs text-gray-500">Regular 500ml</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-white font-bold">$9.00</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-full glass-panel text-white hover:bg-blue-500 transition-colors">✏️</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full glass-panel text-white hover:bg-red-500 transition-colors">🗑️</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-[#ef4d23] text-white hover:scale-110 transition-transform">➕</button>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center justify-between p-4 glass-panel rounded-xl hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[#ef4d23]" data-icon="icecream">icecream</span>
+</div>
+<div>
+<h5 class="text-white font-bold">Honeycomb Gelato</h5>
+<p class="text-xs text-gray-500">Double Scoop, Toffee Drizzle</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-white font-bold">$7.50</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-full glass-panel text-white hover:bg-blue-500 transition-colors">✏️</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full glass-panel text-white hover:bg-red-500 transition-colors">🗑️</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-[#ef4d23] text-white hover:scale-110 transition-transform">➕</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Group Orders Summary State -->
+<div class="glass-panel p-6 rounded-xl border-[#ef4d23]/20 shadow-2xl relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-[#ef4d23] blur-[100px] opacity-10"></div>
+<h3 class="text-headline-md font-headline-md text-white mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-[#ef4d23]" data-icon="groups">groups</span>
+                        Group Orders Summary
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+<!-- Customer: John -->
+<div class="p-4 border border-white/5 rounded-lg bg-white/5">
+<div class="flex justify-between items-center mb-3">
+<span class="text-white font-bold">John</span>
+<span class="text-[#ef4d23] text-sm font-bold">$33.00</span>
+</div>
+<ul class="text-xs text-gray-400 space-y-1">
+<li>• Honey Burger (x1)</li>
+<li>• Amber Craft Ale (x1)</li>
+<li>• Honeycomb Gelato (x1)</li>
+</ul>
+</div>
+<!-- Customer: Ravi -->
+<div class="p-4 border border-white/5 rounded-lg bg-white/5">
+<div class="flex justify-between items-center mb-3">
+<span class="text-white font-bold">Ravi</span>
+<span class="text-[#ef4d23] text-sm font-bold">$42.50</span>
+</div>
+<ul class="text-xs text-gray-400 space-y-1">
+<li>• Grilled Salmon (x1)</li>
+<li>• Sparkling Water (x2)</li>
+<li>• Garden Salad (x1)</li>
+</ul>
+</div>
+</div>
+<!-- Consolidated Totals -->
+<div class="border-t border-white/10 pt-6">
+<div class="flex justify-between items-center mb-2">
+<span class="text-gray-400">Subtotal</span>
+<span class="text-white">$75.50</span>
+</div>
+<div class="flex justify-between items-center mb-6">
+<span class="text-gray-400">Service Fee (10%)</span>
+<span class="text-white">$7.55</span>
+</div>
+<div class="flex justify-between items-end border-t border-white/20 pt-4">
+<div>
+<span class="text-xs text-gray-500 uppercase font-bold tracking-widest">Grand Total</span>
+<div class="text-display-lg font-display-lg text-[#ef4d23]">$83.05</div>
+</div>
+<button class="bg-[#ef4d23] text-white px-10 py-4 rounded-xl font-bold shadow-lg shadow-[#ef4d23]/20 hover:translate-y-[-2px] transition-all">
+                                Checkout Group
+                            </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- FAB (Suppressed as per rules for detailed screens, but kept placeholder for logic) -->
+</body></html>

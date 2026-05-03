@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>body {
+            font-family: 'Epilogue', sans-serif;
+            background-color: #131313;
+            color: #e5e2e1;
+            margin: 0;
+            padding: 0;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .orange-glow:focus {
+            box-shadow: 0 0 15px rgba(239, 77, 35, 0.4);
+            border-color: #ef4d23;
+        }
+        .bouncy-btn {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .bouncy-btn:hover {
+            transform: scale(1.05);
+        }
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 40s linear infinite;
+        }
+        @keyframes marquee {
+            from { transform: translateX(-50%); }
+            to { transform: translateX(0); }
+        }</style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface": "#e5e2e1",
+                      "outline": "#ab8981",
+                      "on-primary-container": "#550e00",
+                      "inverse-primary": "#b42900",
+                      "on-secondary-fixed-variant": "#454747",
+                      "on-tertiary-container": "#2a2a2a",
+                      "tertiary-container": "#929090",
+                      "surface-container-low": "#1c1b1b",
+                      "on-tertiary-fixed-variant": "#474746",
+                      "surface-container-lowest": "#0e0e0e",
+                      "inverse-on-surface": "#313030",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "primary-fixed-dim": "#ffb4a2",
+                      "on-secondary": "#2f3131",
+                      "primary": "#ffb4a2",
+                      "on-primary-fixed-variant": "#891d00",
+                      "on-primary-fixed": "#3c0700",
+                      "on-error": "#690005",
+                      "surface-tint": "#ffb4a2",
+                      "primary-fixed": "#ffdad2",
+                      "surface": "#131313",
+                      "secondary-container": "#454747",
+                      "on-primary": "#611200",
+                      "inverse-surface": "#e5e2e1",
+                      "on-tertiary": "#303030",
+                      "secondary": "#c6c6c7",
+                      "on-surface-variant": "#e4beb5",
+                      "error": "#ffb4ab",
+                      "primary-container": "#fe572d",
+                      "background": "#131313",
+                      "error-container": "#93000a",
+                      "tertiary-fixed": "#e4e2e1",
+                      "surface-container": "#201f1f",
+                      "outline-variant": "#5b403a",
+                      "surface-dim": "#131313",
+                      "tertiary": "#c8c6c5",
+                      "on-error-container": "#ffdad6",
+                      "surface-variant": "#353534",
+                      "surface-container-high": "#2a2a2a",
+                      "on-background": "#e5e2e1",
+                      "surface-container-highest": "#353534",
+                      "tertiary-fixed-dim": "#c8c6c5",
+                      "surface-bright": "#393939",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "secondary-fixed": "#e2e2e2",
+                      "on-tertiary-fixed": "#1b1c1c",
+                      "on-secondary-container": "#b4b5b5"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "16px",
+                      "stack-lg": "32px",
+                      "stack-sm": "8px",
+                      "container-margin": "24px",
+                      "unit": "8px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Epilogue"],
+                      "label-bold": ["Epilogue"],
+                      "headline-xl": ["Epilogue"],
+                      "body-lg": ["Epilogue"],
+                      "display-lg": ["Epilogue"],
+                      "body-md": ["Epilogue"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "700"}],
+                      "headline-xl": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 flex items-center justify-between px-8 py-4 w-full bg-[#131313]/80 backdrop-blur-xl border-b border-white/5">
+<div class="flex items-center gap-4">
+<img alt="MINI Honey Logo" class="h-10 w-10 object-cover rounded-full" data-alt="A professional circular logo for MINI Honey, featuring a stylized amber honey drip intertwined with modern minimalist typography. The logo is set against a dark, premium background with subtle orange highlights reflecting a sophisticated culinary brand identity. High-quality render with glass-like textures." src="https://lh3.googleusercontent.com/aida/ADBb0ui86_3d5MTmZ59AutSKyfq6QGCswL6UJKzetxkOITpslKVDl-5YAAx9FNxM4bZ0oExOy19wyMRMgkojftPSiDQJc18r-WBqd2R_XvKBz_x_AbmB_ctS8Y2nLHJ0T02XWMAflcl7axm8NiSBC7KmAQakt4XCgoxo2iFoaSddEpPMYNKqVjoMDJhFqqRNc_InrcwCE9prEblqcRamBTL3MyVkOx4cZPFvNrS9vv5LSo98RLC6NXsMU3jmTss33uIXgBBTyt1RIV_5jQM"/>
+<span class="text-xl font-display-lg font-black tracking-tighter text-primary-container uppercase">MINI Honey</span>
+</div>
+<nav class="hidden md:flex items-center gap-8 font-body-md text-sm tracking-wide">
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">Menu</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">Orders</a>
+<a class="text-primary-container border-b-2 border-primary-container pb-1 font-label-bold" href="#">Group Order</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">Store</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">Status</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary-container transition-colors">notifications</span>
+<div class="h-10 w-10 rounded-full border border-outline-variant overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a professional male user in his late 20s with a friendly expression. He is photographed in a modern, softly lit studio environment that aligns with a high-end tech platform. The lighting is warm and cinematic, emphasizing a premium and trustworthy user persona." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB1CQG69cmc61bYRwCbqOK0K_xDP4NH5C1nW1J3wfgr7Paxl0JasNgJSCnhtenj1lUHbUM37WXNQaAtqqjYF4Onx3A3slmnWSndQuiHzc30Z7th4zSRcC3eltzKijw-LEZAWnMCPpy2NAAY6zuKNOKcxF_2QzYyAY7vP7r6czyMmcXUbFb6OPrbjWTyf69tqW2lZ6sV0aX4WOZbVm7wuxiCSsLgROaswP0RQphw44GMLX8nQt6EbUfmsmcs-eOdGfNqZGXRUxDAj0K"/>
+</div>
+</div>
+</header>
+<!-- Food Marquee -->
+<div class="w-full h-40 relative marquee-container bg-surface-container-lowest border-b border-white/5 overflow-hidden">
+<div class="marquee-content flex gap-4 p-4">
+<div class="h-32 w-56 flex-shrink-0 rounded-xl overflow-hidden glass-panel">
+<img class="w-full h-full object-cover" data-alt="Steaming Maggi noodles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXui9KuATxge78EBNqAufyJdT8I1sUHddalgUK4JzsB94DqXjyD8aHZoAED11R94_TtgJg5IJmTCySMRhMd8PUmz6GEdT5cyYxPKE6eFcxNuT2lb_dtroWAKKklqzYQbIoasxzvRhQeBJMN9M0WTsjjMdw173XCZH2qi_yhFivsVB3v_4-ZlfwR6VMM64tLjRKksyqHGgrILJ9C537EXnAYaqPS8u2lH36IThmul4j14yDvZYgHIMeM_O5Rk4MqpGP5FJudB2uWFbP"/>
+</div>
+<div class="h-32 w-56 flex-shrink-0 rounded-xl overflow-hidden glass-panel">
+<img class="w-full h-full object-cover" data-alt="Egg rolls" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5RMi4bcIRTfFppvWl1oKV3GRtkkbScp0ZpvlfgNEx32vwyfnzX2jjgOysVi_2Ozj50f7NtZkrD4pzjZA7Xuw0slxtKOEUopL9X5Ar8Zx3YrYHNyBpyiEB46I_NC1mDeaPLiRz8ARXu6EOqIbTUEv3zbd1qGS5tA5NAhPFiaP4B6jGhDlFHDlYTVCxz1GvrMq8YulMUI-nINWbOF4x1S0jCUaZDOwqCV0epdJfIsdfFgGU4NJUBrTLcYJ9CoMqw3wQEY522PJdiOdO"/>
+</div>
+<div class="h-32 w-56 flex-shrink-0 rounded-xl overflow-hidden glass-panel">
+<img class="w-full h-full object-cover" data-alt="Chocolate milkshake" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHnY-4ZuBCL1LJLbWGKKntKk-gooMor0wIPd9qp8DsRhNuBAcgXjkOmRxCmrtCFiFapFW7evuGZQ3y_ShKEPunqEMRCrjxXrGXIIENxdVFkvHleqgns-dva9KBo7ZveweljDzCHMMadsJSf0qJcGDkogumva3XGGBpqAmKoKOUrfP3qK7jMw-OWFGdxWjWLispr5KudQKNlROZA68kH28zZ27pQdJtOAS8NMKxyPqKhVJR-oQHzkm3wKw28Ofio-7NbIw4C_NjL8yG"/>
+</div>
+<div class="h-32 w-56 flex-shrink-0 rounded-xl overflow-hidden glass-panel">
+<img class="w-full h-full object-cover" data-alt="Steaming momos" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmdl14WVcnoOFIaRPcOXW04YAfx-w4OUlc1whzXRFtbW64_U-LVLRZX9cuwIhaFYCDrQBtui6qy7KBxhTHfXdXOOYOwW0qD151avjE_3dygIDG2x8_jdvhuMxnrmA7-YRFMu9-m42fRSFeOdEM0IUAKx4G_Z9VNNMJetVrA5FUcitgrD085AbKq_frnRFWJmkayj_AuoBUk_jW8Jv0wuY46qsub31-WBgwYra-Cb8heGD3zj26Od_nUhrCxOzNmkRS2dNzkIUpYQr2"/>
+</div>
+<div class="h-32 w-56 flex-shrink-0 rounded-xl overflow-hidden glass-panel">
+<img class="w-full h-full object-cover" data-alt="Apricot dessert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDKJIGTCPJquz-uZB5Flx8ebYoBT_Scr7sUmJ8b1QihGeEjYRzuTNAKBIIfdbrVTq8iLl2wzDEBruUdu5PG67nc30ZFbMyzQ7qYYlljMlgzKlUEVj8G8oaO0bul-CiUM1uTDLns4eIIvQGd7knJ-HWos4-cT7338kuEbseLVSvfom2g3u7ICpnDthSQPcGhRexN7NofC5nG5QxL900K-BzDkkAj7_NgxEbHqkDqBio-geL5uHghVpRndGVHH-ytkQ_1R60ci2XttSD"/>
+</div>
+<!-- Repeat for seamless loop -->
+<div class="h-32 w-56 flex-shrink-0 rounded-xl overflow-hidden glass-panel">
+<img class="w-full h-full object-cover" data-alt="Steaming Maggi noodles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXui9KuATxge78EBNqAufyJdT8I1sUHddalgUK4JzsB94DqXjyD8aHZoAED11R94_TtgJg5IJmTCySMRhMd8PUmz6GEdT5cyYxPKE6eFcxNuT2lb_dtroWAKKklqzYQbIoasxzvRhQeBJMN9M0WTsjjMdw173XCZH2qi_yhFivsVB3v_4-ZlfwR6VMM64tLjRKksyqHGgrILJ9C537EXnAYaqPS8u2lH36IThmul4j14yDvZYgHIMeM_O5Rk4MqpGP5FJudB2uWFbP"/>
+</div>
+<div class="h-32 w-56 flex-shrink-0 rounded-xl overflow-hidden glass-panel">
+<img class="w-full h-full object-cover" data-alt="Egg rolls" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5RMi4bcIRTfFppvWl1oKV3GRtkkbScp0ZpvlfgNEx32vwyfnzX2jjgOysVi_2Ozj50f7NtZkrD4pzjZA7Xuw0slxtKOEUopL9X5Ar8Zx3YrYHNyBpyiEB46I_NC1mDeaPLiRz8ARXu6EOqIbTUEv3zbd1qGS5tA5NAhPFiaP4B6jGhDlFHDlYTVCxz1GvrMq8YulMUI-nINWbOF4x1S0jCUaZDOwqCV0epdJfIsdfFgGU4NJUBrTLcYJ9CoMqw3wQEY522PJdiOdO"/>
+</div>
+<div class="h-32 w-56 flex-shrink-0 rounded-xl overflow-hidden glass-panel">
+<img class="w-full h-full object-cover" data-alt="Chocolate milkshake" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHnY-4ZuBCL1LJLbWGKKntKk-gooMor0wIPd9qp8DsRhNuBAcgXjkOmRxCmrtCFiFapFW7evuGZQ3y_ShKEPunqEMRCrjxXrGXIIENxdVFkvHleqgns-dva9KBo7ZveweljDzCHMMadsJSf0qJcGDkogumva3XGGBpqAmKoKOUrfP3qK7jMw-OWFGdxWjWLispr5KudQKNlROZA68kH28zZ27pQdJtOAS8NMKxyPqKhVJR-oQHzkm3wKw28Ofio-7NbIw4C_NjL8yG"/>
+</div>
+</div>
+</div>
+<main class="max-w-7xl mx-auto px-8 py-stack-lg">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column -->
+<div class="lg:col-span-8 flex flex-col gap-stack-lg">
+<!-- Start Member Session Card -->
+<section class="glass-panel p-stack-md rounded-xl flex items-center justify-between gap-6">
+<div class="flex-1">
+<h2 class="font-headline-md text-headline-md text-primary-fixed mb-1">Start Member Session</h2>
+<p class="text-on-surface-variant text-body-md">Register a new guest for the table</p>
+</div>
+<div class="flex items-center gap-4 flex-1">
+<input class="w-full bg-surface-container-highest border border-outline-variant rounded-lg px-4 py-3 text-on-surface orange-glow outline-none transition-all" placeholder="Enter guest name..." type="text"/>
+<button class="bouncy-btn bg-primary-container text-on-primary-container px-6 py-3 rounded-lg font-label-bold text-label-bold whitespace-nowrap">START SESSION</button>
+</div>
+</section>
+<!-- Menu Categories Section -->
+<section class="flex flex-col gap-6">
+<div class="flex items-center gap-4 overflow-x-auto pb-2 scrollbar-hide">
+<button class="px-6 py-2 rounded-full bg-primary-container text-on-primary-container font-label-bold">All Items</button>
+<button class="px-6 py-2 rounded-full glass-panel text-on-surface-variant hover:text-on-surface font-label-bold whitespace-nowrap">Signature Specials</button>
+<button class="px-6 py-2 rounded-full glass-panel text-on-surface-variant hover:text-on-surface font-label-bold">Snacks</button>
+<button class="px-6 py-2 rounded-full glass-panel text-on-surface-variant hover:text-on-surface font-label-bold">Drinks</button>
+<button class="px-6 py-2 rounded-full glass-panel text-on-surface-variant hover:text-on-surface font-label-bold">Desserts</button>
+</div>
+<!-- Desserts Selection Grid -->
+<div>
+<div class="flex items-center justify-between mb-stack-md">
+<h3 class="font-headline-md text-headline-md">Desserts Selection</h3>
+<div class="flex gap-2">
+<span class="material-symbols-outlined p-2 bg-surface-container-high rounded-full cursor-pointer hover:bg-surface-variant transition-colors">grid_view</span>
+<span class="material-symbols-outlined p-2 bg-surface-container-high rounded-full cursor-pointer hover:bg-surface-variant transition-colors">view_list</span>
+</div>
+</div>
+<div class="flex flex-col gap-3"><!-- Item 1 -->
+<div class="glass-panel rounded-xl p-stack-md flex items-center justify-between group hover:bg-white/5 transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">icecream</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-label-bold text-on-surface">Apricot Delight</h4>
+<span class="text-xs text-primary font-bold">$12.50</span>
+</div>
+<p class="text-sm text-on-surface-variant line-clamp-1">Caramelized honey apricots with mascarpone cream.</p>
+</div>
+</div>
+<button class="p-2 text-primary-container hover:bg-primary-container hover:text-white rounded-full transition-all">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+</div>
+<!-- Item 2 -->
+<div class="glass-panel rounded-xl p-stack-md flex items-center justify-between group hover:bg-white/5 transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">bakery_dining</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-label-bold text-on-surface">Arabian Pudding</h4>
+<span class="text-xs text-primary font-bold">$14.00</span>
+</div>
+<p class="text-sm text-on-surface-variant line-clamp-1">Rose water infused creamy base with crushed pistachios.</p>
+</div>
+</div>
+<button class="p-2 text-primary-container hover:bg-primary-container hover:text-white rounded-full transition-all">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+</div>
+<!-- Item 3 -->
+<div class="glass-panel rounded-xl p-stack-md flex items-center justify-between group hover:bg-white/5 transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">potted_plant</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-label-bold text-on-surface">Coconut Jelly</h4>
+<span class="text-xs text-primary font-bold">$9.75</span>
+</div>
+<p class="text-sm text-on-surface-variant line-clamp-1">Refreshing cold coconut milk jelly with tender pulp.</p>
+</div>
+</div>
+<button class="p-2 text-primary-container hover:bg-primary-container hover:text-white rounded-full transition-all">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+</div></div>
+</div>
+</section>
+</div>
+<!-- Right Column -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Active Session Card -->
+<section class="glass-panel rounded-xl overflow-hidden">
+<div class="bg-primary-container/20 px-stack-md py-3 flex items-center justify-between border-b border-primary-container/30">
+<div class="flex items-center gap-2">
+<span class="text-primary-container text-xl">👤</span>
+<h3 class="font-label-bold text-label-bold text-primary-container">Active: John</h3>
+</div>
+<span class="text-xs bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full font-bold">TABLE 12</span>
+</div>
+<div class="p-stack-md flex flex-col gap-4">
+<!-- Order Item 1 -->
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="text-xl">🍜</span>
+</div>
+<div>
+<p class="font-label-bold text-on-surface text-sm">Spicy Masala Maggi</p>
+<p class="text-xs text-on-surface-variant">Qty: 1 • $8.50</p>
+</div>
+</div>
+<div class="flex gap-3 opacity-60 group-hover:opacity-100 transition-opacity">
+<span class="cursor-pointer hover:scale-110 transition-transform">✏️</span>
+<span class="cursor-pointer hover:scale-110 transition-transform">🗑️</span>
+<span class="cursor-pointer hover:scale-110 transition-transform">➕</span>
+</div>
+</div>
+<!-- Order Item 2 -->
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="text-xl">🥟</span>
+</div>
+<div>
+<p class="font-label-bold text-on-surface text-sm">Classic Chicken Momos</p>
+<p class="text-xs text-on-surface-variant">Qty: 2 • $14.00</p>
+</div>
+</div>
+<div class="flex gap-3 opacity-60 group-hover:opacity-100 transition-opacity">
+<span class="cursor-pointer hover:scale-110 transition-transform">✏️</span>
+<span class="cursor-pointer hover:scale-110 transition-transform">🗑️</span>
+<span class="cursor-pointer hover:scale-110 transition-transform">➕</span>
+</div>
+</div>
+</div>
+<div class="px-stack-md py-4 bg-white/5 border-t border-white/10 text-right">
+<p class="text-xs text-on-surface-variant">Session Total</p>
+<p class="font-headline-md text-primary">$22.50</p>
+</div>
+</section>
+<!-- Group Orders Summary Card -->
+<section class="glass-panel p-stack-md rounded-xl">
+<h3 class="font-label-bold text-label-bold mb-4 flex items-center gap-2">
+<span class="text-sm">👥</span>
+                        Group Orders Summary
+                    </h3>
+<div class="space-y-3">
+<div class="flex items-center justify-between text-sm">
+<span class="text-on-surface-variant">John (Active)</span>
+<span class="font-bold">$22.50</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-on-surface-variant">Ravi</span>
+<span class="font-bold">$18.90</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-on-surface-variant">Amira</span>
+<span class="font-bold">$34.10</span>
+</div>
+</div>
+</section>
+<!-- Final Order Summary Card -->
+<section class="glass-panel p-stack-md rounded-xl border border-primary-container/20 bg-primary-container/5">
+<h3 class="font-label-bold text-label-bold mb-4">Final Order Summary</h3>
+<div class="space-y-2 mb-6">
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Subtotal</span>
+<span class="text-on-surface">$75.50</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Delivery Fee</span>
+<span class="text-on-surface">$5.00</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Service Charge (10%)</span>
+<span class="text-on-surface">$7.55</span>
+</div>
+<div class="h-px bg-white/10 my-4"></div>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-on-surface">Total</span>
+<span class="font-headline-xl text-[#ef4d23]">$88.05</span>
+</div>
+</div>
+<button class="bouncy-btn w-full bg-[#ef4d23] text-white py-4 rounded-xl font-headline-md shadow-[0_10px_20px_rgba(239,77,35,0.3)] flex items-center justify-center gap-3">
+<span class="text-xl">🛍️</span>
+                        Checkout Group
+                    </button>
+</section>
+</div>
+</div>
+</main>
+<!-- Bottom Mobile Nav -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 glass-panel h-16 flex items-center justify-around z-50 border-t border-white/10">
+<div class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="text-[10px] font-bold">Menu</span>
+</div>
+<div class="flex flex-col items-center text-[#ef4d23]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="text-[10px] font-bold">Orders</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-bold">Group</span>
+</div>
+<div class="flex flex-col items-center text-on-surface-variant">
+<span class="material-symbols-outlined">storefront</span>
+<span class="text-[10px] font-bold">Store</span>
+</div>
+</nav>
+</body></html>

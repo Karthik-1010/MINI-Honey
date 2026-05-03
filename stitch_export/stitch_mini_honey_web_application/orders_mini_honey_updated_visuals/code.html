@@ -1,0 +1,380 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Orders - MINI Honey</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "surface-container-lowest": "#0e0e0e",
+                "secondary-fixed-dim": "#c6c6c7",
+                "inverse-surface": "#e5e2e1",
+                "primary-fixed-dim": "#ffb4a2",
+                "on-error-container": "#ffdad6",
+                "on-secondary-container": "#b4b5b5",
+                "on-primary-fixed-variant": "#891d00",
+                "on-secondary": "#2f3131",
+                "tertiary-fixed-dim": "#c8c6c5",
+                "tertiary-container": "#929090",
+                "surface-variant": "#353534",
+                "on-primary-fixed": "#3c0700",
+                "error": "#ffb4ab",
+                "surface-container": "#201f1f",
+                "primary": "#ffb4a2",
+                "on-primary-container": "#550e00",
+                "error-container": "#93000a",
+                "surface-container-highest": "#353534",
+                "on-tertiary-container": "#2a2a2a",
+                "surface-container-high": "#2a2a2a",
+                "secondary-container": "#454747",
+                "primary-fixed": "#ffdad2",
+                "on-tertiary-fixed": "#1b1c1c",
+                "surface-dim": "#131313",
+                "on-surface": "#e5e2e1",
+                "surface-bright": "#393939",
+                "surface": "#131313",
+                "on-background": "#e5e2e1",
+                "on-secondary-fixed": "#1a1c1c",
+                "on-primary": "#611200",
+                "on-error": "#690005",
+                "background": "#131313",
+                "outline-variant": "#5b403a",
+                "outline": "#ab8981",
+                "inverse-primary": "#b42900",
+                "surface-container-low": "#1c1b1b",
+                "on-secondary-fixed-variant": "#454747",
+                "tertiary": "#c8c6c5",
+                "secondary-fixed": "#e2e2e2",
+                "primary-container": "#fe572d",
+                "tertiary-fixed": "#e4e2e1",
+                "on-tertiary-fixed-variant": "#474746",
+                "surface-tint": "#ffb4a2",
+                "inverse-on-surface": "#313030",
+                "secondary": "#c6c6c7",
+                "on-tertiary": "#303030",
+                "on-surface-variant": "#e4beb5"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "container-margin": "24px",
+                "gutter": "16px",
+                "unit": "8px",
+                "stack-sm": "8px",
+                "stack-md": "16px",
+                "stack-lg": "32px"
+            },
+            "fontFamily": {
+                "display-lg": ["Epilogue"],
+                "label-bold": ["Epilogue"],
+                "headline-md": ["Epilogue"],
+                "headline-xl": ["Epilogue"],
+                "body-md": ["Epilogue"],
+                "body-lg": ["Epilogue"]
+            },
+            "fontSize": {
+                "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "700"}],
+                "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "headline-xl": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        @keyframes marquee {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(0); }
+        }
+        .animate-marquee {
+            display: flex;
+            animation: marquee 40s linear infinite;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .active-glow {
+            box-shadow: 0 0 15px rgba(239, 77, 35, 0.4);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(239, 77, 35, 0.3);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col selection:bg-primary-container selection:text-white">
+<!-- TopNavBar -->
+<header class="bg-[#121212]/80 backdrop-blur-xl font-epilogue antialiased tracking-tight docked full-width top-0 sticky z-50 border-b border-white/10 shadow-2xl shadow-black/50">
+<div class="flex justify-between items-center px-6 h-16 w-full max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-4">
+<span class="text-xl font-black text-white uppercase tracking-widest">MINI Honey</span>
+</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-orange-600 border-b-2 border-orange-600 pb-1 font-label-bold text-label-bold" href="#">Home</a>
+<a class="text-gray-400 hover:text-orange-500 transition-colors duration-200 font-label-bold text-label-bold" href="#">Orders</a>
+<a class="text-gray-400 hover:text-orange-500 transition-colors duration-200 font-label-bold text-label-bold" href="#">Rewards</a>
+<a class="text-gray-400 hover:text-orange-500 transition-colors duration-200 font-label-bold text-label-bold" href="#">Profile</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="p-2 text-gray-400 hover:text-orange-500 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-gray-400 hover:text-orange-500 transition-all duration-300 relative">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="absolute top-0 right-0 w-4 h-4 bg-primary-container text-white text-[10px] flex items-center justify-center rounded-full">3</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Marquee Sub-header -->
+<section class="overflow-hidden bg-surface-container-lowest py-6 border-b border-white/5">
+<div class="animate-marquee flex gap-6 whitespace-nowrap">
+<!-- Maggi -->
+<div class="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A steaming bowl of vibrant yellow hot cooked Maggi noodles garnished with fresh green spring onions and tiny red chili flakes. The lighting is cinematic and warm, highlighting the glistening texture of the noodles. Shot in a professional culinary photography style with a dark, moody background that makes the orange and yellow hues of the food pop. The overall aesthetic is energetic and appetizing." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOsj68n8iZRXYXX9Uz81wKrMdchklnCyQnF81gLHiqzMsWVKYXt6S6kS__8Zqe8wpECLeoQoEyvR708OBSxUdSnkeavgDQf7F8BWjWS03lmCtYnoRjayB4OmpUh1dAjf04Ard_LHo9m-fGG1C1VloeFlBeAW88iRDCo_bVPIRB3h-delWnEZtcl2PMJc1hbGk85arZl7wdWeaoM6zvGXzogtmrHKRzIIkVkaXc3fXtYMGHiLiISN_POKcnzYfxjdC2HNgUFIQLY4SC">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white font-label-bold text-sm">Spicy Maggi</span>
+</div>
+</div>
+<!-- Omelette -->
+<div class="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A fluffy, golden-brown egg omelette filled with melted cheese and fresh herbs, served on a dark matte ceramic plate. Soft, natural morning light creates gentle shadows and highlights the delicate texture of the eggs. The visual style is premium and high-contrast, emphasizing the rich yellow and orange tones of the dish. Dark background creates a sophisticated atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4WwaarccUBNXmJjnETx5luq2jkBP4S80AHaVCcHj2wM1J_cjsbn49o8lkkSpS8XdjD1HD7co5L_xAeDToTWwLoqD7gyFRh670tflayhxvah8Q6U7_8yaldh0uJzLvNJDknSHiYGEsk0vdV7LyP8Z1xHAQK9BLVkT5m5LZ0ItKSBsyA1WnHHvqns1Q5WibG5DmbRheCEsY_MnnfLLMVdzaWBKWc7_4xzAKkrnz70L7bgR4eG1ZzbwfM6034DhSYb36zNiCruUJoxKJ">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white font-label-bold text-sm">Classic Omelette</span>
+</div>
+</div>
+<!-- Rolls -->
+<div class="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Two hot, crispy rolls filled with succulent chicken and fresh vegetables, wrapped in a golden paratha. The rolls are presented in a modern, street-food style with vibrant orange paper wrapping. High-speed photography captures the steam rising from the hot food. The lighting is bright and dynamic, fitting a modern urban epicurean theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKTXqYpf7mVvLGcxAZsteoKRRPxzzJpatqrgeEzHq2qjFaS3sN6CVXudAuhMCAJ4UcgaP_PzoBYcq291yYBFfbJQZ8Fr3vwWz03vVnERNbx1wJuM72yUVfa95FngAbrB0J3PL9s5aKVwrz4__VMTmchDZ-hsWl3B2aNbEs8L-YLz3xLG4YOTP4tIAKbYP7NWfacDnMjBq-LSaF-HLxv5W1RgeE_U3ALT7D9TCIall45KdmsEN66mJV2r56wInw10jwfRIttBgKpEZa">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white font-label-bold text-sm">Chicken Rolls</span>
+</div>
+</div>
+<!-- Momos -->
+<div class="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A bamboo steamer filled with delicate, translucent chicken momos, arranged perfectly. A small bowl of fiery red chutney sits in the center. The lighting is soft and atmospheric, highlighting the intricate pleats of the dumplings. The scene is set against a dark, textured background that emphasizes the vibrant colors of the spicy sauce and the pale momos." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn55kvGVigsno5FsR7wbxqjut3AGo6wfUCKlwkZ3iJX25iEGt-a5rcvqBrHCoFRh5Uug4XF6jfRGe8oUC70SvynXjpOJh51qoGeUYEIUSeIX2Ql5hfDK5HOWVym_vNS4vtigjntIdEzn2mfWtXNSOcA-n2MUV6YmMXxKwuURqnVZ6l7U15qDgdZ3Z72Y26X6IrzNhzAkQms70VeS_Q4g1zexa4S12i4nyjSVxYwVukoPY1J1cBeqlknQ5QcA0Kiu79lx07zO724YJc">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white font-label-bold text-sm">Steamed Momos</span>
+</div>
+</div>
+<!-- Duplicate for infinite loop -->
+<div class="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A refreshing, vibrant orange apricot delight dessert layered with creamy mousse and fresh fruit pieces. The glass is adorned with a sprig of mint and a drizzle of honey. The lighting is bright and high-key, creating a clean, modern aesthetic. The color palette is dominated by rich oranges and creamy whites, consistent with a premium food brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCysSZOTJUbg4HkB8Gi7Ebeo6hv2lM9Mn8quSKg8l8Znbk2UOMAEsXmmsAmXxSadqDciC4IAQ-RVfgAwjcetn8etbXEkGR7HyJFM2OpbkntWa3p9rPJ4v_cheYob7VUax0rXGsTOQhgPfyPpqZMy4B-61IePiPsXLLXvduAUijM6y40pi-8ydT1E_pjqjTd62fSRn9KhjL3nhRzJNZsOjQ5LlSD0_L-jVVsHsE4GW7AIA0NUWdXL3EIMpF706i-yhtxvSLACSxWm2ux">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white font-label-bold text-sm">Apricot Delight</span>
+</div>
+</div>
+<div class="flex-shrink-0 w-64 h-40 rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A thick, creamy chocolate milkshake topped with a mountain of whipped cream and chocolate shavings. The glass has a slight condensation, indicating its cold temperature. Set against a deep black background with warm, orange accent lighting that creates a tactile and indulgent feel. The visual style is sleek and sophisticated, targeting an urban audience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAt8Rf813nnHjHN6IgUVQe8Ve7qcrh3QkovOlkF1bTXYP1bnprnp9x6G0kqJ8x_EqZL3jR7oOp9AxIjoUSQ-wS74HLuTYY-toTOGb6vOL1gIcCElK8ARwgs1cUBML5Dh5Z5d_NKxnWM48xrq1rvaxuCmeRu-1LpOtipQpaiPRahO_1JpcyaanRi8iCJ7PGB1mltXtlxXs4i-BdxpARz0EaEoel1TOVlCfD_laddJUGP0MmCzUgSkHRw7-3YE7vEbI295BwjAPAhjD9M">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white font-label-bold text-sm">Creamy Shakes</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-screen-2xl mx-auto px-6 py-10">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Order List Section -->
+<div class="lg:col-span-8 space-y-8">
+<header class="flex items-center justify-between">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-white">Your Orders</h1>
+<p class="text-gray-400 mt-1">Review and manage your current selection</p>
+</div>
+<div class="glass-card px-4 py-2 rounded-full flex items-center gap-2 border-orange-600/30">
+<span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+<span class="text-xs font-label-bold uppercase tracking-widest text-white">Kitchen Open</span>
+</div>
+</header>
+<!-- Order Items (POS Style List) -->
+<div class="glass-card rounded-2xl overflow-hidden">
+<div class="divide-y divide-white/5">
+<!-- Item Row 1 -->
+<div class="p-6 flex items-center gap-6 hover:bg-white/5 transition-colors group">
+<div class="w-12 h-12 rounded-xl bg-orange-600/20 flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl" data-icon="restaurant">restaurant</span>
+</div>
+<div class="flex-grow">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-white">Spicy Masala Maggi</h3>
+<span class="font-headline-md text-headline-md text-orange-500">₹120</span>
+</div>
+<p class="text-sm text-gray-500 mt-1 uppercase tracking-tighter font-label-bold">Extra Veggies • Medium Spicy</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-white/10 hover:border-orange-600/50 hover:text-orange-500 transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-white/10 hover:border-red-500 hover:text-red-500 transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-orange-600 text-white hover:bg-orange-500 active:scale-95 transition-all active-glow">
+<span class="material-symbols-outlined text-xl" data-icon="add">add</span>
+</button>
+</div>
+</div>
+<!-- Item Row 2 -->
+<div class="p-6 flex items-center gap-6 hover:bg-white/5 transition-colors group">
+<div class="w-12 h-12 rounded-xl bg-orange-600/20 flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl" data-icon="bakery_dining">bakery_dining</span>
+</div>
+<div class="flex-grow">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-white">Classic Chicken Momos</h3>
+<span class="font-headline-md text-headline-md text-orange-500">₹180</span>
+</div>
+<p class="text-sm text-gray-500 mt-1 uppercase tracking-tighter font-label-bold">8 Pieces • Red Chutney</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-white/10 hover:border-orange-600/50 hover:text-orange-500 transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-white/10 hover:border-red-500 hover:text-red-500 transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-orange-600 text-white hover:bg-orange-500 active:scale-95 transition-all active-glow">
+<span class="material-symbols-outlined text-xl" data-icon="add">add</span>
+</button>
+</div>
+</div>
+<!-- Item Row 3 -->
+<div class="p-6 flex items-center gap-6 hover:bg-white/5 transition-colors group">
+<div class="w-12 h-12 rounded-xl bg-orange-600/20 flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl" data-icon="local_bar">local_bar</span>
+</div>
+<div class="flex-grow">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-white">Mango Milkshake</h3>
+<span class="font-headline-md text-headline-md text-orange-500">₹150</span>
+</div>
+<p class="text-sm text-gray-500 mt-1 uppercase tracking-tighter font-label-bold">Regular • Cold</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-white/10 hover:border-orange-600/50 hover:text-orange-500 transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-white/10 hover:border-red-500 hover:text-red-500 transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-orange-600 text-white hover:bg-orange-500 active:scale-95 transition-all active-glow">
+<span class="material-symbols-outlined text-xl" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Style Promo -->
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-card p-6 rounded-2xl border-orange-600/20 relative overflow-hidden">
+<div class="relative z-10">
+<span class="text-[10px] font-bold uppercase tracking-widest text-orange-500 bg-orange-500/10 px-2 py-1 rounded">Flash Deal</span>
+<h4 class="mt-2 font-headline-md text-white">Add Apricot Delight?</h4>
+<p class="text-sm text-gray-400">Save 20% when added to this order.</p>
+<button class="mt-4 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full text-xs font-bold transition-all">Quick Add +</button>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-8xl text-white/5" data-icon="icecream">icecream</span>
+</div>
+<div class="glass-card p-6 rounded-2xl bg-orange-600/10 border-orange-600/30">
+<span class="text-[10px] font-bold uppercase tracking-widest text-orange-500">Loyalty Poin<br>ts</span>
+<h4 class="mt-2 font-headline-md text-white">+45 Points</h4>
+<p class="text-sm text-gray-400">You're 120 points away from a free meal!</p>
+<div class="mt-4 h-1 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-orange-600 w-3/4"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Summary Section -->
+<div class="lg:col-span-4">
+<div class="glass-card rounded-2xl p-8 sticky top-24 shadow-2xl shadow-black/50">
+<h2 class="font-headline-xl text-headline-xl text-white mb-8">Order Summary</h2>
+<div class="space-y-6">
+<div class="flex justify-between items-center text-gray-400">
+<span class="font-body-md text-body-md">Subtotal</span>
+<span class="font-headline-md text-headline-md text-white">₹450.00</span>
+</div>
+<div class="flex justify-between items-center text-gray-400">
+<span class="font-body-md text-body-md">Delivery Fee</span>
+<span class="font-headline-md text-headline-md text-white">₹25.00</span>
+</div>
+<div class="flex justify-between items-center text-gray-400 pb-6 border-b border-white/10">
+<span class="font-body-md text-body-md">Service Charge</span>
+<span class="font-headline-md text-headline-md text-white">₹15.00</span>
+</div>
+<div class="flex justify-between items-center pt-2">
+<span class="font-headline-md text-headline-md text-white uppercase tracking-wider">Total</span>
+<span class="font-display-lg text-display-lg text-orange-500 drop-shadow-[0_0_15px_rgba(239,77,35,0.4)]">₹490.00</span>
+</div>
+<div class="pt-8 space-y-4">
+<button class="w-full py-5 bg-orange-600 hover:bg-orange-500 text-white rounded-2xl font-display-lg text-headline-md transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1) transform hover:scale-[1.02] active:scale-95 shadow-xl shadow-orange-900/40">
+                                Place Order
+                            </button>
+<p class="text-center text-[10px] text-gray-500 uppercase tracking-widest font-bold">Secure Payment Powered by HoneyPay</p>
+</div>
+</div>
+<!-- Additional Details -->
+<div class="mt-10 p-4 rounded-xl bg-surface-container border border-white/5 space-y-3">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-orange-500 text-xl" data-icon="location_on">location_on</span>
+<div>
+<p class="text-xs font-bold text-white uppercase tracking-tight">Delivery To</p>
+<p class="text-xs text-gray-400">Apt 4B, Urban Epicurean Residencies, Central City</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-orange-500 text-xl" data-icon="schedule">schedule</span>
+<div>
+<p class="text-xs font-bold text-white uppercase tracking-tight">Estimated Time</p>
+<p class="text-xs text-gray-400">25 - 35 Minutes</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden bg-black/40 backdrop-blur-2xl fixed bottom-0 w-full z-50 rounded-t-2xl border-t border-white/5 shadow-[0_-10px_30px_rgba(0,0,0,0.6)] h-20 px-4 pb-safe flex justify-around items-center">
+<a class="flex flex-col items-center justify-center text-gray-500 opacity-60 hover:opacity-100 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-epilogue text-[10px] font-bold uppercase tracking-tighter">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-orange-600 drop-shadow-[0_0_12px_rgba(239,77,35,0.6)] scale-110 active:scale-90 transition-transform duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-epilogue text-[10px] font-bold uppercase tracking-tighter">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-gray-500 opacity-60 hover:opacity-100 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="redeem">redeem</span>
+<span class="font-epilogue text-[10px] font-bold uppercase tracking-tighter">Rewards</span>
+</a>
+<a class="flex flex-col items-center justify-center text-gray-500 opacity-60 hover:opacity-100 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-epilogue text-[10px] font-bold uppercase tracking-tighter">Profile</span>
+</a>
+</nav>
+<!-- Floating Action Button - Suppressed for focus on Transactional Screen as per mandates -->
+
+
+</body></html>

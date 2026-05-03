@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MINI Honey - Modern Menu POS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "surface": "#131313",
+                "on-tertiary-container": "#2a2a2a",
+                "secondary-fixed-dim": "#c6c6c7",
+                "on-tertiary": "#303030",
+                "surface-tint": "#ffb4a2",
+                "surface-dim": "#131313",
+                "primary": "#ffb4a2",
+                "on-primary-fixed": "#3c0700",
+                "outline": "#ab8981",
+                "on-secondary-fixed": "#1a1c1c",
+                "secondary-container": "#454747",
+                "on-surface-variant": "#e4beb5",
+                "on-secondary": "#2f3131",
+                "primary-container": "#fe572d",
+                "tertiary": "#c8c6c5",
+                "surface-bright": "#393939",
+                "surface-container-high": "#2a2a2a",
+                "on-surface": "#e5e2e1",
+                "on-tertiary-fixed-variant": "#474746",
+                "tertiary-fixed": "#e4e2e1",
+                "inverse-surface": "#e5e2e1",
+                "on-secondary-container": "#b4b5b5",
+                "on-secondary-fixed-variant": "#454747",
+                "on-error-container": "#ffdad6",
+                "secondary": "#c6c6c7",
+                "primary-fixed": "#ffdad2",
+                "surface-container": "#201f1f",
+                "on-primary-fixed-variant": "#891d00",
+                "surface-container-lowest": "#0e0e0e",
+                "error": "#ffb4ab",
+                "tertiary-fixed-dim": "#c8c6c5",
+                "primary-fixed-dim": "#ffb4a2",
+                "surface-variant": "#353534",
+                "error-container": "#93000a",
+                "inverse-on-surface": "#313030",
+                "outline-variant": "#5b403a",
+                "on-primary": "#611200",
+                "on-background": "#e5e2e1",
+                "surface-container-low": "#1c1b1b",
+                "surface-container-highest": "#353534",
+                "on-primary-container": "#550e00",
+                "on-tertiary-fixed": "#1b1c1c",
+                "inverse-primary": "#b42900",
+                "on-error": "#690005",
+                "secondary-fixed": "#e2e2e2",
+                "tertiary-container": "#929090",
+                "background": "#131313"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "stack-sm": "8px",
+                "unit": "8px",
+                "container-margin": "24px",
+                "stack-md": "16px",
+                "stack-lg": "32px",
+                "gutter": "16px"
+            },
+            "fontFamily": {
+                "headline-md": ["Epilogue"],
+                "body-lg": ["Epilogue"],
+                "headline-xl": ["Epilogue"],
+                "display-lg": ["Epilogue"],
+                "label-bold": ["Epilogue"],
+                "body-md": ["Epilogue"]
+            },
+            "fontSize": {
+                "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "headline-xl": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "700"}],
+                "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: scroll 60s linear infinite;
+        }
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ef4d23;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-white overflow-hidden h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="sticky top-0 z-50 flex justify-between items-center px-6 h-20 w-full bg-zinc-950/80 backdrop-blur-2xl shadow-2xl border-b border-white/10 font-['Epilogue'] tracking-tight">
+<div class="text-2xl font-black text-orange-600 dark:text-orange-500 uppercase italic">
+            MINI Honey
+        </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-orange-500 font-bold border-b-2 border-orange-500 pb-1 hover:text-orange-400 transition-all duration-300 ease-out active:scale-95" href="#">Menu</a>
+<a class="text-zinc-400 font-medium hover:text-orange-400 transition-all duration-300 ease-out active:scale-95" href="#">Orders</a>
+<a class="text-zinc-400 font-medium hover:text-orange-400 transition-all duration-300 ease-out active:scale-95" href="#">Group Order</a>
+<a class="text-zinc-400 font-medium hover:text-orange-400 transition-all duration-300 ease-out active:scale-95" href="#">Status</a>
+<a class="text-zinc-400 font-medium hover:text-orange-400 transition-all duration-300 ease-out active:scale-95" href="#">Store</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-zinc-400 hover:text-orange-500 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-zinc-400 hover:text-orange-500 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-2 text-zinc-400 hover:text-orange-500 transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</nav>
+<!-- Marquee Hero Section -->
+<div class="relative w-full h-32 overflow-hidden bg-surface-container-lowest">
+<div class="marquee-content flex gap-4 p-4">
+<!-- Repeated Images for Marquee -->
+<div class="flex gap-4">
+<img class="w-80 h-24 object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-500" data-alt="A close-up shot of steaming hot Maggi noodles garnished with fresh coriander and diced vegetables. The lighting is warm and atmospheric, with deep oranges and blacks consistent with the MINI Honey brand. The focus is sharp on the texture of the noodles against a dark stone background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWkF_3f4tl-qUuJFhZl6AW-91HD4DyoWBZR5umdnMvDB5n2aP0jNhrbXsDmPPoSVel7xFHxIXxCBz_uuaoQ9QDCR8foJOJreUhkR25JKAzNNm14y9JiNsWb0cAuCS4h8uOnlJkfJlWq3_614MW2cWZs5rBKlPsgkOVAHoNFX9udOTCK4i4vr1klLrdX1GBzrNo6dm9P_lygpnM1aVkbVyaPPq8_TOFjQo_usO8A1Bowakcdn-hIExH8zwwX0BMWj91B5UsfdXfdE7f"/>
+<img class="w-80 h-24 object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-500" data-alt="A premium thick chocolate milkshake served in a tall glass with a swirl of whipped cream and chocolate drizzle. The scene is set in a modern, moody urban cafe with subtle orange neon lighting in the background, creating a high-contrast cinematic food aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA--Bq-sG9UGQigjySIUS_FXHWzAysBasb_OhSb7Ad18LSN0n7tFYbV0xHTYrv2b62ucuNe2J_CnVrM1n0vqIIFa5dIG-PyDDoZvKpS7dyTQzsoZ0qkK5_SmF6MyqU4PKHMu7_kvoWVZqfjcE6wFRURcvsa6HGweXn_LpiY0QCGWa3QrJHyekBKOqzqYJX4lzD4bI-SGLPK8OJFYi6mUmEwH1qzJiP8LYNa5kcq0fOCocngQVMMSq_R1bSeYkv2NGSDMrbI43r-pEaz"/>
+<img class="w-80 h-24 object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-500" data-alt="A vibrant fresh salad bowl featuring colorful Mediterranean ingredients under bright, focused warm lighting. The presentation is professional and energetic, with high-saturation greens and vibrant orange accents to match the brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOIEkeIBapR_ajvQkQIItii-BpiSKbha5jmX9Cn1oMT-SaV8ORAohZYltszPnaqRvrLkcStWLtEtRWohjwDhPSUmStbfruEpDJbnjsMHM3DMFdu0nbgYefeDfeTT5G_KwGcjAPtFm0Qc55i3xI5ivf0_YABuu7BGmJUTbcWIs13UzHPamyqSoBVnI7r5Y4y-wcToTdSzULo8QWZ3d3D8qU8Jow9CX8LqfNq50tqtQcOy_GKMd_AQ-33oOLon3Sc-ILsu2ouCuCliXk"/>
+<img class="w-80 h-24 object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-500" data-alt="Gourmet fusion snacks arranged on a dark slate platter, featuring artisanal dips and garnishes. The photography style is modern glassmorphism inspired with soft background blurs and intense focal points on textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFLdmsgRUyovy4X2o4ahJzNqyeaSSze29djkWz-aJr4gIdPoS3zDCD-4jn9ta2x7MUijc4nnwlRBfnXJNdrNMRtgeGeNIPrJZIlbTX_Muhq-QNnLFB-W3gAwnrvOSnDwwFRy-qEeVgQbzGuwKCnLyWArIt5C8SWuirkRZzCCp-l6fBfl4LAZrrd7b-JNsHezALQySP3NTJ67MQCOzVosyReC_kGUBo94nNDL_CrVVAKJIWFepFCxVve_eIrOTSxEb4-FwVbXsjO_fp"/>
+<img class="w-80 h-24 object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-500" data-alt="Artisanal dessert plate with glowing syrup drizzles and delicate garnishes. The mood is premium and indulgent, using a dark color palette with vivid honey-amber highlights and soft atmospheric glow." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7onFcyiYYIr89cOhUTVY55M4YmeFOIX6DDSvkwEMayGZsypZm3dsvV6IatO6umK7-MIOLn7DBhnOX1qeceoTH6lPsGgkM3tV2-fi2ECyM5Gl_PxoexTVxPpk7P1EE6QuHbn9_eK9cGF_0DMuErkSJpeRzNv9qD6r17stWFH2WyhZzzUWZdvv-QklEt7fzZbgcOAPSlnKoeT1a4bIUF8KkpxnEwmKVTHNdix6nx-Ogo1RcZ4Nj6LDxpHlDpfSr5ZWuG0NklY0SV-7y"/>
+</div>
+<!-- Second set for seamless loop -->
+<div class="flex gap-4">
+<img class="w-80 h-24 object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-500" data-alt="Detailed macro shot of savory street-style noodles with steam rising, captured in a high-contrast dark mode style. The colors are rich with deep oranges and blacks, emphasizing a premium culinary experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjFJEX9GtHggDnlpjTGkjczY37iI_Yh4EEyX0bl_iv81xwmD5y0o8f3kUMlsX-2jyC-TXHChtSsRG2EomDMCKUKb0NxJhiQfsQ5lyw0_0w4zt3j1WiHVG9YE9sdmjzTZYbWfgqEI0_ZUSmFr1WyPBB4MyQlt04K1IMU72CUe1t3WYVbNleI31nsRWdjCJbtH4kLJt6YNzhKDBv9G3NDZx371jq86TYGbyI-D1bTQEcVxxpWIjNW6PdVC0i5fQQQ5Vnk8UO9bdKaWjR"/>
+<img class="w-80 h-24 object-cover rounded-xl grayscale hover:grayscale-0 transition-all duration-500" data-alt="Cooling beverages and thick shakes in elegant glassware, illuminated by warm amber spotlights. The aesthetic is sleek and modern, aligning with a high-end POS interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxz04l_4dG3YCulS2iiERBXIIBhA_MpIPFlryi_uwL7q8DdlqwyFLXQSmhQyxUQBMjP8KQYvWzrCk4KN2f7J_rMNt4G6G8Qsvb40rExYr4mzP0L2XgXr5YzDCDrkTTHFE5Z3GzDhKZnEa9PNqWw5BdDMDivYKJY9Ll_YBhWPpDjtk7PqRx3VRYW-QgQ0-akFunwyYDtEsy0bkNMfPVtH7LFj5H0Np2DReb0Px05hLyOMm-f0AwG_dsB0H8u1YTNiTDJt7dACdbd6iV"/>
+</div>
+</div>
+<div class="absolute inset-0 pointer-events-none bg-gradient-to-r from-background via-transparent to-background"></div>
+</div>
+<!-- Main Workspace -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Sidebar: Categories -->
+<aside class="w-72 bg-white/5 backdrop-blur-[20px] border-r border-white/10 flex flex-col py-6 overflow-y-auto custom-scrollbar z-40 font-['Epilogue'] text-sm font-semibold">
+<div class="px-6 mb-8">
+<h2 class="text-orange-500 font-black text-xl">Categories</h2>
+<p class="text-zinc-500 text-xs">Quick Selection</p>
+</div>
+<nav class="space-y-1">
+<button class="w-full flex items-center gap-3 bg-orange-600/20 text-orange-500 border-l-4 border-orange-600 px-6 py-3 transition-all">
+<span class="material-symbols-outlined">ramen_dining</span>
+                    MAGGI
+                </button>
+<button class="w-full flex items-center gap-3 text-zinc-500 px-6 py-3 hover:bg-white/5 hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined">fastfood</span>
+                    SNACKS
+                </button>
+<button class="w-full flex items-center gap-3 text-zinc-500 px-6 py-3 hover:bg-white/5 hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined">wrap_text</span>
+                    ROLLS
+                </button>
+<button class="w-full flex items-center gap-3 text-zinc-500 px-6 py-3 hover:bg-white/5 hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined">lunch_dining</span>
+                    SANDWICHES
+                </button>
+<button class="w-full flex items-center gap-3 text-zinc-500 px-6 py-3 hover:bg-white/5 hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined">icecream</span>
+                    DESSERTS
+                </button>
+<button class="w-full flex items-center gap-3 text-zinc-500 px-6 py-3 hover:bg-white/5 hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined">local_bar</span>
+                    FRESH JUICES
+                </button>
+<button class="w-full flex items-center gap-3 text-zinc-500 px-6 py-3 hover:bg-white/5 hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined">coffee</span>
+                    COLD COFFEE
+                </button>
+<button class="w-full flex items-center gap-3 text-zinc-500 px-6 py-3 hover:bg-white/5 hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined">glass_cup</span>
+                    LASSI
+                </button>
+<button class="w-full flex items-center gap-3 text-zinc-500 px-6 py-3 hover:bg-white/5 hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined">blender</span>
+                    THICK SHAKES
+                </button>
+<button class="w-full flex items-center gap-3 text-zinc-500 px-6 py-3 hover:bg-white/5 hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined">face_shake</span>
+                    MILK SHAKES
+                </button>
+<button class="w-full flex items-center gap-3 text-zinc-500 px-6 py-3 hover:bg-white/5 hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined">bubble_chart</span>
+                    BOBA BLISS
+                </button>
+<button class="w-full flex items-center gap-3 text-zinc-500 px-6 py-3 hover:bg-white/5 hover:translate-x-2 transition-all">
+<span class="material-symbols-outlined">liquor</span>
+                    MOJITOS
+                </button>
+</nav>
+<div class="mt-auto px-6 pt-6 border-t border-white/5">
+<button class="w-full bg-primary-container text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-orange-600/20 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">shopping_cart</span>
+                    Cart: 0 items
+                </button>
+</div>
+</aside>
+<!-- Central Content: Menu List -->
+<section class="flex-1 overflow-y-auto p-8 custom-scrollbar bg-surface-container-low">
+<div class="max-w-4xl mx-auto space-y-10">
+<!-- Category: MAGGI -->
+<div>
+<div class="flex items-center justify-between mb-4 pb-2 border-b border-orange-600/30">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-orange-500 text-3xl">ramen_dining</span>
+<h3 class="font-headline-md text-headline-md uppercase tracking-widest text-on-surface">MAGGI</h3>
+</div>
+<button class="text-zinc-500 hover:text-white">
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+<div class="space-y-3">
+<!-- Veg Maggi Item -->
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-3 group hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-lg font-bold text-white">Veg Maggi</h4>
+<p class="text-xs text-zinc-500">Classic mixed vegetable masala maggi</p>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-zinc-400 hover:bg-orange-600 hover:text-white transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-zinc-400 hover:bg-white/10 transition-all">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-zinc-400 hover:bg-red-900/40 hover:text-red-400 transition-all">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex-1 bg-black/30 rounded-xl p-3 flex justify-between items-center border border-white/5">
+<span class="text-sm text-zinc-300">Wet</span>
+<span class="text-orange-500 font-bold">₹49</span>
+</div>
+<div class="flex-1 bg-black/30 rounded-xl p-3 flex justify-between items-center border border-white/5">
+<span class="text-sm text-zinc-300">Fried</span>
+<span class="text-orange-500 font-bold">₹59</span>
+</div>
+</div>
+</div>
+<!-- Paneer Maggi Item -->
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-3 group hover:translate-y-[-4px] transition-all duration-300">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-lg font-bold text-white">Paneer Maggi</h4>
+<p class="text-xs text-zinc-500">Topped with marinated cottage cheese cubes</p>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-zinc-400 hover:bg-orange-600 hover:text-white transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-zinc-400 hover:bg-white/10 transition-all">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-zinc-400 hover:bg-red-900/40 hover:text-red-400 transition-all">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex-1 bg-black/30 rounded-xl p-3 flex justify-between items-center border border-white/5">
+<span class="text-sm text-zinc-300">Standard</span>
+<span class="text-orange-500 font-bold">₹69</span>
+</div>
+<div class="flex-1 bg-black/30 rounded-xl p-3 flex justify-between items-center border border-white/5">
+<span class="text-sm text-zinc-300">Double Cheese</span>
+<span class="text-orange-500 font-bold">₹89</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Category: SNACKS -->
+<div>
+<div class="flex items-center justify-between mb-4 pb-2 border-b border-white/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-zinc-400 text-3xl">fastfood</span>
+<h3 class="font-headline-md text-headline-md uppercase tracking-widest text-zinc-400">SNACKS</h3>
+</div>
+<button class="text-zinc-500 hover:text-white">
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Peri Peri Fries -->
+<div class="glass-card rounded-2xl p-4 flex justify-between items-center group hover:bg-white/10 transition-all">
+<div class="flex flex-col">
+<span class="text-white font-bold">Peri Peri Fries</span>
+<span class="text-orange-500 text-sm font-semibold">₹79</span>
+</div>
+<div class="flex gap-1">
+<button class="p-2 text-zinc-400 hover:text-orange-500"><span class="material-symbols-outlined text-sm">add</span></button>
+<button class="p-2 text-zinc-400 hover:text-white"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="p-2 text-zinc-400 hover:text-red-400"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+<!-- Garlic Bread -->
+<div class="glass-card rounded-2xl p-4 flex justify-between items-center group hover:bg-white/10 transition-all">
+<div class="flex flex-col">
+<span class="text-white font-bold">Garlic Bread</span>
+<span class="text-orange-500 text-sm font-semibold">₹99</span>
+</div>
+<div class="flex gap-1">
+<button class="p-2 text-zinc-400 hover:text-orange-500"><span class="material-symbols-outlined text-sm">add</span></button>
+<button class="p-2 text-zinc-400 hover:text-white"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="p-2 text-zinc-400 hover:text-red-400"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Category: THICK SHAKES -->
+<div>
+<div class="flex items-center justify-between mb-4 pb-2 border-b border-white/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-zinc-400 text-3xl">blender</span>
+<h3 class="font-headline-md text-headline-md uppercase tracking-widest text-zinc-400">THICK SHAKES</h3>
+</div>
+<button class="text-zinc-500 hover:text-white">
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+<div class="space-y-2">
+<div class="glass-card rounded-xl px-6 py-4 flex justify-between items-center">
+<div class="flex items-center gap-4">
+<div class="w-2 h-10 bg-orange-600 rounded-full"></div>
+<div>
+<h4 class="font-bold text-white">Ferrero Rocher Deluxe</h4>
+<p class="text-xs text-zinc-500">Premium hazelnut cocoa thick shake</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-orange-500 font-black text-lg">₹149</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-orange-600 transition-colors"><span class="material-symbols-outlined text-sm">add</span></button>
+<button class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-red-900/40 transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-xl px-6 py-4 flex justify-between items-center">
+<div class="flex items-center gap-4">
+<div class="w-2 h-10 bg-orange-600 rounded-full"></div>
+<div>
+<h4 class="font-bold text-white">Belgian Dark Chocolate</h4>
+<p class="text-xs text-zinc-500">Rich 70% dark cocoa fusion</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-orange-500 font-black text-lg">₹129</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-orange-600 transition-colors"><span class="material-symbols-outlined text-sm">add</span></button>
+<button class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-red-900/40 transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Sidebar: Current Order -->
+<aside class="w-96 bg-surface-container-high/50 backdrop-blur-3xl border-l border-white/10 flex flex-col z-40">
+<div class="p-6 border-b border-white/5">
+<div class="flex justify-between items-center mb-1">
+<h2 class="text-xl font-bold text-white">Current Order</h2>
+<span class="bg-orange-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Table 04</span>
+</div>
+<p class="text-zinc-500 text-sm">Order #MH-9021</p>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
+<!-- Order Item -->
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-orange-600/10 border border-orange-600/20 flex items-center justify-center text-orange-500">
+<span class="material-symbols-outlined">ramen_dining</span>
+</div>
+<div class="flex-1">
+<h5 class="text-sm font-bold text-white">Veg Maggi (Fried)</h5>
+<div class="flex justify-between items-center mt-1">
+<div class="flex items-center gap-3 text-zinc-400">
+<button class="hover:text-white"><span class="material-symbols-outlined text-xs">remove_circle</span></button>
+<span class="text-xs font-bold text-white">1</span>
+<button class="hover:text-white"><span class="material-symbols-outlined text-xs">add_circle</span></button>
+</div>
+<span class="text-sm font-bold text-orange-500">₹59</span>
+</div>
+</div>
+</div>
+<!-- Order Item -->
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-orange-600/10 border border-orange-600/20 flex items-center justify-center text-orange-500">
+<span class="material-symbols-outlined">blender</span>
+</div>
+<div class="flex-1">
+<h5 class="text-sm font-bold text-white">Ferrero Thick Shake</h5>
+<div class="flex justify-between items-center mt-1">
+<div class="flex items-center gap-3 text-zinc-400">
+<button class="hover:text-white"><span class="material-symbols-outlined text-xs">remove_circle</span></button>
+<span class="text-xs font-bold text-white">1</span>
+<button class="hover:text-white"><span class="material-symbols-outlined text-xs">add_circle</span></button>
+</div>
+<span class="text-sm font-bold text-orange-500">₹149</span>
+</div>
+</div>
+</div>
+<div class="pt-4 border-t border-white/5 space-y-2">
+<div class="flex justify-between text-zinc-500 text-sm">
+<span>Subtotal</span>
+<span>₹208.00</span>
+</div>
+<div class="flex justify-between text-zinc-500 text-sm">
+<span>Tax (GST 5%)</span>
+<span>₹10.40</span>
+</div>
+</div>
+</div>
+<div class="p-6 bg-surface-container-highest border-t border-white/10 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.4)]">
+<div class="flex justify-between items-center mb-6">
+<span class="text-zinc-400 font-bold">Total Amount</span>
+<span class="text-3xl font-black text-orange-500">₹218.40</span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="bg-white/5 hover:bg-white/10 text-white py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">receipt</span>
+                        Bill
+                    </button>
+<button class="bg-orange-600 hover:bg-orange-500 text-white py-3 rounded-xl font-bold transition-all shadow-lg shadow-orange-600/30 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">payments</span>
+                        Pay Now
+                    </button>
+</div>
+</div>
+</aside>
+</main>
+<!-- FAB for quick action (Conditional rendering logic from prompt instructions applied) -->
+<!-- Not rendering FAB on this details/POS screen as per UX guidelines provided -->
+</body></html>

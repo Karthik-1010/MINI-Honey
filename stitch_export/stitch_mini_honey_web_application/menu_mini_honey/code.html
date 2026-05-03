@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "on-error": "#690005",
+                        "primary-fixed": "#ffdad2",
+                        "outline-variant": "#5b403a",
+                        "on-primary": "#611200",
+                        "secondary": "#c6c6c7",
+                        "background": "#131313",
+                        "primary-container": "#fe572d",
+                        "on-tertiary": "#303030",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#2f3131",
+                        "tertiary-fixed": "#e4e2e1",
+                        "secondary-fixed": "#e2e2e2",
+                        "inverse-on-surface": "#313030",
+                        "primary": "#ffb4a2",
+                        "on-primary-fixed": "#3c0700",
+                        "on-primary-container": "#550e00",
+                        "on-tertiary-container": "#2a2a2a",
+                        "on-surface-variant": "#e4beb5",
+                        "surface-variant": "#353534",
+                        "surface-dim": "#131313",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "outline": "#ab8981",
+                        "on-secondary-container": "#b4b5b5",
+                        "tertiary-container": "#929090",
+                        "primary-fixed-dim": "#ffb4a2",
+                        "on-background": "#e5e2e1",
+                        "surface": "#131313",
+                        "surface-container-highest": "#353534",
+                        "on-surface": "#e5e2e1",
+                        "surface-container": "#201f1f",
+                        "surface-container-low": "#1c1b1b",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-primary-fixed-variant": "#891d00",
+                        "inverse-surface": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "secondary-container": "#454747",
+                        "surface-bright": "#393939",
+                        "error-container": "#93000a",
+                        "inverse-primary": "#b42900",
+                        "surface-tint": "#ffb4a2",
+                        "tertiary": "#c8c6c5",
+                        "surface-container-high": "#2a2a2a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "stack-md": "16px",
+                        "container-margin": "24px",
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Epilogue"],
+                        "body-lg": ["Epilogue"],
+                        "headline-xl": ["Epilogue"],
+                        "label-bold": ["Epilogue"],
+                        "headline-md": ["Epilogue"],
+                        "body-md": ["Epilogue"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-xl": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .active-glow {
+            box-shadow: 0 0 15px rgba(239, 77, 35, 0.4);
+        }
+        body {
+            background-color: #121212;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(239, 77, 35, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(239, 77, 35, 0.1) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface antialiased min-h-screen">
+<!-- TopNavBar -->
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-8 py-4 bg-[#121212]/60 backdrop-blur-[20px] border-b border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-['Epilogue'] antialiased">
+<div class="text-2xl font-black tracking-tighter text-[#ef4d23]">
+            MINI Honey
+        </div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-[#ef4d23] font-bold border-b-2 border-[#ef4d23] pb-1 hover:scale-105 hover:bg-white/5 transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) active:scale-95" href="#">Menu</a>
+<a class="text-white/70 font-medium hover:text-white hover:scale-105 hover:bg-white/5 transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) active:scale-95" href="#">Orders</a>
+<a class="text-white/70 font-medium hover:text-white hover:scale-105 hover:bg-white/5 transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) active:scale-95" href="#">Store</a>
+<a class="text-white/70 font-medium hover:text-white hover:scale-105 hover:bg-white/5 transition-all duration-300 cubic-bezier(0.34,1.56,0.64,1) active:scale-95" href="#">Status</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-white/70 hover:text-[#ef4d23] transition-colors p-2 rounded-full hover:bg-white/5">shopping_cart</button>
+<button class="material-symbols-outlined text-white/70 hover:text-[#ef4d23] transition-colors p-2 rounded-full hover:bg-white/5">account_circle</button>
+</div>
+</header>
+<main class="flex min-h-[calc(100vh-5rem)]">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-5rem)] w-64 p-4 flex flex-col gap-2 bg-[#121212]/40 backdrop-blur-[20px] border-r border-white/10 shadow-xl font-['Epilogue'] text-sm z-40">
+<div class="px-4 py-6 mb-2">
+<h2 class="text-[#ef4d23] font-bold text-headline-md font-display-lg uppercase tracking-widest">Categories</h2>
+<p class="text-white/40 text-xs italic">Fresh daily</p>
+</div>
+<div class="flex flex-col gap-2 flex-grow overflow-y-auto">
+<button class="flex items-center gap-3 px-4 py-3 bg-[#ef4d23] text-white rounded-lg shadow-[0_0_15px_rgba(239,77,35,0.4)] scale-105 active:scale-100 transition-all">
+<span class="material-symbols-outlined">breakfast_dining</span>
+<span class="font-bold">Breakfast</span>
+</button>
+<button class="flex items-center gap-3 px-4 py-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300 active:scale-100">
+<span class="material-symbols-outlined">lunch_dining</span>
+<span>Lunch</span>
+</button>
+<button class="flex items-center gap-3 px-4 py-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300 active:scale-100">
+<span class="material-symbols-outlined">dinner_dining</span>
+<span>Dinner</span>
+</button>
+<button class="flex items-center gap-3 px-4 py-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300 active:scale-100">
+<span class="material-symbols-outlined">icecream</span>
+<span>Desserts</span>
+</button>
+<button class="flex items-center gap-3 px-4 py-3 text-white/60 hover:bg-white/10 rounded-lg hover:translate-x-2 transition-transform duration-300 active:scale-100">
+<span class="material-symbols-outlined">local_bar</span>
+<span>Beverages</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<section class="ml-64 w-full p-stack-lg max-w-7xl mx-auto">
+<!-- Content Header -->
+<div class="flex justify-between items-end mb-stack-lg animate-in slide-in-from-top duration-700">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-2">Breakfast Selection</h1>
+<p class="text-on-surface-variant font-body-md opacity-80">Curated morning essentials to start your journey.</p>
+</div>
+<button class="flex items-center gap-2 bg-[#ef4d23] text-white px-6 py-3 rounded-xl font-label-bold hover:scale-[1.05] active:scale-95 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1) shadow-[0_0_20px_rgba(239,77,35,0.3)]">
+<span class="material-symbols-outlined">add</span>
+                    Add Item
+                </button>
+</div>
+<!-- Bento Grid of Menu Items -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Item Card 1 (Large Featured) -->
+<div class="glass-panel rounded-3xl p-8 flex flex-col justify-between group hover:-translate-y-2 transition-all duration-500 hover:bg-white/10">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<span class="text-[#ef4d23] font-label-bold text-xs tracking-widest uppercase">Popular Choice</span>
+<h3 class="font-headline-xl text-headline-xl text-white">The Honey Glazed Stack</h3>
+</div>
+<span class="font-headline-md text-headline-md text-[#ef4d23]">$18.50</span>
+</div>
+<p class="text-white/60 font-body-md my-6 line-clamp-2 max-w-md">Fluffy buttermilk pancakes infused with local honey, topped with honeycomb brittle and Madagascar vanilla cream.</p>
+<div class="flex items-center justify-between border-t border-white/5 pt-6">
+<div class="flex gap-2">
+<span class="px-3 py-1 rounded-full text-xs font-bold border border-[#ef4d23] text-[#ef4d23]">Gluten-Free</span>
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-white/10 text-white">Chef's Special</span>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-white/40 hover:text-white transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 text-white/40 hover:text-error transition-colors"><span class="material-symbols-outlined">delete</span></button>
+<button class="ml-2 bg-white text-background px-4 py-2 rounded-lg font-label-bold hover:bg-[#ef4d23] hover:text-white transition-all">Add to Cart</button>
+</div>
+</div>
+</div>
+<!-- Item Card 2 -->
+<div class="glass-panel rounded-3xl p-8 flex flex-col justify-between group hover:-translate-y-2 transition-all duration-500 hover:bg-white/10">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-md text-headline-md text-white">Truffle Avocade Toast</h3>
+</div>
+<span class="font-headline-md text-headline-md text-[#ef4d23]">$22.00</span>
+</div>
+<p class="text-white/60 font-body-md my-6 line-clamp-2">Artisanal sourdough topped with smashed Haas avocado, shaved black truffles, and a poached organic egg.</p>
+<div class="flex items-center justify-between border-t border-white/5 pt-6">
+<div class="flex gap-2">
+<span class="px-3 py-1 rounded-full text-xs font-bold border border-[#ef4d23] text-[#ef4d23]">Vegan Option</span>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-white/40 hover:text-white transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 text-white/40 hover:text-error transition-colors"><span class="material-symbols-outlined">delete</span></button>
+<button class="ml-2 bg-white text-background px-4 py-2 rounded-lg font-label-bold hover:bg-[#ef4d23] hover:text-white transition-all">Add to Cart</button>
+</div>
+</div>
+</div>
+<!-- Item Card 3 -->
+<div class="glass-panel rounded-3xl p-8 flex flex-col justify-between group hover:-translate-y-2 transition-all duration-500 hover:bg-white/10">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-md text-headline-md text-white">Classic Benedict</h3>
+</div>
+<span class="font-headline-md text-headline-md text-[#ef4d23]">$16.00</span>
+</div>
+<p class="text-white/60 font-body-md my-6 line-clamp-2">Smoked Canadian bacon, velvety hollandaise sauce, and perfectly poached eggs on a toasted English muffin.</p>
+<div class="flex items-center justify-between border-t border-white/5 pt-6">
+<div class="flex gap-2">
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-white/40 hover:text-white transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 text-white/40 hover:text-error transition-colors"><span class="material-symbols-outlined">delete</span></button>
+<button class="ml-2 bg-white text-background px-4 py-2 rounded-lg font-label-bold hover:bg-[#ef4d23] hover:text-white transition-all">Add to Cart</button>
+</div>
+</div>
+</div>
+<!-- Item Card 4 -->
+<div class="glass-panel rounded-3xl p-8 flex flex-col justify-between group hover:-translate-y-2 transition-all duration-500 hover:bg-white/10">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-md text-headline-md text-white">Smoked Salmon Bagel</h3>
+</div>
+<span class="font-headline-md text-headline-md text-[#ef4d23]">$19.50</span>
+</div>
+<p class="text-white/60 font-body-md my-6 line-clamp-2">Freshly baked sesame bagel with premium lox, caper berries, red onion, and lemon-chive cream cheese.</p>
+<div class="flex items-center justify-between border-t border-white/5 pt-6">
+<div class="flex gap-2">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-white/10 text-white">High Protein</span>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-white/40 hover:text-white transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 text-white/40 hover:text-error transition-colors"><span class="material-symbols-outlined">delete</span></button>
+<button class="ml-2 bg-white text-background px-4 py-2 rounded-lg font-label-bold hover:bg-[#ef4d23] hover:text-white transition-all">Add to Cart</button>
+</div>
+</div>
+</div>
+<!-- Item Card 5 -->
+<div class="glass-panel rounded-3xl p-8 flex flex-col justify-between group hover:-translate-y-2 transition-all duration-500 hover:bg-white/10">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-md text-headline-md text-white">Berry Acai Bowl</h3>
+</div>
+<span class="font-headline-md text-headline-md text-[#ef4d23]">$14.00</span>
+</div>
+<p class="text-white/60 font-body-md my-6 line-clamp-2">Frozen Amazonian acai blend topped with toasted granola, seasonal berries, and a drizzle of organic agave.</p>
+<div class="flex items-center justify-between border-t border-white/5 pt-6">
+<div class="flex gap-2">
+<span class="px-3 py-1 rounded-full text-xs font-bold border border-[#ef4d23] text-[#ef4d23]">Vegan</span>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-white/40 hover:text-white transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 text-white/40 hover:text-error transition-colors"><span class="material-symbols-outlined">delete</span></button>
+<button class="ml-2 bg-white text-background px-4 py-2 rounded-lg font-label-bold hover:bg-[#ef4d23] hover:text-white transition-all">Add to Cart</button>
+</div>
+</div>
+</div>
+<!-- Item Card 6 -->
+<div class="glass-panel rounded-3xl p-8 flex flex-col justify-between group hover:-translate-y-2 transition-all duration-500 hover:bg-white/10">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-md text-headline-md text-white">Omelette Royale</h3>
+</div>
+<span class="font-headline-md text-headline-md text-[#ef4d23]">$17.00</span>
+</div>
+<p class="text-white/60 font-body-md my-6 line-clamp-2">Three-egg French omelette with gruyère cheese, wild mushrooms, and fresh tarragon. Served with baby greens.</p>
+<div class="flex items-center justify-between border-t border-white/5 pt-6">
+<div class="flex gap-2">
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-white/10 text-white">Vegetarian</span>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-white/40 hover:text-white transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 text-white/40 hover:text-error transition-colors"><span class="material-symbols-outlined">delete</span></button>
+<button class="ml-2 bg-white text-background px-4 py-2 rounded-lg font-label-bold hover:bg-[#ef4d23] hover:text-white transition-all">Add to Cart</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Space Padding -->
+<div class="h-32"></div>
+</section>
+</main>
+<!-- Floating Summary Bar (Responsive) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 glass-panel px-8 py-4 rounded-2xl flex items-center gap-12 active-glow z-50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#ef4d23]">shopping_basket</span>
+<div>
+<p class="text-xs text-white/40 uppercase tracking-tighter font-bold">Cart Items</p>
+<p class="text-white font-bold">03 Items Selected</p>
+</div>
+</div>
+<div class="h-10 w-[1px] bg-white/10"></div>
+<div class="flex items-center gap-3">
+<div>
+<p class="text-xs text-white/40 uppercase tracking-tighter font-bold">Estimated Total</p>
+<p class="text-[#ef4d23] font-black text-lg">$56.50</p>
+</div>
+</div>
+<button class="bg-[#ef4d23] text-white px-8 py-3 rounded-xl font-label-bold hover:scale-105 transition-all">Checkout</button>
+</div>
+</body></html>

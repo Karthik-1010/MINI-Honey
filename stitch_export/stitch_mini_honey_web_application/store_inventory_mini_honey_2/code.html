@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#c8c6c5",
+                    "on-background": "#e5e2e1",
+                    "background": "#131313",
+                    "on-primary": "#611200",
+                    "secondary": "#c6c6c7",
+                    "surface-container-low": "#1c1b1b",
+                    "inverse-primary": "#b42900",
+                    "on-secondary-container": "#b4b5b5",
+                    "primary-fixed": "#ffdad2",
+                    "tertiary": "#c8c6c5",
+                    "surface": "#131313",
+                    "on-tertiary-container": "#2a2a2a",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "surface-bright": "#393939",
+                    "surface-tint": "#ffb4a2",
+                    "tertiary-container": "#929090",
+                    "secondary-container": "#454747",
+                    "error": "#ffb4ab",
+                    "primary-fixed-dim": "#ffb4a2",
+                    "on-tertiary-fixed": "#1b1c1c",
+                    "on-primary-container": "#550e00",
+                    "on-primary-fixed": "#3c0700",
+                    "inverse-surface": "#e5e2e1",
+                    "surface-container-highest": "#353534",
+                    "on-secondary-fixed-variant": "#454747",
+                    "outline": "#ab8981",
+                    "on-primary-fixed-variant": "#891d00",
+                    "on-secondary": "#2f3131",
+                    "on-error": "#690005",
+                    "tertiary-fixed": "#e4e2e1",
+                    "surface-dim": "#131313",
+                    "surface-variant": "#353534",
+                    "outline-variant": "#5b403a",
+                    "surface-container": "#201f1f",
+                    "inverse-on-surface": "#313030",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "on-tertiary-fixed-variant": "#474746",
+                    "primary-container": "#fe572d",
+                    "on-surface": "#e5e2e1",
+                    "on-tertiary": "#303030",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-surface-variant": "#e4beb5",
+                    "error-container": "#93000a",
+                    "primary": "#ffb4a2",
+                    "secondary-fixed": "#e2e2e2",
+                    "surface-container-high": "#2a2a2a",
+                    "on-error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "stack-sm": "8px",
+                    "container-margin": "24px",
+                    "stack-md": "16px",
+                    "unit": "8px",
+                    "stack-lg": "32px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Epilogue"],
+                    "label-bold": ["Epilogue"],
+                    "headline-xl": ["Epilogue"],
+                    "body-lg": ["Epilogue"],
+                    "headline-md": ["Epilogue"],
+                    "body-md": ["Epilogue"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "label-bold": ["14px", {"lineHeight": "1", "fontWeight": "700"}],
+                    "headline-xl": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .glass-panel-heavy {
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(40px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+      }
+      .honey-glow:focus-within {
+        box-shadow: 0 0 15px rgba(239, 77, 35, 0.3);
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-white">
+<!-- TopNavBar -->
+<nav class="bg-zinc-950/80 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] docked full-width top-0 z-50 flex justify-between items-center w-full px-8 h-20 fixed">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-black tracking-tighter text-[#ef4d23] uppercase font-['Epilogue'] antialiased">MINI Honey</span>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-zinc-400 hover:text-zinc-200 font-medium transition-colors" href="#">Menu</a>
+<a class="text-zinc-400 hover:text-zinc-200 font-medium transition-colors" href="#">Orders</a>
+<a class="text-zinc-400 hover:text-zinc-200 font-medium transition-colors" href="#">Group Order</a>
+<a class="text-[#ef4d23] border-b-2 border-[#ef4d23] pb-1 font-bold" href="#">Store</a>
+<a class="text-zinc-400 hover:text-zinc-200 font-medium transition-colors" href="#">Status</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-white/5 rounded-lg transition-all duration-300 transform active:scale-95 text-zinc-400">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 hover:bg-white/5 rounded-lg transition-all duration-300 transform active:scale-95 text-zinc-400">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</nav>
+<main class="pt-20 min-h-screen">
+<!-- Hero Section -->
+<section class="relative w-full h-[320px] overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-detail macro shot of golden honey glistening as it drizzles over freshly baked artisan bread and rustic pastries. The scene is set in a dimly lit, high-end bakery with warm atmospheric lighting. The color palette is rich with deep ambers and burnt oranges, perfectly aligning with a premium dark-mode aesthetic. The mood is opulent and inviting, emphasizing quality and freshness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqEIjkhOVzOv8ukfSSqmUILhGXWAOyVB9THhZk2JSDI-6UioEOaLNS5GY9lsNzX0vhXteURZFHOCqwUkDG2SjdStgq7d2VhUcGqF_KLUOPeDjJLO3btMU8quD5N51CshR4Ct60jA56rUr4cN1BGpIZYtY3Fbe8o9wkx54npHXuih032OuCIb8wPJjxA0ycc1cLh2d1VSY3NfTnvXOGEr-3t2USeN2asx_RN1eCGsoKmBrQFjYEy8wtY8JRj_J-DL55KOUrdSYAmRA-"/>
+<div class="absolute inset-0 z-20 flex flex-col justify-center px-8 md:px-16">
+<h1 class="font-display-lg text-display-lg text-white mb-2">Inventory Management</h1>
+<p class="text-on-background/70 max-w-xl text-body-lg">Control your artisanal supplies with precision. Monitor stock levels, quick-add essentials, and manage your bakery's core resources.</p>
+</div>
+</section>
+<!-- Main Content Grid -->
+<div class="max-w-[1440px] mx-auto px-8 py-12 space-y-stack-lg">
+<!-- Quick Add & Add Form Row -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Quick Add Section -->
+<div class="lg:col-span-1 glass-panel rounded-xl p-8 space-y-stack-md">
+<h2 class="font-headline-md text-headline-md text-white">Quick Add Essentials</h2>
+<div class="space-y-4">
+<!-- Item 1: Milk -->
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/5 hover:border-[#ef4d23]/30 transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#ef4d23]">water_drop</span>
+<span class="font-label-bold text-label-bold">Milk</span>
+</div>
+<div class="flex items-center gap-3">
+<input class="w-16 bg-zinc-900 border-white/10 rounded-lg text-sm focus:border-[#ef4d23] focus:ring-1 focus:ring-[#ef4d23] transition-all" placeholder="Qty" type="number" value="1"/>
+<button class="bg-[#ef4d23] text-white p-2 rounded-lg hover:scale-105 transition-all active:scale-95 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</div>
+<!-- Item 2: Eggs -->
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/5 hover:border-[#ef4d23]/30 transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#ef4d23]">egg</span>
+<span class="font-label-bold text-label-bold">Eggs</span>
+</div>
+<div class="flex items-center gap-3">
+<input class="w-16 bg-zinc-900 border-white/10 rounded-lg text-sm focus:border-[#ef4d23] focus:ring-1 focus:ring-[#ef4d23] transition-all" placeholder="Qty" type="number" value="12"/>
+<button class="bg-[#ef4d23] text-white p-2 rounded-lg hover:scale-105 transition-all active:scale-95 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</div>
+<!-- Item 3: Curd -->
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/5 hover:border-[#ef4d23]/30 transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#ef4d23]">icecream</span>
+<span class="font-label-bold text-label-bold">Curd</span>
+</div>
+<div class="flex items-center gap-3">
+<input class="w-16 bg-zinc-900 border-white/10 rounded-lg text-sm focus:border-[#ef4d23] focus:ring-1 focus:ring-[#ef4d23] transition-all" placeholder="Qty" type="number" value="1"/>
+<button class="bg-[#ef4d23] text-white p-2 rounded-lg hover:scale-105 transition-all active:scale-95 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Add Item Form -->
+<div class="lg:col-span-2 glass-panel rounded-xl p-8">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-md text-headline-md text-white">Add New Product</h2>
+<button class="text-zinc-400 hover:text-white transition-colors flex items-center gap-2 text-sm uppercase tracking-wider font-bold">
+<span class="material-symbols-outlined text-sm">history</span> Reset Form
+                        </button>
+</div>
+<form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-xs uppercase font-bold text-zinc-500 tracking-widest px-1">Item Name</label>
+<input class="w-full bg-zinc-900/50 border-white/10 rounded-xl p-4 focus:border-[#ef4d23] focus:ring-1 focus:ring-[#ef4d23] transition-all" placeholder="e.g. Organic Wildflower Honey" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs uppercase font-bold text-zinc-500 tracking-widest px-1">Category</label>
+<select class="w-full bg-zinc-900/50 border-white/10 rounded-xl p-4 focus:border-[#ef4d23] focus:ring-1 focus:ring-[#ef4d23] transition-all text-on-background/70">
+<option>Dairy</option>
+<option>Honey &amp; Sweeteners</option>
+<option>Bakery Basics</option>
+<option>Spices</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-xs uppercase font-bold text-zinc-500 tracking-widest px-1">Quantity</label>
+<input class="w-full bg-zinc-900/50 border-white/10 rounded-xl p-4 focus:border-[#ef4d23] focus:ring-1 focus:ring-[#ef4d23] transition-all" placeholder="Enter amount" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs uppercase font-bold text-zinc-500 tracking-widest px-1">Message/Note</label>
+<input class="w-full bg-zinc-900/50 border-white/10 rounded-xl p-4 focus:border-[#ef4d23] focus:ring-1 focus:ring-[#ef4d23] transition-all" placeholder="Special instructions or status" type="text"/>
+</div>
+<div class="md:col-span-2 flex justify-end pt-4">
+<button class="bg-[#ef4d23] text-white px-8 py-4 rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-[#ef4d23]/20 flex items-center gap-2">
+<span class="material-symbols-outlined">add_circle</span> Add Item
+                            </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Inventory List Section -->
+<div class="glass-panel rounded-2xl overflow-hidden">
+<div class="p-8 border-b border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-white">Current Stock Inventory</h2>
+<p class="text-on-background/50 text-sm">Real-time status of your store supplies.</p>
+</div>
+<div class="flex gap-4">
+<button class="bg-white/5 hover:bg-white/10 text-white px-6 py-2 rounded-lg font-bold transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">refresh</span> Reset Stock
+                        </button>
+<button class="bg-[#ef4d23] text-white px-6 py-2 rounded-lg font-bold hover:scale-105 active:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-[#ef4d23]/10">
+<span class="material-symbols-outlined text-sm">download</span> Export Report
+                        </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-white/5">
+<th class="px-8 py-4 text-xs uppercase font-bold text-zinc-400 tracking-widest">Item Name</th>
+<th class="px-8 py-4 text-xs uppercase font-bold text-zinc-400 tracking-widest">Category</th>
+<th class="px-8 py-4 text-xs uppercase font-bold text-zinc-400 tracking-widest text-center">Quantity</th>
+<th class="px-8 py-4 text-xs uppercase font-bold text-zinc-400 tracking-widest">Status/Message</th>
+<th class="px-8 py-4 text-xs uppercase font-bold text-zinc-400 tracking-widest">Stock Level</th>
+<th class="px-8 py-4 text-xs uppercase font-bold text-zinc-400 tracking-widest"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<!-- Item Row 1 -->
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="px-8 py-6 font-bold text-white">Mountain Wild Honey</td>
+<td class="px-8 py-6"><span class="px-3 py-1 bg-amber-500/10 text-amber-500 rounded-full text-xs font-bold uppercase tracking-tighter">Honey</span></td>
+<td class="px-8 py-6 text-center font-mono">42 Units</td>
+<td class="px-8 py-6 italic text-on-background/60 text-sm">Restock scheduled for Monday</td>
+<td class="px-8 py-6">
+<div class="w-full max-w-[120px] h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-[#ef4d23] w-[85%]"></div>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="text-zinc-500 hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Item Row 2 -->
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="px-8 py-6 font-bold text-white">Full Cream Milk</td>
+<td class="px-8 py-6"><span class="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full text-xs font-bold uppercase tracking-tighter">Dairy</span></td>
+<td class="px-8 py-6 text-center font-mono">12 Liters</td>
+<td class="px-8 py-6 italic text-on-background/60 text-sm">Check temperature daily</td>
+<td class="px-8 py-6">
+<div class="w-full max-w-[120px] h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-[#ef4d23] w-[30%]"></div>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="text-zinc-500 hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Item Row 3 -->
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="px-8 py-6 font-bold text-white">Sourdough Starter</td>
+<td class="px-8 py-6"><span class="px-3 py-1 bg-green-500/10 text-green-400 rounded-full text-xs font-bold uppercase tracking-tighter">Bakery</span></td>
+<td class="px-8 py-6 text-center font-mono">5 Units</td>
+<td class="px-8 py-6 italic text-on-background/60 text-sm">Vibrant culture, high activity</td>
+<td class="px-8 py-6">
+<div class="w-full max-w-[120px] h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-[#ef4d23] w-[60%]"></div>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="text-zinc-500 hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Item Row 4 -->
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="px-8 py-6 font-bold text-white">Cinnamon Sticks</td>
+<td class="px-8 py-6"><span class="px-3 py-1 bg-purple-500/10 text-purple-400 rounded-full text-xs font-bold uppercase tracking-tighter">Spices</span></td>
+<td class="px-8 py-6 text-center font-mono">100g</td>
+<td class="px-8 py-6 italic text-on-background/60 text-sm">Keep in airtight container</td>
+<td class="px-8 py-6">
+<div class="w-full max-w-[120px] h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-[#ef4d23] w-[15%]"></div>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="text-zinc-500 hover:text-white transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- Visual Footer Texture -->
+<footer class="mt-12 py-12 border-t border-white/5">
+<div class="max-w-[1440px] mx-auto px-8 flex flex-col md:flex-row justify-between items-center opacity-40">
+<span class="text-xl font-black text-[#ef4d23] uppercase">MINI Honey</span>
+<div class="flex gap-8 mt-4 md:mt-0">
+<a class="text-xs font-bold uppercase tracking-widest" href="#">Privacy</a>
+<a class="text-xs font-bold uppercase tracking-widest" href="#">Terms</a>
+<a class="text-xs font-bold uppercase tracking-widest" href="#">Contact</a>
+</div>
+</div>
+</footer>
+</body></html>
