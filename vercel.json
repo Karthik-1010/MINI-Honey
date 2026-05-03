@@ -4,36 +4,14 @@
       "src": "mini/wsgi.py",
       "use": "@vercel/python",
       "config": {
-        "includeFiles": "db.sqlite3"
-      }
-    },
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
+        "includeFiles": "{db.sqlite3,frontend/dist/**,staticfiles/**}"
       }
     }
   ],
   "routes": [
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/mini/wsgi.py"
-    },
-    {
-      "src": "/admin/(.*)",
-      "dest": "/mini/wsgi.py"
-    },
-    {
-      "src": "/media/(.*)",
-      "dest": "/mini/wsgi.py"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/mini/wsgi.py"
     }
   ]
 }
