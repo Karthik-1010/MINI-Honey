@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: mini-honey
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --no-input
+      python manage.py migrate
+    startCommand: gunicorn mini.wsgi:application
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        value: "mini-honey.onrender.com"
+    disk:
+      name: mini-honey-data
+      mountPath: /data
+      sizeGB: 1

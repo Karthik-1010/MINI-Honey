@@ -82,7 +82,8 @@ WSGI_APPLICATION = 'mini.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/tmp/db.sqlite3' if os.environ.get('VERCEL') == '1' else BASE_DIR / 'db.sqlite3',
+        'NAME': '/tmp/db.sqlite3' if os.environ.get('VERCEL') == '1' else 
+                ('/data/db.sqlite3' if os.environ.get('RENDER') else BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -132,7 +133,9 @@ WHITENOISE_ROOT = os.path.join(BASE_DIR, 'frontend', 'dist')
 
 # Media files (user uploads)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/tmp/media' if os.environ.get('VERCEL') == '1' else BASE_DIR / 'media'
+MEDIA_ROOT = '/tmp/media' if os.environ.get('VERCEL') == '1' else (
+    '/data/media' if os.environ.get('RENDER') else BASE_DIR / 'media'
+)
 
 # Production Security Settings
 if not DEBUG:
