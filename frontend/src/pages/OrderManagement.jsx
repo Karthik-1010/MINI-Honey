@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import axios from 'axios';
+import api from '../services/api';
+import { useToast } from '../context/ToastContext';
+import { useStore } from '../store/useStore.js';
 
 const API_MENU = '/api/menu-items/';
 const API_CAT  = '/api/categories/';
@@ -20,9 +22,11 @@ const OrderManagement = () => {
   const [menuSearch,  setMenuSearch]  = useState('');
   const [menuCat,     setMenuCat]     = useState(null);
 
-  /* -- session -- */
-  const [members, setMembers] = useState([]);      // [{ name, items:[{...item, qty}] }]
-  const [activeMember, setActiveMember] = useState(null);  // index
+  const { 
+    members, activeMemberIndex: activeMember, addMember, removeMember, 
+    setActiveMember, addItemToMember, removeItemFromMember, clearGroupOrder
+  } = useStore();
+
   const [nameInput, setNameInput] = useState('');
   const [nameError, setNameError] = useState('');
   const nameRef = useRef();
@@ -31,65 +35,56 @@ const OrderManagement = () => {
   const [placing, setPlacing]   = useState(false);
   const [success, setSuccess]   = useState(false);
 
-  useEffect(() => {
-    fetchMenu();
-  }, []);
+  const { showToast } = useToast();
+  const [loading, setLoading] = useState(true);
 
-  const fetchMenu = async () => {
+  const fetchMenu = useCallback(async () => {
+    setLoading(true);
     try {
       const [catRes, itemRes] = await Promise.all([
-        axios.get(API_CAT),
-        axios.get(API_MENU),
+        api.get(API_CAT),
+        api.get(API_MENU),
       ]);
       setCategories(catRes.data);
       setMenuItems(itemRes.data);
       if (catRes.data.length) setMenuCat(catRes.data[0].id);
-    } catch { /* silent */ }
-  };
+    } catch { 
+      showToast('Failed to fetch menu items', 'error');
+    } finally {
+      setLoading(false);
+    }
+  }, [showToast]);
+
+  useEffect(() => {
+    fetchMenu();
+  }, [fetchMenu]);
 
   /* ── add member ── */
   const handleAddMember = (e) => {
     e.preventDefault();
     const name = nameInput.trim();
     if (!name) { setNameError('Please enter a name.'); return; }
-    if (members.find(m => m.name.toLowerCase() === name.toLowerCase())) {
+    
+    const success = addMember(name);
+    if (!success) {
       setNameError('Name already added.'); return;
     }
-    const updated = [...members, { name, items: [] }];
-    setMembers(updated);
-    setActiveMember(updated.length - 1);
+    
     setNameInput('');
     setNameError('');
   };
 
   /* ── add / remove item for active member ── */
   const addItem = (item) => {
-    if (activeMember === null) return;
-    setMembers(prev => prev.map((m, i) => {
-      if (i !== activeMember) return m;
-      const existing = m.items.find(it => it.id === item.id);
-      const items = existing
-        ? m.items.map(it => it.id === item.id ? { ...it, qty: it.qty + 1 } : it)
-        : [...m.items, { ...item, qty: 1 }];
-      return { ...m, items };
-    }));
+    addItemToMember(item);
   };
 
   const removeItem = (itemId) => {
-    if (activeMember === null) return;
-    setMembers(prev => prev.map((m, i) => {
-      if (i !== activeMember) return m;
-      const items = m.items
-        .map(it => it.id === itemId ? { ...it, qty: it.qty - 1 } : it)
-        .filter(it => it.qty > 0);
-      return { ...m, items };
-    }));
+    removeItemFromMember(itemId);
   };
 
   const deleteMember = (idx) => {
-    const updated = members.filter((_, i) => i !== idx);
-    setMembers(updated);
-    setActiveMember(updated.length > 0 ? 0 : null);
+    removeMember(idx);
   };
 
   /* ── derived ── */
@@ -123,27 +118,27 @@ const OrderManagement = () => {
   const placeGroupOrder = async () => {
     if (members.length === 0) return;
     const hasItems = members.some(m => m.items.length > 0);
-    if (!hasItems) { alert('Add at least one item before placing the order.'); return; }
+    if (!hasItems) { showToast('Add at least one item first', 'error'); return; }
     setPlacing(true);
     try {
       // Place one order per member
       await Promise.all(members.filter(m => m.items.length > 0).map(m =>
-        axios.post(API_ORDERS, {
+        api.post(API_ORDERS, {
           customer_name: m.name,
           status: 'PENDING',
-          total_amount: (memberTotal(m) * 1.05).toFixed(2),
+          total_amount: memberTotal(m).toFixed(2),
           is_group_order: true,
           items: m.items.map(it => ({ menu_item: it.id, quantity: it.qty }))
         })
       ));
       setSuccess(true);
+      showToast('Group order placed successfully!');
       setTimeout(() => {
-        setMembers([]);
-        setActiveMember(null);
+        clearGroupOrder();
         setSuccess(false);
       }, 2500);
     } catch (err) {
-      alert('Failed to place order. Please try again.');
+      showToast('Failed to place group order', 'error');
     } finally {
       setPlacing(false);
     }
@@ -252,9 +247,20 @@ const OrderManagement = () => {
             </div>
           </div>
 
-          {/* Menu Items */}
           <div className="flex flex-col gap-2">
-            {visibleItems.length === 0 ? (
+            {loading ? (
+              Array(6).fill(0).map((_, i) => (
+                <div key={i} className="glass-panel rounded-2xl px-5 py-4 flex items-center gap-4 border border-white/5 animate-pulse bg-white/5">
+                  <div className="w-14 h-14 rounded-xl bg-white/10 shrink-0"></div>
+                  <div className="flex-1">
+                    <div className="h-4 w-32 bg-white/10 rounded mb-2"></div>
+                    <div className="h-3 w-48 bg-white/10 rounded"></div>
+                  </div>
+                  <div className="h-4 w-12 bg-white/10 rounded"></div>
+                  <div className="w-8 h-8 rounded-full bg-white/10"></div>
+                </div>
+              ))
+            ) : visibleItems.length === 0 ? (
               <div className="glass-panel rounded-2xl p-10 text-center text-white/30">
                 <span className="material-symbols-outlined text-4xl mb-2 block">search_off</span>
                 No items found.
@@ -265,6 +271,8 @@ const OrderManagement = () => {
                 <motion.div
                   key={item.id}
                   layout
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   className="glass-panel rounded-2xl px-5 py-4 flex items-center gap-4 border border-white/5 hover:border-white/15 transition-all"
                 >
                   {/* Image */}
@@ -319,10 +327,10 @@ const OrderManagement = () => {
         <div className="xl:col-span-5 space-y-6">
 
           {/* Add Member */}
-          <div className="glass-panel rounded-3xl p-6 border border-white/5">
+          <div className="glass-panel rounded-3xl p-6 border border-white/10 shadow-xl bg-white/[0.02]">
             <h2 className="text-lg font-black text-white italic uppercase tracking-tight mb-4 flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#ef4d23]">group_add</span>
-              Add Person
+              <span className="material-symbols-outlined text-[#ef4d23]">person_add</span>
+              Add Table Person
             </h2>
             <form onSubmit={handleAddMember} className="flex gap-3">
               <input
@@ -330,19 +338,20 @@ const OrderManagement = () => {
                 type="text"
                 value={nameInput}
                 onChange={e => { setNameInput(e.target.value); setNameError(''); }}
-                placeholder="Enter name…"
-                className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-[#ef4d23] transition-colors"
+                placeholder="Enter person's name…"
+                className="flex-1 bg-white/5 border border-white/20 rounded-xl px-4 py-3.5 text-white placeholder-white/20 focus:outline-none focus:border-[#ef4d23] focus:ring-1 focus:ring-[#ef4d23]/50 transition-all text-sm font-medium"
               />
               <button
                 type="submit"
-                className="px-5 py-3 bg-[#ef4d23] text-white rounded-xl font-bold hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#ef4d23]/20"
+                className="px-6 py-3.5 bg-[#ef4d23] text-white rounded-xl font-bold hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#ef4d23]/30 flex items-center justify-center"
               >
                 <span className="material-symbols-outlined">add</span>
               </button>
             </form>
             {nameError && (
-              <p className="text-red-400 text-xs mt-2 font-medium">{nameError}</p>
+              <motion.p initial={{ opacity:0, y: -5 }} animate={{ opacity:1, y: 0 }} className="text-red-400 text-xs mt-2 font-bold uppercase tracking-wider">{nameError}</motion.p>
             )}
+            <p className="text-white/20 text-[10px] mt-3 uppercase font-black tracking-widest text-center">Add everyone at the table to start ordering</p>
           </div>
 
           {/* Members List with their orders */}
@@ -426,13 +435,9 @@ const OrderManagement = () => {
                     <span className="text-white font-bold">₹{memberTotal(m).toFixed(2)}</span>
                   </div>
                 ))}
-                <div className="pt-3 border-t border-white/10 flex justify-between">
-                  <span className="text-white/50 text-xs font-bold uppercase tracking-widest">GST (5%)</span>
-                  <span className="text-white/60 text-sm">₹{(grandTotal * 0.05).toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between items-center">
+                <div className="pt-3 border-t border-white/10 flex justify-between items-center">
                   <span className="text-white text-xl font-black italic">Total</span>
-                  <span className="text-[#ef4d23] text-3xl font-black italic">₹{(grandTotal * 1.05).toFixed(2)}</span>
+                  <span className="text-[#ef4d23] text-3xl font-black italic">₹{grandTotal.toFixed(2)}</span>
                 </div>
               </div>
 

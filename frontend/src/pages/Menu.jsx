@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useCart } from '../context/CartContext';
+import { useToast } from '../context/ToastContext';
+import api from '../services/api';
 import CategoryBar from '../components/CategoryBar';
 import ProductCard from '../components/ProductCard';
 import Cart from '../components/Cart';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Menu = () => {
   const [categories, setCategories] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
   const [filter, setFilter] = useState("all");
-  const [cart, setCart] = useState([]);
+  const { cart, addToCart, updateQuantity, removeFromCart, clearCart, total, isHydrated } = useCart();
+  const { showToast } = useToast();
+  const [loading, setLoading] = useState(true);
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   
   // Admin UI State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,50 +33,31 @@ const Menu = () => {
     fetchData();
   }, []);
 
+
   const fetchData = async () => {
+    setLoading(true);
     try {
       const [catRes, itemRes] = await Promise.all([
-        axios.get('/api/categories/'),
-        axios.get('/api/menu-items/')
+        api.get('/api/categories/'),
+        api.get('/api/menu-items/')
       ]);
       setCategories(catRes.data);
       setMenuItems(itemRes.data);
       if (catRes.data.length > 0) setActiveCategory(catRes.data[0].id);
     } catch (err) {
-      console.error("Error fetching menu data", err);
-      // Fallback static data if API fails (Step 5)
+      showToast("Failed to load menu data", "error");
+      // Fallback static data if API fails
       setCategories([{ id: 1, name: 'MAGGI' }, { id: 2, name: 'DRINKS' }]);
       setMenuItems([
         { id: 1, name: 'Veg Maggi', description: 'Classic veg maggi', price: 49, category: 1, is_available: true, item_type: 'veg' },
         { id: 2, name: 'Chicken Maggi', description: 'Classic chicken maggi', price: 79, category: 1, is_available: true, item_type: 'nonveg' },
       ]);
       setActiveCategory(1);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const addToCart = (item) => {
-    setCart(prev => {
-      const existing = prev.find(i => i.id === item.id);
-      if (existing) {
-        return prev.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i);
-      }
-      return [...prev, { ...item, quantity: 1 }];
-    });
-  };
-
-  const updateQuantity = (id, delta) => {
-    setCart(prev => prev.map(item => {
-      if (item.id === id) {
-        const newQty = Math.max(0, item.quantity + delta);
-        return { ...item, quantity: newQty };
-      }
-      return item;
-    }).filter(item => item.quantity > 0));
-  };
-
-  const removeFromCart = (id) => {
-    setCart(prev => prev.filter(item => item.id !== id));
-  };
 
   // Admin CRUD operations
   const openAddModal = () => {
@@ -102,11 +89,11 @@ const Menu = () => {
   const handleDeleteItem = async (id) => {
     if (window.confirm("Are you sure you want to delete this item?")) {
       try {
-        await axios.delete(`/api/menu-items/${id}/`);
+        await api.delete(`/api/menu-items/${id}/`);
         setMenuItems(prev => prev.filter(item => item.id !== id));
+        showToast('Item deleted');
       } catch (err) {
-        console.error("Error deleting item", err);
-        alert('Error deleting item');
+        showToast('Error deleting item', 'error');
       }
     }
   };
@@ -114,40 +101,41 @@ const Menu = () => {
   const handleSaveItem = async () => {
     try {
       if (editingItem) {
-        const res = await axios.put(`/api/menu-items/${editingItem.id}/`, formData);
+        const res = await api.put(`/api/menu-items/${editingItem.id}/`, formData);
         setMenuItems(prev => prev.map(item => item.id === editingItem.id ? res.data : item));
+        showToast('Item updated');
       } else {
-        const res = await axios.post(`/api/menu-items/`, formData);
+        const res = await api.post(`/api/menu-items/`, formData);
         setMenuItems(prev => [...prev, res.data]);
+        showToast('Item added');
       }
       setIsModalOpen(false);
     } catch (err) {
-      console.error("Error saving item", err);
-      alert('Error saving item');
+      showToast('Error saving item', 'error');
     }
   };
 
   const placeOrder = async () => {
     if (cart.length === 0) return;
+    setIsPlacingOrder(true);
     try {
-      const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-      const totalAmount = subtotal * 1.05; // 5% GST
       const orderData = {
         customer_name: 'Walk-in Customer',
         status: 'PENDING',
-        total_amount: totalAmount.toFixed(2),
+        total_amount: total.toFixed(2),
         is_group_order: false,
         items: cart.map(item => ({
           menu_item: item.id,
           quantity: item.quantity
         }))
       };
-      await axios.post('/api/orders/', orderData);
-      alert('Order placed successfully!');
-      setCart([]);
+      await api.post('/api/orders/', orderData);
+      showToast('Order placed successfully!');
+      clearCart();
     } catch (err) {
-      console.error("Error placing order", err);
-      alert('Error placing order');
+      showToast('Error placing order', 'error');
+    } finally {
+      setIsPlacingOrder(false);
     }
   };
 
@@ -163,6 +151,18 @@ const Menu = () => {
     const matchesFilter = filter === "all" ? true : item.item_type === filter;
     return matchesCategory && matchesFilter;
   });
+
+  const SkeletonCard = () => (
+    <div className="glass-panel rounded-3xl p-6 h-32 animate-pulse">
+      <div className="flex justify-between items-center h-full">
+        <div className="space-y-3 flex-1">
+          <div className="w-3/4 h-6 bg-white/5 rounded-lg"></div>
+          <div className="w-1/2 h-4 bg-white/5 rounded-lg"></div>
+        </div>
+        <div className="w-24 h-full bg-white/5 rounded-2xl"></div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="flex-1 w-full pb-32 px-4 md:px-8 space-y-stack-lg">
@@ -229,58 +229,101 @@ const Menu = () => {
               </button>
             </div>
             
-            {activeCategory ? (
+            {loading ? (
               <div className="flex flex-col gap-3">
-                {filteredItems.map((item) => (
-                  <ProductCard 
-                    key={item.id} 
-                    item={item} 
-                    cartQuantity={cart.find(i => i.id === item.id)?.quantity || 0}
-                    onAdd={addToCart} 
-                    onEdit={handleEditItem}
-                    onDelete={handleDeleteItem}
-                  />
-                ))}
+                {Array(5).fill(0).map((_, i) => <SkeletonCard key={i} />)}
               </div>
             ) : (
-              <div className="space-y-12">
-                {visibleCategories.map(cat => {
-                  const catItems = filteredItems.filter(item => item.category === cat.id);
-                  if (catItems.length === 0) return null;
-                  return (
-                    <div key={cat.id} className="space-y-4">
-                      <h3 className="text-xl font-black text-white/80 uppercase tracking-widest border-b border-white/10 pb-2">
-                        {cat.name}
-                      </h3>
-                      <div className="flex flex-col gap-3">
-                        {catItems.map((item) => (
-                          <ProductCard 
-                            key={item.id} 
-                            item={item} 
-                            cartQuantity={cart.find(i => i.id === item.id)?.quantity || 0}
-                            onAdd={addToCart} 
-                            onEdit={handleEditItem}
-                            onDelete={handleDeleteItem}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              <AnimatePresence mode='popLayout'>
+                {activeCategory ? (
+                  <motion.div 
+                    layout
+                    className="flex flex-col gap-3"
+                  >
+                    {filteredItems.map((item) => (
+                      <ProductCard 
+                        key={item.id} 
+                        item={item} 
+                        cartQuantity={cart.find(i => i.id === item.id)?.quantity || 0}
+                        onAdd={addToCart} 
+                        onEdit={handleEditItem}
+                        onDelete={handleDeleteItem}
+                      />
+                    ))}
+                  </motion.div>
+                ) : (
+                  <div className="space-y-12">
+                    {visibleCategories.map(cat => {
+                      const catItems = filteredItems.filter(item => item.category === cat.id);
+                      if (catItems.length === 0) return null;
+                      return (
+                        <motion.div 
+                          layout
+                          key={cat.id} 
+                          className="space-y-4"
+                        >
+                          <h3 className="text-xl font-black text-white/80 uppercase tracking-widest border-b border-white/10 pb-2">
+                            {cat.name}
+                          </h3>
+                          <div className="flex flex-col gap-3">
+                            {catItems.map((item) => (
+                              <ProductCard 
+                                key={item.id} 
+                                item={item} 
+                                cartQuantity={cart.find(i => i.id === item.id)?.quantity || 0}
+                                onAdd={addToCart} 
+                                onEdit={handleEditItem}
+                                onDelete={handleDeleteItem}
+                              />
+                            ))}
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                )}
+              </AnimatePresence>
             )}
           </section>
         </div>
 
         <div className="lg:col-span-4 h-fit sticky top-24">
-          <Cart 
-            cartItems={cart} 
-            onUpdate={updateQuantity} 
-            onRemove={removeFromCart} 
-            onPlaceOrder={placeOrder} 
-          />
+          {!isHydrated ? (
+            <div className="glass-panel rounded-3xl p-6 h-64 animate-pulse">
+              <div className="w-full h-12 bg-white/5 rounded-xl mb-4"></div>
+              <div className="space-y-3">
+                <div className="w-full h-12 bg-white/5 rounded-xl"></div>
+                <div className="w-full h-12 bg-white/5 rounded-xl"></div>
+              </div>
+            </div>
+          ) : (
+            <Cart 
+              cartItems={cart} 
+              onUpdate={updateQuantity} 
+              onRemove={removeFromCart} 
+              onPlaceOrder={placeOrder} 
+            />
+          )}
         </div>
       </div>
+
+      {/* Checkout Loading Overlay */}
+      <AnimatePresence>
+        {isPlacingOrder && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-[#131313]/80 backdrop-blur-md flex items-center justify-center"
+          >
+            <div className="text-center">
+              <div className="w-16 h-16 border-4 border-[#ef4d23]/20 border-t-[#ef4d23] rounded-full animate-spin mx-auto mb-6"></div>
+              <h2 className="text-2xl font-black text-white italic uppercase tracking-widest">Placing Your Order...</h2>
+              <p className="text-zinc-400 mt-2 font-bold uppercase text-xs tracking-widest">Connecting to our kitchen</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Admin Item Modal */}
       {isModalOpen && (

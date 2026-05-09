@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 
 const API = '/api/menu-items/';
 
@@ -25,7 +25,7 @@ const Home = () => {
 
   const fetchDishes = async () => {
     try {
-      const res = await axios.get(API);
+      const res = await api.get(API);
       setDishes(res.data.slice(0, 8));
     } catch {
       setDishes(FALLBACK_DISHES);
@@ -34,7 +34,7 @@ const Home = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('/api/categories/');
+      const res = await api.get('/api/categories/');
       setCategories(res.data);
     } catch {}
   };
@@ -71,7 +71,7 @@ const Home = () => {
     const fd = new FormData();
     fd.append('image', file);
     try {
-      const res = await axios.post('/api/upload-image/', fd, {
+      const res = await api.post('/api/upload-image/', fd, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setForm(prev => ({ ...prev, image_url: res.data.url }));
@@ -85,10 +85,10 @@ const Home = () => {
     setSaving(true);
     try {
       if (editingDish) {
-        const res = await axios.put(`${API}${editingDish.id}/`, form);
+        const res = await api.put(`${API}${editingDish.id}/`, form);
         setDishes(prev => prev.map(d => d.id === editingDish.id ? res.data : d));
       } else {
-        const res = await axios.post(API, form);
+        const res = await api.post(API, form);
         setDishes(prev => [res.data, ...prev].slice(0, 8));
       }
       setIsModalOpen(false);
@@ -101,7 +101,7 @@ const Home = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API}${id}/`);
+      await api.delete(`${API}${id}/`);
       setDishes(prev => prev.filter(d => d.id !== id));
       setDeleteConfirm(null);
     } catch {

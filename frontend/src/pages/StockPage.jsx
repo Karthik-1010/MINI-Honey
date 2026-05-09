@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import axios from 'axios';
+import api from '../services/api';
 
 const AddItemModal = ({ isOpen, onClose, onAdd }) => {
   const [formData, setFormData] = useState({ name: '', category: '', price: '', quantity: '' });
@@ -174,7 +174,7 @@ const StockPage = () => {
 
   const fetchStock = async () => {
     try {
-      const res = await axios.get('/api/stock/');
+      const res = await api.get('/api/stock/');
       setStock(res.data);
     } catch (error) {
       console.error("Failed to fetch stock:", error);
@@ -187,21 +187,22 @@ const StockPage = () => {
     fetchStock();
   }, []);
 
-  const handleAddItem = async (itemData) => {
+  const handleAddItem = async (newItem) => {
     try {
-      await axios.post('/api/stock/', itemData);
-      fetchStock();
+      const res = await api.post('/api/stock/', newItem);
+      setStock([...stock, res.data]);
       setIsModalOpen(false);
     } catch (error) {
-      console.error("Failed to add item:", error);
-      alert("Error adding item");
+      console.error("Failed to fetch stock:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleUpdateQuantity = async (id, newQuantity) => {
+  const handleUpdateQuantity = async (id, field, value) => {
     try {
-      await axios.patch(`/api/stock/${id}/`, { quantity: newQuantity });
-      fetchStock();
+      const res = await api.patch(`/api/stock/${id}/`, { [field]: value });
+      setStock(stock.map(item => item.id === id ? res.data : item));
     } catch (error) {
       console.error("Failed to update stock:", error);
       alert("Error updating stock quantity");
@@ -211,7 +212,7 @@ const StockPage = () => {
   const handleDeleteItem = async (id) => {
     if (window.confirm("Are you sure you want to delete this stock item?")) {
       try {
-        await axios.delete(`/api/stock/${id}/`);
+        await api.delete(`/api/stock/${id}/`);
         fetchStock();
       } catch (error) {
         console.error("Failed to delete stock:", error);

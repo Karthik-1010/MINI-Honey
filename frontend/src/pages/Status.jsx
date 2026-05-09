@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import axios from 'axios';
+import api from '../services/api';
+import { useToast } from '../context/ToastContext';
 
 const BASE = '/api';
 
@@ -86,29 +87,33 @@ const Status = () => {
   const [expandedId, setExpandedId] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
 
+  const { showToast } = useToast();
+
   // ── fetch all orders ──────────────────────────────────
-  const fetchAll = useCallback(async () => {
+  const fetchAll = useCallback(async (showLoading = true) => {
+    if (showLoading) setLoading(true);
     try {
-      const res = await axios.get(`${BASE}/orders/`);
+      const res = await api.get('/api/orders/');
       setOrders(res.data);
       setUpdatedAt(new Date());
     } catch (e) {
-      console.error('Fetch error:', e);
+      showToast('Failed to sync data', 'error');
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [showToast]);
 
   // ── clear all & start fresh ───────────────────────────
   const handleReset = async () => {
     setShowConfirm(false);
     setRefreshing(true);
     try {
-      await axios.post(`${BASE}/orders/clear_all/`);
+      await api.post('/api/orders/clear_all/');
       setOrders([]);          // instant UI reset to zero
       setUpdatedAt(new Date());
+      showToast('All data reset successfully');
     } catch (e) {
-      console.error('Clear error:', e);
+      showToast('Failed to reset data', 'error');
     } finally {
       setRefreshing(false);
     }
@@ -169,16 +174,22 @@ const Status = () => {
   // ── order actions ─────────────────────────────────────
   const updateStatus = async (id, status) => {
     try {
-      await axios.post(`${BASE}/orders/${id}/update_status/`, { status });
+      await api.post(`/api/orders/${id}/update_status/`, { status });
+      showToast(`Order status updated to ${status}`);
       await fetchAll(false); // full refetch so metrics sync
-    } catch (e) { console.error(e); }
+    } catch (e) { 
+      showToast('Error updating order status', 'error');
+    }
   };
 
   const deleteOrder = async (id) => {
     try {
-      await axios.delete(`${BASE}/orders/${id}/`);
+      await api.delete(`/api/orders/${id}/`);
+      showToast('Order removed');
       await fetchAll(false); // full refetch so metrics & weekly rows sync
-    } catch (e) { console.error(e); }
+    } catch (e) { 
+      showToast('Error removing order', 'error');
+    }
   };
 
   // ── render ────────────────────────────────────────────
@@ -234,23 +245,32 @@ const Status = () => {
           </div>
         </div>
 
-        {/* Metrics */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {metrics.map((m, i) => (
-            <motion.div key={i}
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.07 }}
-              className="glass-panel p-6 rounded-2xl border border-white/5 shadow-xl hover:border-white/15 transition-all"
-            >
-              <div className="p-3 rounded-xl w-fit mb-4" style={{ background: `${m.color}20` }}>
-                <span className="material-symbols-outlined text-2xl" style={{ color: m.color }}>{m.icon}</span>
+          {loading ? (
+            Array(4).fill(0).map((_, i) => (
+              <div key={i} className="glass-panel p-6 rounded-2xl border border-white/5 animate-pulse bg-white/5">
+                <div className="p-3 rounded-xl w-12 h-12 bg-white/10 mb-4"></div>
+                <div className="h-3 w-20 bg-white/10 rounded mb-2"></div>
+                <div className="h-8 w-24 bg-white/10 rounded"></div>
               </div>
-              <p className="text-zinc-500 text-xs font-black uppercase tracking-widest mb-1">{m.title}</p>
-              <h2 className="text-3xl font-black text-white tracking-tighter italic">
-                {loading ? '—' : m.value}
-              </h2>
-            </motion.div>
-          ))}
+            ))
+          ) : (
+            metrics.map((m, i) => (
+              <motion.div key={i}
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.07 }}
+                className="glass-panel p-6 rounded-2xl border border-white/5 shadow-xl hover:border-white/15 transition-all"
+              >
+                <div className="p-3 rounded-xl w-fit mb-4" style={{ background: `${m.color}20` }}>
+                  <span className="material-symbols-outlined text-2xl" style={{ color: m.color }}>{m.icon}</span>
+                </div>
+                <p className="text-zinc-500 text-xs font-black uppercase tracking-widest mb-1">{m.title}</p>
+                <h2 className="text-3xl font-black text-white tracking-tighter italic">
+                  {m.value}
+                </h2>
+              </motion.div>
+            ))
+          )}
         </div>
 
         {/* Chart + Hot Items */}
@@ -326,103 +346,132 @@ const Status = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
-                    {[...orders].reverse().slice(0, 30).map(order => (
-                      <React.Fragment key={order.id}>
-                        <tr
-                          className="hover:bg-white/[0.02] transition-colors cursor-pointer"
-                          onClick={() => setExpandedId(expandedId === order.id ? null : order.id)}
-                        >
-                          <td className="px-4 py-4 text-white font-bold">
-                            <span className="flex items-center gap-1">
-                              <span className="material-symbols-outlined text-xs text-zinc-600">
-                                {expandedId === order.id ? 'expand_less' : 'expand_more'}
-                              </span>
-                              #{order.id}
-                            </span>
-                          </td>
-                          <td className="px-4 py-4 text-white/80 font-medium text-sm whitespace-nowrap">{order.customer_name}</td>
-                          <td className="px-4 py-4 text-zinc-500 text-xs whitespace-nowrap">
-                            {fmtDate(new Date(order.created_at))}
-                          </td>
-                          <td className="px-4 py-4 text-zinc-400 text-sm">
-                            {(order.items || []).length} item{order.items?.length !== 1 ? 's' : ''}
-                          </td>
-                          <td className="px-4 py-4 text-[#ef4d23] font-black italic whitespace-nowrap">
-                            ₹{parseFloat(order.total_amount).toFixed(2)}
-                          </td>
-                          <td className="px-4 py-4">
-                            <span className={`px-2 py-1 rounded-full text-xs font-black uppercase tracking-wide border ${STATUS_COLORS[order.status] || 'text-zinc-500'}`}>
-                              {order.status}
-                            </span>
-                          </td>
-                          <td className="px-4 py-4" onClick={e => e.stopPropagation()}>
-                            <div className="flex items-center gap-1">
-                              {STATUS_NEXT[order.status] && (
-                                <button
-                                  onClick={() => updateStatus(order.id, STATUS_NEXT[order.status])}
-                                  className="px-2 py-1.5 rounded-lg bg-white/10 hover:bg-[#ef4d23] text-white text-xs font-bold transition-all whitespace-nowrap"
-                                >
-                                  → {STATUS_NEXT[order.status]}
-                                </button>
-                              )}
-                              {!['CANCELLED', 'COMPLETED'].includes(order.status) && (
-                                <button
-                                  onClick={() => updateStatus(order.id, 'CANCELLED')}
-                                  className="px-2 py-1.5 rounded-lg text-zinc-500 hover:text-yellow-400 text-xs font-bold transition-all hover:bg-yellow-500/10"
-                                >
-                                  Cancel
-                                </button>
-                              )}
-                              <button
-                                onClick={() => deleteOrder(order.id)}
-                                className="p-1.5 rounded-lg text-zinc-600 hover:text-red-400 hover:bg-red-500/10 transition-all"
-                                title="Remove order"
-                              >
-                                <span className="material-symbols-outlined text-sm">delete</span>
-                              </button>
-                            </div>
-                          </td>
+                    {loading ? (
+                      Array(5).fill(0).map((_, i) => (
+                        <tr key={i} className="animate-pulse">
+                          <td className="px-4 py-4"><div className="h-4 w-12 bg-white/10 rounded"></div></td>
+                          <td className="px-4 py-4"><div className="h-4 w-24 bg-white/10 rounded"></div></td>
+                          <td className="px-4 py-4"><div className="h-4 w-20 bg-white/10 rounded"></div></td>
+                          <td className="px-4 py-4"><div className="h-4 w-16 bg-white/10 rounded"></div></td>
+                          <td className="px-4 py-4"><div className="h-4 w-16 bg-white/10 rounded"></div></td>
+                          <td className="px-4 py-4"><div className="h-6 w-20 bg-white/10 rounded"></div></td>
+                          <td className="px-4 py-4"><div className="h-8 w-24 bg-white/10 rounded"></div></td>
                         </tr>
-
-                        {/* Expanded items row */}
-                        <AnimatePresence>
-                          {expandedId === order.id && (
-                            <tr key={`exp-${order.id}`}>
-                              <td colSpan={7} className="p-0">
-                                <motion.div
-                                  initial={{ opacity: 0, height: 0 }}
-                                  animate={{ opacity: 1, height: 'auto' }}
-                                  exit={{ opacity: 0, height: 0 }}
-                                  className="overflow-hidden bg-white/[0.02] border-t border-white/5"
+                      ))
+                    ) : orders.length === 0 ? (
+                      <tr>
+                        <td colSpan={7} className="px-4 py-16 text-center text-white/20 text-xs uppercase tracking-widest">
+                          No orders placed yet
+                        </td>
+                      </tr>
+                    ) : (
+                      [...orders].reverse().slice(0, 30).map(order => (
+                        <React.Fragment key={order.id}>
+                          <tr
+                            className="hover:bg-white/[0.02] transition-colors cursor-pointer"
+                            onClick={() => setExpandedId(expandedId === order.id ? null : order.id)}
+                          >
+                            <td className="px-4 py-4 text-white font-bold">
+                              <span className="flex items-center gap-1">
+                                <span className="material-symbols-outlined text-xs text-zinc-600">
+                                  {expandedId === order.id ? 'expand_less' : 'expand_more'}
+                                </span>
+                                #{order.id}
+                              </span>
+                            </td>
+                            <td className="px-4 py-4 text-white/80 font-medium text-sm whitespace-nowrap">
+                              <div className="flex flex-col">
+                                <span>{order.customer_name}</span>
+                                {order.is_group_order && (
+                                  <span className="text-[10px] text-[#ef4d23] font-black uppercase tracking-widest mt-1 bg-[#ef4d23]/10 px-1.5 py-0.5 rounded-md w-fit border border-[#ef4d23]/20">
+                                    Group Order
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+                            <td className="px-4 py-4 text-zinc-500 text-xs whitespace-nowrap">
+                              {fmtDate(new Date(order.created_at))}
+                            </td>
+                            <td className="px-4 py-4 text-zinc-400 text-sm">
+                              {(order.items || []).length} item{order.items?.length !== 1 ? 's' : ''}
+                            </td>
+                            <td className="px-4 py-4 text-[#ef4d23] font-black italic whitespace-nowrap">
+                              ₹{parseFloat(order.total_amount).toFixed(2)}
+                            </td>
+                            <td className="px-4 py-4">
+                              <span className={`px-2 py-1 rounded-full text-xs font-black uppercase tracking-wide border ${STATUS_COLORS[order.status] || 'text-zinc-500'}`}>
+                                {order.status}
+                              </span>
+                            </td>
+                            <td className="px-4 py-4" onClick={e => e.stopPropagation()}>
+                              <div className="flex items-center gap-1">
+                                {STATUS_NEXT[order.status] && (
+                                  <button
+                                    onClick={() => updateStatus(order.id, STATUS_NEXT[order.status])}
+                                    className="px-2 py-1.5 rounded-lg bg-white/10 hover:bg-[#ef4d23] text-white text-xs font-bold transition-all whitespace-nowrap"
+                                  >
+                                    → {STATUS_NEXT[order.status]}
+                                  </button>
+                                )}
+                                {!['CANCELLED', 'COMPLETED'].includes(order.status) && (
+                                  <button
+                                    onClick={() => updateStatus(order.id, 'CANCELLED')}
+                                    className="px-2 py-1.5 rounded-lg text-zinc-500 hover:text-yellow-400 text-xs font-bold transition-all hover:bg-yellow-500/10"
+                                  >
+                                    Cancel
+                                  </button>
+                                )}
+                                <button
+                                  onClick={() => deleteOrder(order.id)}
+                                  className="p-1.5 rounded-lg text-zinc-600 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                                  title="Remove order"
                                 >
-                                  <div className="px-8 py-4">
-                                    <p className="text-zinc-500 text-xs font-black uppercase tracking-widest mb-3">
-                                      Items — {order.customer_name}
-                                    </p>
-                                    {(order.items || []).length === 0 ? (
-                                      <p className="text-zinc-600 text-sm italic">No items recorded.</p>
-                                    ) : order.items.map((oi, idx) => (
-                                      <div key={idx} className="flex justify-between items-center py-1.5 border-b border-white/5 last:border-0">
-                                        <span className="text-white/70 text-sm">
-                                          {oi.quantity}× {oi.menu_item_name || `Item #${oi.menu_item}`}
-                                        </span>
-                                        <span className="text-[#ef4d23] font-bold text-sm">
-                                          ₹{(parseFloat(oi.menu_item_price || 0) * oi.quantity).toFixed(2)}
-                                        </span>
+                                  <span className="material-symbols-outlined text-sm">delete</span>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+
+                          {/* Expanded items row */}
+                          <AnimatePresence>
+                            {expandedId === order.id && (
+                              <tr key={`exp-${order.id}`}>
+                                <td colSpan={7} className="p-0">
+                                  <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    className="overflow-hidden bg-white/[0.02] border-t border-white/5"
+                                  >
+                                    <div className="px-8 py-4">
+                                      <p className="text-zinc-500 text-xs font-black uppercase tracking-widest mb-3">
+                                        Items — {order.customer_name}
+                                      </p>
+                                      {(order.items || []).length === 0 ? (
+                                        <p className="text-zinc-600 text-sm italic">No items recorded.</p>
+                                      ) : order.items.map((oi, idx) => (
+                                        <div key={idx} className="flex justify-between items-center py-1.5 border-b border-white/5 last:border-0">
+                                          <span className="text-white/70 text-sm">
+                                            {oi.quantity}× {oi.menu_item_name || `Item #${oi.menu_item}`}
+                                          </span>
+                                          <span className="text-[#ef4d23] font-bold text-sm">
+                                            ₹{(parseFloat(oi.menu_item_price || 0) * oi.quantity).toFixed(2)}
+                                          </span>
+                                        </div>
+                                      ))}
+                                      <div className="flex justify-between pt-2 border-t border-white/10 mt-1">
+                                        <span className="text-zinc-500 text-xs font-black uppercase tracking-widest">Total</span>
+                                        <span className="text-white font-black">₹{parseFloat(order.total_amount).toFixed(2)}</span>
                                       </div>
-                                    ))}
-                                    <div className="flex justify-between pt-2 border-t border-white/10 mt-1">
-                                      <span className="text-zinc-500 text-xs font-black uppercase tracking-widest">Total (incl. GST)</span>
-                                      <span className="text-white font-black">₹{parseFloat(order.total_amount).toFixed(2)}</span>
                                     </div>
-                                  </div>
-                                </motion.div>
-                              </td>
-                            </tr>
-                          )}
-                        </AnimatePresence>
-                      </React.Fragment>
-                    ))}
+                                  </motion.div>
+                                </td>
+                              </tr>
+                            )}
+                          </AnimatePresence>
+                        </React.Fragment>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>

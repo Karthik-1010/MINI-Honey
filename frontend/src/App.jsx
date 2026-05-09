@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import ErrorBoundary from './components/ErrorBoundary';
+import { CartProvider } from './context/CartContext';
+import { ToastProvider } from './context/ToastContext';
 
-import Home from './pages/Home';
-import Menu from './pages/Menu';
-import Orders from './pages/Orders';
-import Inventory from './pages/Inventory';
-import Status from './pages/Status';
-import OrderManagement from './pages/OrderManagement';
-import StockPage from './pages/StockPage';
+// Lazy load pages for production performance
+const Home = lazy(() => import('./pages/Home'));
+const Menu = lazy(() => import('./pages/Menu'));
+const Orders = lazy(() => import('./pages/Orders'));
+const Inventory = lazy(() => import('./pages/Inventory'));
+const Status = lazy(() => import('./pages/Status'));
+const OrderManagement = lazy(() => import('./pages/OrderManagement'));
+const StockPage = lazy(() => import('./pages/StockPage'));
+
+const PageLoader = () => (
+  <div className="min-h-[60vh] flex items-center justify-center">
+    <div className="w-12 h-12 border-4 border-[#ef4d23]/20 border-t-[#ef4d23] rounded-full animate-spin"></div>
+  </div>
+);
 
 const BackgroundMarquee = () => (
   <div className="fixed inset-0 z-0 opacity-10 pointer-events-none flex flex-col justify-center gap-12 overflow-hidden py-20">
@@ -27,23 +37,31 @@ const BackgroundMarquee = () => (
 
 function App() {
   return (
-    <Router>
-      <div className="relative min-h-screen bg-[#131313] selection:bg-[#ef4d23] selection:text-white overflow-x-hidden">
-        <BackgroundMarquee />
-        <Navbar />
-        <main className="relative z-10 w-full">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/management" element={<OrderManagement />} />
-            <Route path="/status" element={<Status />} />
-            <Route path="/inventory" element={<Inventory />} />
-            <Route path="/stock" element={<StockPage />} />
-          </Routes>
-        </main>
-      </div>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <ToastProvider>
+          <CartProvider>
+            <div className="relative min-h-screen bg-[#131313] selection:bg-[#ef4d23] selection:text-white overflow-x-hidden font-display">
+              <BackgroundMarquee />
+              <Navbar />
+              <main className="relative z-10 w-full">
+                <Suspense fallback={<PageLoader />}>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/menu" element={<Menu />} />
+                    <Route path="/orders" element={<Orders />} />
+                    <Route path="/management" element={<OrderManagement />} />
+                    <Route path="/status" element={<Status />} />
+                    <Route path="/inventory" element={<Inventory />} />
+                    <Route path="/stock" element={<StockPage />} />
+                  </Routes>
+                </Suspense>
+              </main>
+            </div>
+          </CartProvider>
+        </ToastProvider>
+      </Router>
+    </ErrorBoundary>
   );
 }
 

@@ -152,7 +152,14 @@ if not DEBUG:
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS Settings
-CORS_ALLOW_ALL_ORIGINS = True
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOW_ALL_ORIGINS = False
+    CORS_ALLOWED_ORIGINS = [
+        "https://mini-honey.onrender.com",
+        "https://mini-honey.vercel.app",
+    ]
 
 # REST Framework Settings
 REST_FRAMEWORK = {

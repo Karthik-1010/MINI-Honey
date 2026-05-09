@@ -2,8 +2,7 @@ import React from 'react';
 
 const Cart = ({ cartItems, onUpdate, onRemove, onPlaceOrder }) => {
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const gst = subtotal * 0.05;
-  const total = subtotal + gst;
+  const total = subtotal;
 
   return (
     <div className="glass-panel rounded-3xl overflow-hidden shadow-2xl border border-white/10">
@@ -44,16 +43,13 @@ const Cart = ({ cartItems, onUpdate, onRemove, onPlaceOrder }) => {
         )}
         
         {cartItems.length > 0 && (
-          <div className="border-t border-white/5 pt-4">
-            <div className="flex justify-between text-zinc-400 text-sm mb-2 font-medium">
+          <div className="border-t border-white/5 pt-4 space-y-2">
+            <div className="flex justify-between text-zinc-400 text-sm font-medium">
               <span>Subtotal</span>
               <span>₹{subtotal.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between text-zinc-400 text-sm mb-4 font-medium">
-              <span>GST (5%)</span>
-              <span>₹{gst.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between text-white text-2xl font-black">
+
+            <div className="flex justify-between text-white text-2xl font-black pt-2 border-t border-white/5">
               <span>Total</span>
               <span className="text-[#ef4d23]">₹{total.toFixed(2)}</span>
             </div>

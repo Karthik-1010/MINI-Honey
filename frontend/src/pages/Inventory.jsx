@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import axios from 'axios';
+import api from '../services/api';
+import { useToast } from '../context/ToastContext';
 
 const BASE = '/api/inventory/';
 
@@ -24,29 +25,30 @@ const stockStatus = (item) => {
 };
 
 const Inventory = () => {
-  const [inventory,      setInventory]      = useState([]);
-  const [form,           setForm]           = useState(EMPTY_FORM);
-  const [editingId,      setEditingId]      = useState(null);
-  const [showClear,      setShowClear]      = useState(false);
-  const [quickQtys,      setQuickQtys]      = useState({});  // { name: qty }
-  const [saving,         setSaving]         = useState(false);
-  const [search,         setSearch]         = useState('');
-  const [filterStatus,   setFilterStatus]   = useState('all');
-  const [toast,          setToast]          = useState(null);
+  const [inventory, setInventory] = useState([]);
+  const [search, setSearch] = useState('');
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [editingId, setEditingId] = useState(null);
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [saving, setSaving] = useState(false);
+  const [quickQtys, setQuickQtys] = useState({});
+  const [showClear, setShowClear] = useState(false);
+  const { showToast } = useToast();
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => { fetchInventory(); }, []);
-
-  const fetchInventory = async () => {
+  const fetchInventory = useCallback(async () => {
+    setLoading(true);
     try {
-      const res = await axios.get(BASE);
+      const res = await api.get(BASE);
       setInventory(res.data);
-    } catch (err) { console.error(err); }
-  };
+    } catch (err) { 
+      showToast('Failed to fetch inventory', 'error');
+    } finally {
+      setLoading(false);
+    }
+  }, [showToast]);
 
-  const showToast = (msg, type = 'success') => {
-    setToast({ msg, type });
-    setTimeout(() => setToast(null), 3000);
-  };
+  useEffect(() => { fetchInventory(); }, [fetchInventory]);
 
   /* ── CRUD ── */
   const handleSubmit = async (e) => {
@@ -55,11 +57,11 @@ const Inventory = () => {
     setSaving(true);
     try {
       if (editingId) {
-        await axios.patch(`${BASE}${editingId}/`, form);
+        await api.patch(`${BASE}${editingId}/`, form);
         showToast('Item updated!');
         setEditingId(null);
       } else {
-        await axios.post(BASE, form);
+        await api.post(BASE, form);
         showToast('Item added!');
       }
       setForm(EMPTY_FORM);
@@ -85,7 +87,7 @@ const Inventory = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${BASE}${id}/`);
+      await api.delete(`${BASE}${id}/`);
       setInventory(prev => prev.filter(i => i.id !== id));
       showToast('Item deleted.');
     } catch { showToast('Error deleting item.', 'error'); }
@@ -94,7 +96,7 @@ const Inventory = () => {
   const handleAdjustQty = async (item, delta) => {
     const newQty = Math.max(0, item.stock_level + delta);
     try {
-      await axios.patch(`${BASE}${item.id}/`, { stock_level: newQty });
+      await api.patch(`${BASE}${item.id}/`, { stock_level: newQty });
       setInventory(prev => prev.map(i => i.id === item.id ? { ...i, stock_level: newQty } : i));
     } catch { showToast('Error updating quantity.', 'error'); }
   };
@@ -105,10 +107,10 @@ const Inventory = () => {
     try {
       if (existing) {
         const newQty = existing.stock_level + qty;
-        await axios.patch(`${BASE}${existing.id}/`, { stock_level: newQty });
+        await api.patch(`${BASE}${existing.id}/`, { stock_level: newQty });
         showToast(`${essential.name} updated to ${newQty} ${existing.unit}`);
       } else {
-        await axios.post(BASE, { name: essential.name, stock_level: qty, unit: essential.unit, note: '', min_threshold: 10 });
+        await api.post(BASE, { name: essential.name, stock_level: qty, unit: essential.unit, note: '', min_threshold: 10 });
         showToast(`${essential.name} added!`);
       }
       fetchInventory();
@@ -117,7 +119,7 @@ const Inventory = () => {
 
   const handleClearAll = async () => {
     try {
-      await axios.post(`${BASE}clear_all/`);
+      await api.post(`${BASE}clear_all/`);
       setInventory([]);
       setShowClear(false);
       showToast('All inventory cleared.');
@@ -164,19 +166,6 @@ const Inventory = () => {
   return (
     <div className="min-h-screen pb-20">
 
-      {/* Toast */}
-      <AnimatePresence>
-        {toast && (
-          <motion.div
-            initial={{ opacity: 0, y: -40 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -40 }}
-            className={`fixed top-24 right-6 z-50 px-5 py-3 rounded-xl font-bold text-sm shadow-xl border ${toast.type === 'error' ? 'bg-red-900/80 border-red-500/30 text-red-200' : 'bg-green-900/80 border-green-500/30 text-green-200'}`}
-          >
-            {toast.msg}
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Hero */}
       <section className="relative w-full h-[260px] overflow-hidden">
@@ -334,8 +323,8 @@ const Inventory = () => {
         <div className="glass-panel rounded-2xl overflow-hidden border border-white/5 shadow-xl">
           {/* Table Header */}
           <div className="p-5 border-b border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 bg-white/[0.02]">
-            <div className="flex items-center gap-3 w-full md:w-auto">
-              <div className="relative flex-1 md:w-64">
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+              <div className="relative flex-1 md:w-64 w-full">
                 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-white/30 text-lg">search</span>
                 <input
                   type="text"
@@ -348,35 +337,35 @@ const Inventory = () => {
               <select
                 value={filterStatus}
                 onChange={e => setFilterStatus(e.target.value)}
-                className="bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-[#ef4d23] text-sm"
+                className="bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-[#ef4d23] text-sm w-full sm:w-auto"
               >
-                <option value="all">All</option>
+                <option value="all">All Items</option>
                 <option value="in">In Stock</option>
                 <option value="low">Low Stock</option>
                 <option value="out">Out of Stock</option>
               </select>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 w-full md:w-auto justify-end">
               {!showClear ? (
                 <button onClick={() => setShowClear(true)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-red-400 hover:bg-red-500/10 border border-red-500/20 transition-all">
-                  <span className="material-symbols-outlined text-base">delete_sweep</span> Clear All
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-red-400 hover:bg-red-500/10 border border-red-500/20 transition-all">
+                  <span className="material-symbols-outlined text-base">delete_sweep</span> Clear
                 </button>
               ) : (
                 <div className="flex gap-2">
                   <button onClick={handleClearAll}
-                    className="px-4 py-2 rounded-xl bg-red-600 text-white text-sm font-bold animate-pulse">
-                    ⚠️ Confirm
+                    className="px-4 py-2.5 rounded-xl bg-red-600 text-white text-sm font-bold animate-pulse">
+                    Confirm
                   </button>
                   <button onClick={() => setShowClear(false)}
-                    className="px-4 py-2 rounded-xl bg-white/10 text-white text-sm font-bold">
+                    className="px-4 py-2.5 rounded-xl bg-white/10 text-white text-sm font-bold">
                     Cancel
                   </button>
                 </div>
               )}
               <button onClick={handleExport}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#ef4d23] text-white text-sm font-bold hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#ef4d23]/20">
-                <span className="material-symbols-outlined text-base">download</span> Export CSV
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#ef4d23] text-white text-sm font-bold hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#ef4d23]/20">
+                <span className="material-symbols-outlined text-base">download</span> Export
               </button>
             </div>
           </div>
@@ -394,56 +383,77 @@ const Inventory = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
-                {filtered.length === 0 ? (
+                {loading ? (
+                  Array(5).fill(0).map((_, i) => (
+                    <tr key={i} className="animate-pulse">
+                      <td className="px-6 py-5"><div className="h-4 w-32 bg-white/10 rounded"></div></td>
+                      <td className="px-6 py-5"><div className="h-8 w-24 bg-white/10 rounded mx-auto"></div></td>
+                      <td className="px-6 py-5"><div className="h-6 w-20 bg-white/10 rounded mx-auto"></div></td>
+                      <td className="px-6 py-5"><div className="h-4 w-40 bg-white/10 rounded"></div></td>
+                      <td className="px-6 py-5 text-right"><div className="h-8 w-16 bg-white/10 rounded ml-auto"></div></td>
+                    </tr>
+                  ))
+                ) : filtered.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="px-6 py-16 text-center text-white/20 text-xs uppercase tracking-widest">
                       {search ? 'No items match your search.' : 'No inventory items yet. Add one above!'}
                     </td>
                   </tr>
-                ) : filtered.map(item => {
-                  const st = stockStatus(item);
-                  return (
-                    <motion.tr key={item.id} layout className="hover:bg-white/[0.02] transition-colors group">
-                      <td className="px-6 py-5">
-                        <p className="font-bold text-white group-hover:text-[#ef4d23] transition-colors">{item.name}</p>
-                        <p className="text-zinc-600 text-xs mt-0.5">Min: {item.min_threshold} {item.unit}</p>
-                      </td>
-                      <td className="px-6 py-5 text-center">
-                        <div className="flex items-center justify-center gap-2">
-                          <button onClick={() => handleAdjustQty(item, -1)}
-                            className="w-7 h-7 rounded-full bg-white/5 hover:bg-white/15 text-white flex items-center justify-center text-sm transition-colors">
-                            <span className="material-symbols-outlined text-sm">remove</span>
-                          </button>
-                          <span className="text-white font-black w-12 text-center font-mono">{item.stock_level} {item.unit}</span>
-                          <button onClick={() => handleAdjustQty(item, 1)}
-                            className="w-7 h-7 rounded-full bg-white/5 hover:bg-[#ef4d23] text-white flex items-center justify-center text-sm transition-colors">
-                            <span className="material-symbols-outlined text-sm">add</span>
-                          </button>
-                        </div>
-                      </td>
-                      <td className="px-6 py-5 text-center">
-                        <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider border ${st.cls}`}>
-                          {st.label}
-                        </span>
-                      </td>
-                      <td className="px-6 py-5 text-zinc-500 text-sm italic max-w-[200px] truncate">
-                        {item.note || '—'}
-                      </td>
-                      <td className="px-6 py-5 text-right">
-                        <div className="flex justify-end gap-2">
-                          <button onClick={() => handleEdit(item)}
-                            className="p-2 rounded-lg bg-white/5 hover:bg-blue-500/20 text-white hover:text-blue-400 transition-all">
-                            <span className="material-symbols-outlined text-sm">edit</span>
-                          </button>
-                          <button onClick={() => handleDelete(item.id)}
-                            className="p-2 rounded-lg bg-white/5 hover:bg-red-500/20 text-white hover:text-red-400 transition-all">
-                            <span className="material-symbols-outlined text-sm">delete</span>
-                          </button>
-                        </div>
-                      </td>
-                    </motion.tr>
-                  );
-                })}
+                ) : (
+                  <AnimatePresence mode="popLayout">
+                    {filtered.map(item => {
+                      const st = stockStatus(item);
+                      return (
+                        <motion.tr 
+                          key={item.id} 
+                          layout 
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          className="hover:bg-white/[0.02] transition-colors group"
+                        >
+                          <td className="px-6 py-5">
+                            <p className="font-bold text-white group-hover:text-[#ef4d23] transition-colors">{item.name}</p>
+                            <p className="text-zinc-600 text-xs mt-0.5">Min: {item.min_threshold} {item.unit}</p>
+                          </td>
+                          <td className="px-6 py-5 text-center">
+                            <div className="flex items-center justify-center gap-2">
+                              <button onClick={() => handleAdjustQty(item, -1)}
+                                className="w-7 h-7 rounded-full bg-white/5 hover:bg-white/15 text-white flex items-center justify-center text-sm transition-colors">
+                                <span className="material-symbols-outlined text-sm">remove</span>
+                              </button>
+                              <span className="text-white font-black w-12 text-center font-mono">{item.stock_level} {item.unit}</span>
+                              <button onClick={() => handleAdjustQty(item, 1)}
+                                className="w-7 h-7 rounded-full bg-white/5 hover:bg-[#ef4d23] text-white flex items-center justify-center text-sm transition-colors">
+                                <span className="material-symbols-outlined text-sm">add</span>
+                              </button>
+                            </div>
+                          </td>
+                          <td className="px-6 py-5 text-center">
+                            <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider border ${st.cls}`}>
+                              {st.label}
+                            </span>
+                          </td>
+                          <td className="px-6 py-5 text-zinc-500 text-sm italic max-w-[200px] truncate">
+                            {item.note || '—'}
+                          </td>
+                          <td className="px-6 py-5 text-right">
+                            <div className="flex justify-end gap-2">
+                              <button onClick={() => handleEdit(item)}
+                                className="p-2 rounded-lg bg-white/5 hover:bg-blue-500/20 text-white hover:text-blue-400 transition-all">
+                                <span className="material-symbols-outlined text-sm">edit</span>
+                              </button>
+                              <button onClick={() => handleDelete(item.id)}
+                                className="p-2 rounded-lg bg-white/5 hover:bg-red-500/20 text-white hover:text-red-400 transition-all">
+                                <span className="material-symbols-outlined text-sm">delete</span>
+                              </button>
+                            </div>
+                          </td>
+                        </motion.tr>
+                      );
+                    })}
+                  </AnimatePresence>
+                )}
               </tbody>
             </table>
           </div>
