@@ -16,7 +16,3 @@ services:
         generateValue: true
       - key: ALLOWED_HOSTS
         value: "mini-honey.onrender.com"
-    disk:
-      name: mini-honey-data
-      mountPath: /data
-      sizeGB: 1
