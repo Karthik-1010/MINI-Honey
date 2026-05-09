@@ -49,3 +49,5 @@ desktop.ini
 # Misc
 *.bak
 *.tmp
+
+.vercel
