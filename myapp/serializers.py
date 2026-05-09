@@ -87,3 +87,8 @@ class StockItemSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Quantity cannot be negative.")
         return value
 
+    def validate_price(self, value):
+        if value < 0:
+            raise serializers.ValidationError("Price cannot be negative.")
+        return value
+

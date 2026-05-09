@@ -139,8 +139,12 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'])
     def clear_all(self, request):
-        deleted_count, _ = Order.objects.all().delete()
-        return Response({'status': 'cleared', 'deleted': deleted_count})
+        try:
+            deleted_count, _ = Order.objects.all().delete()
+            return Response({'status': 'cleared', 'deleted': deleted_count})
+        except Exception as e:
+            logger.error(f"Failed to clear orders: {str(e)}")
+            return Response({'error': 'Failed to clear orders'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class InventoryViewSet(viewsets.ModelViewSet):
     queryset = InventoryItem.objects.all()
@@ -151,8 +155,12 @@ class InventoryViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'])
     def clear_all(self, request):
-        InventoryItem.objects.all().delete()
-        return Response({'status': 'all items cleared'})
+        try:
+            deleted_count, _ = InventoryItem.objects.all().delete()
+            return Response({'status': 'cleared', 'deleted': deleted_count})
+        except Exception as e:
+            logger.error(f"Failed to clear inventory: {str(e)}")
+            return Response({'error': 'Failed to clear inventory'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class StockViewSet(viewsets.ModelViewSet):
     queryset = StockItem.objects.all()
@@ -160,4 +168,13 @@ class StockViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'category']
     ordering_fields = ['quantity', 'price']
+
+    @action(detail=False, methods=['post'])
+    def clear_all(self, request):
+        try:
+            deleted_count, _ = StockItem.objects.all().delete()
+            return Response({'status': 'cleared', 'deleted': deleted_count})
+        except Exception as e:
+            logger.error(f"Failed to clear stock: {str(e)}")
+            return Response({'error': 'Failed to clear stock'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
